@@ -1,0 +1,19 @@
+.order-header {
+	border-bottom: 1px solid #ddd;
+	display: block;
+	padding-bottom: 0.7rem;
+}
+
+.colums {
+	display: flex;
+	text-align: center;
+	border-bottom: 1px solid #bbb;
+}
+
+.order-info {
+	background-color: #eff5fb;
+	color: #296fa8;
+}
+.container.orders-container {
+	margin-top: 4rem;
+}
