@@ -64,19 +64,21 @@ const testList = [
   },
 ]
 
-InputUser();
+
 //총회원수
 element[0].innerText = testList.length;
+InputUser();
 // 관리자수 / OAuth 가입자 수 
-AdminCnt();
-OauthCnt();
-DeleteUser();
+adminCnt();
+oauthCnt();
+deleteUser();
 //json 데이터 주문 리스트에 추가
 function InputUser() {
   const tbody = document.createElement('tbody');
+  inputData.appendChild(tbody);
   for(let i =0; i<testList.length; i++) {
     tbody.innerHTML += `
-    <tr>
+    <tr id = "user${testList[i].id}">
       <td>${testList[i].date}</td>
       <td>${testList[i].email}</td>
       <td>${testList[i].signin_type == 0? `일반`:`소셜`}</td>
@@ -91,17 +93,15 @@ function InputUser() {
     </tr>
     `;
   } //json 데이터 기반 selected 설정
-  inputData.appendChild(tbody);
 }
 
-function DeleteUser(){
-  //삭제 버튼 클릭 시 이벤트
+
+function deleteUser(){
+//삭제 버튼 클릭 시 이벤트
   for (let i =0; i < userDeleteBtn.length; i++){
     userDeleteBtn[i].addEventListener('click', () => {
-      //parentElement는 td를 의미, 그 다음 td의 parentElement는 tr
-      let parent = document.querySelector('#inputData tbody');
-      parent.removeChild(userDeleteBtn[i].parentElement.parentElement);
-      console.log(i)
+      document.getElementById(`user${i+1}`).remove();
+
       if(testList[i].user_type == 1 && testList[i].signin_type==1){
         element[1].innerText -= 1;
         element[2].innerText -= 1;
@@ -120,37 +120,37 @@ function DeleteUser(){
 }
 
 //처음 화면 시 Admin Cnt 값 표시
-function AdminCnt() {
-  let admin_cnt = 0;
+function adminCnt() {
+  let adminCnt = 0;
   let type = document.getElementsByClassName('select-user-type');
   for (let i=0; i< testList.length; i++){
     if(type[i].selectedIndex == 1) {
-      admin_cnt++;
+      adminCnt++;
     }
   }
-  element[1].innerText = admin_cnt;
+  element[1].innerText = adminCnt;
 }
 
 //select - option 변경시 카운트 값이 바뀌도록 함수 설정
-function AdminCntChange() {
-  let admin_cnt = 0
+function adminCntChange() {
+  let adminCnt = 0
   let type = document.getElementsByClassName('select-user-type');
   for (let i=0; i<testList.length; i++){
     if(type[i].selectedIndex == 1) {
-      admin_cnt++;
+      adminCnt++;
     }
   }
-  element[1].innerText = admin_cnt;
+  element[1].innerText = adminCnt;
 }
 
 //ouath 사용자 수
-function OauthCnt() {
-  let oauth_cnt = 0;
+function oauthCnt() {
+  let oauthCnt = 0;
   for(let i =0; i < testList.length; i++) {
     if(testList[i].signin_type == 1) {
-      oauth_cnt++;
+      oauthCnt++;
     }
   }
-  element[2].innerText = oauth_cnt;
+  element[2].innerText = oauthCnt;
 }
 

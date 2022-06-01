@@ -1,6 +1,6 @@
 //products list
 const inputData = document.querySelector('#inputData');
-const orderCancer = document.getElementsByClassName('order-cancer');
+const orderCancerBtn = document.getElementsByClassName('order-cancer');
 // top_cotainer 
 const element = document.getElementsByTagName('p');
 
@@ -49,13 +49,13 @@ const testList = [
   },
 ]
 
-InputItem(); 
+inputItem(); 
 // json 데이터 주문 리스트에 추가
-function InputItem() {
+function inputItem() {
   const tbody = document.createElement('tbody');
   for(let i =0; i < testList.length; i++){
     tbody.innerHTML += `
-    <tr>
+    <tr id="item${testList[i].id}">
       <td> ${testList[i].date}</td>
       <td> ${testList[i].order_info}</td>
       <td> ${testList[i].order_price.toLocaleString('ko-KR')} 원</td>
@@ -73,13 +73,12 @@ function InputItem() {
     inputData.appendChild(tbody);
 }
 
-function DeleteItem(){
+function deleteItem(){
   // 삭제 버튼 클릭 시 이벤트 
-  for (let i=0; i<orderCancer.length; i++) {
-    orderCancer[i].addEventListener('click', () => {
+  for (let i=0; i<orderCancerBtn.length; i++) {
+    orderCancerBtn[i].addEventListener('click', () => {
+      document.getElementById(`item${i+1}`).remove();
       //parentElement는 td를 의미, 그 다음 td의 parentElement는 tr을 의미
-      let parent = document.querySelector('#inputData tbody');
-      parent.removeChild(orderCancer[i].parentElement.parentElement);
       if(testList[i].order_status == 0) {
         element[1].innerText -= 1;
       }else if(testList[i].order_status == 1){
@@ -87,7 +86,6 @@ function DeleteItem(){
       }else if(testList[i].order_status == 2){
         element[3].innerText -= 1;
       }
-      i--
       // delete 클릭 시 총 총주문 수 감소
       element[0].innerText -= 1;
     })
@@ -98,11 +96,11 @@ function DeleteItem(){
 
 // 총주문 수 
 element[0].innerText = testList.length
-DeleteItem();
+deleteItem();
 // 상풍 준비중 / 상품 배송중 / 배송 완료
-ProductCnt();
+productCnt();
 // 처음 화면 시 value 값 표시
-function ProductCnt() {
+function productCnt() {
   let ready_cnt = 0
   let going_cnt = 0
   let success_cnt = 0
@@ -122,7 +120,7 @@ function ProductCnt() {
 }
 
 //select - option 변경 시 카운트 값이 바뀌도록 함수 설정
-function ProductCntChange () {
+function productCntChange () {
   let readyCnt = 0
   let goingCnt = 0
   let successCnt = 0
