@@ -24,7 +24,8 @@
       crossorigin="anonymous"
     ></script>
 
-
+    <!-- orders.js 연결-->
+    <script src="./orders.js" defer></script>
 </head>
 <body>
 <!--header-->
@@ -66,18 +67,45 @@
     </div>
   </div>
 </nav>
+<div class="container">
+  <!-- 상단 주문 관리 글자-->
+  <div class="block account-header">
+    <h1 class="subtitle is-4">주문 관리</h1>
+  </div>
 
+  <!-- 총주문수 / 상풍준비중 / 상품 배송중 / 배송 완료 -->
+  <div class="top_container">
+    <div class="top_cnt">
+      총주문 수
+      <p id="total_products">0</p>
+    </div>
+    <div class="top_cnt">
+      상품준비중
+      <p id="products_ready">0</p>
+    </div>
+    <div class="top_cnt">
+      상품 배송중
+      <p id="products_going">0</p>
+    </div>
+    <div class="top_cnt">
+      배송 완료
+      <p id="products_success">0</p>
+    </div>
+  </div>  
+  <!-- 상품 목록 출력 테이블-->
     <section class ="section">
-      <div class="container">
-        <div class ="block card-header">
-          <div class="col is-2">날짜</div>
-          <div class="col is-6">주문정보</div>
-          <div class="col is-2">상태</div>
-          <div class="col is-2">신청</div>
-        </div>
-      </div>
-
-    <!-- 게시판 데이터 추가-->
+    <table id="input_data" class="table">
+      <thead>
+        <tr>
+          <td>날짜</td>
+          <td>주문 정보</td>
+          <td>주문 총액</td>
+          <td>상태관리</td>
+          <td>취소</td>
+        </tr>
+      </thead>
+    </table>
     </section>
+</div>    
 </body>
 </html>
