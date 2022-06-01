@@ -34,6 +34,7 @@ class CategoryService {
 
     // 업데이트 진행
     category = await this.categoryModel.update({
+      categoryId,
       update: toUpdate,
     });
 

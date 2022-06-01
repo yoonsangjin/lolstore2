@@ -34,6 +34,7 @@ class ProductService {
 
     // 업데이트 진행
     product = await this.productModel.update({
+      productId,
       update: toUpdate,
     });
 
