@@ -1,12 +1,12 @@
 //products list
-const input_data = document.querySelector('#input_data');
-const order_cancer = document.getElementsByClassName('order_cancer');
+const inputData = document.querySelector('#inputData');
+const orderCancer = document.getElementsByClassName('order-cancer');
 // top_cotainer 
 const element = document.getElementsByTagName('p');
 
 
 //테스트용 데이터
-const test_list = [
+const testList = [
   {
     "id":1,
     "date":"2022-05-10",
@@ -53,38 +53,38 @@ InputItem();
 // json 데이터 주문 리스트에 추가
 function InputItem() {
   const tbody = document.createElement('tbody');
-  for(let i =0; i < test_list.length; i++){
+  for(let i =0; i < testList.length; i++){
     tbody.innerHTML += `
     <tr>
-      <td> ${test_list[i].date}</td>
-      <td> ${test_list[i].order_info}</td>
-      <td> ${test_list[i].order_price.toLocaleString('ko-KR')} 원</td>
+      <td> ${testList[i].date}</td>
+      <td> ${testList[i].order_info}</td>
+      <td> ${testList[i].order_price.toLocaleString('ko-KR')} 원</td>
       <td>
-        <select class="select_product_state" onchange="ProductCntChange()">
-          <option value="0" ${test_list[i].order_status == 0 ? `selected` :``}> 상품 준비중 </option>
-          <option value="1" ${test_list[i].order_status == 1 ? `selected` :``}> 상품 배송중 </option>
-          <option value="2" ${test_list[i].order_status == 2 ? `selected` :``}> 배송 완료 </option>
+        <select class="select-product-state" onchange="ProductCntChange()">
+          <option value="0" ${testList[i].order_status == 0 ? `selected` :``}> 상품 준비중 </option>
+          <option value="1" ${testList[i].order_status == 1 ? `selected` :``}> 상품 배송중 </option>
+          <option value="2" ${testList[i].order_status == 2 ? `selected` :``}> 배송 완료 </option>
         </select>
       </td>
-      <td> <button class="order_cancer">주문 취소</button>
+      <td> <button class="order-cancer">주문 취소</button>
     </tr>
     `;
   }//json 데이터 기반으로 selected 설정
-    input_data.appendChild(tbody);
+    inputData.appendChild(tbody);
 }
 
 function DeleteItem(){
   // 삭제 버튼 클릭 시 이벤트 
-  for (let i=0; i<order_cancer.length; i++) {
-    order_cancer[i].addEventListener('click', () => {
+  for (let i=0; i<orderCancer.length; i++) {
+    orderCancer[i].addEventListener('click', () => {
       //parentElement는 td를 의미, 그 다음 td의 parentElement는 tr을 의미
-      let parent = document.querySelector('#input_data tbody');
-      parent.removeChild(order_cancer[i].parentElement.parentElement);
-      if(test_list[i].order_status == 0) {
+      let parent = document.querySelector('#inputData tbody');
+      parent.removeChild(orderCancer[i].parentElement.parentElement);
+      if(testList[i].order_status == 0) {
         element[1].innerText -= 1;
-      }else if(test_list[i].order_status == 1){
+      }else if(testList[i].order_status == 1){
         element[2].innerText -= 1;
-      }else if(test_list[i].order_status == 2){
+      }else if(testList[i].order_status == 2){
         element[3].innerText -= 1;
       }
       i--
@@ -97,7 +97,7 @@ function DeleteItem(){
 
 
 // 총주문 수 
-element[0].innerText = test_list.length
+element[0].innerText = testList.length
 DeleteItem();
 // 상풍 준비중 / 상품 배송중 / 배송 완료
 ProductCnt();
@@ -106,8 +106,8 @@ function ProductCnt() {
   let ready_cnt = 0
   let going_cnt = 0
   let success_cnt = 0
-  let status = document.getElementsByClassName('select_product_state')
-  for(let i =0; i<test_list.length; i++){
+  let status = document.getElementsByClassName('select-product-state')
+  for(let i =0; i<testList.length; i++){
     if(status[i].selectedIndex == 0) {
       ready_cnt++;
     }else if(status[i].selectedIndex == 1) {
@@ -123,21 +123,21 @@ function ProductCnt() {
 
 //select - option 변경 시 카운트 값이 바뀌도록 함수 설정
 function ProductCntChange () {
-  let ready_cnt = 0
-  let going_cnt = 0
-  let success_cnt = 0
-  let status = document.getElementsByClassName('select_product_state')
-  for(let i =0; i<test_list.length; i++){
+  let readyCnt = 0
+  let goingCnt = 0
+  let successCnt = 0
+  let status = document.getElementsByClassName('select-product-state')
+  for(let i =0; i<testList.length; i++){
     if(status[i].selectedIndex == 0) {
-      ready_cnt++;
+      readyCnt++;
     }else if(status[i].selectedIndex == 1) {
-      going_cnt++;
+      goingCnt++;
     }else if(status[i].selectedIndex == 2) {
-      success_cnt++;
+      successCnt++;
     }
   }
-  element[1].innerText = ready_cnt;
-  element[2].innerHTML = going_cnt;
-  element[3].innerHTML = success_cnt;
+  element[1].innerText = readyCnt;
+  element[2].innerHTML = goingCnt;
+  element[3].innerHTML = successCnt;
 }
 
