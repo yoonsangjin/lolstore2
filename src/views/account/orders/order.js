@@ -1,6 +1,16 @@
 import * as Api from '../../api.js';
 
-// API로 JSON을 받아왔다고 가정
+const ordersContainer = document.querySelector('.orders-container'),
+	modal = document.querySelector('.modal'),
+	modalBg = document.querySelector('.modal-background'),
+	modalbtn = document.querySelector('.modal-close'),
+	delcencelBtn = document.querySelector('#delcencelBtn');
+
+modalBg.addEventListener('click', closeModal);
+modalbtn.addEventListener('click', closeModal);
+delcencelBtn.addEventListener('click', closeModal);
+
+//테스트 데이터
 const userData = [
 	{
 		_id: 1,
@@ -28,28 +38,18 @@ const userData = [
 		createAt: '2022-05-30',
 		summary: '캐주얼 반팔 코디',
 		amount: 3,
-		state: '출고중',
+		state: '배송 완료',
 	},
 ];
-
-const ordersContainer = document.querySelector('.orders-container');
-const modal = document.querySelector('.modal');
-const modalBg = document.querySelector('.modal-background');
-const modalbtn = document.querySelector('.modal-close');
-const delcencelBtn = document.querySelector('#delcencelBtn');
-
-function closeModal() {
-	modal.classList.remove('is-active');
-}
-
-modalBg.addEventListener('click', closeModal);
-modalbtn.addEventListener('click', closeModal);
-delcencelBtn.addEventListener('click', closeModal);
-
-userData.forEach((data) => {
-	ordersContainer.insertAdjacentHTML(
-		'afterend',
-		`<div class="colums order-item id="order_${data._id}"> 
+showData();
+// 전역 변수로 id를 쓰기 위해 선언
+let id = '';
+function showData() {
+	// Json 데이터를 주문조회 테이블에 추가
+	userData.forEach((data) => {
+		ordersContainer.insertAdjacentHTML(
+			'afterend',
+			`<div class="colums order-item" id="order_${data._id}"> 
   <div class="column is-2">${data.createAt}</div>
   <div class="column is-6" id="order-summary">${data.summary} / ${data.amount}개</div>
   <div class="column is-2">${data.state}</div>
@@ -57,12 +57,33 @@ userData.forEach((data) => {
 	<button class="button" id="delBtn_${data._id}">주문 취소</button>
 	</div>
  </div>`,
-	);
-	const cancelBtn = document.querySelector('.button');
-	cancelBtn.addEventListener('click', orderCancel);
+		);
+		// 주문취소 버튼 클릭시 이벤트
+		const cancelBtn = document.querySelector('.button');
+		cancelBtn.addEventListener('click', openModal);
+		// 배송 완료시 주문 취소 버튼 비활성화
+		if (data.state == '배송 완료') {
+			cancelBtn.style.display = 'none';
+		}
 
-	function orderCancel(e) {
-		e.preventDefault();
-		modal.classList.add('is-active');
-	}
-});
+		// 모달이 열리면서 해당 주문 id를 전역 변수에 할당
+		function openModal() {
+			modal.classList.add('is-active');
+			id = data._id;
+		}
+	});
+}
+// 결정 확인 버튼
+const delCompletBtn = document.querySelector('#delCompletBtn');
+delCompletBtn.addEventListener('click', delOrder);
+// 주문 취소 (del api요청)
+function delOrder() {
+	//여기 del api 비동기로 들어가야함
+	//테이블 삭제
+	document.querySelector(`#order_${id}`).remove();
+	closeModal();
+}
+//단순 모달 닫기 기능
+function closeModal() {
+	modal.classList.remove('is-active');
+}
