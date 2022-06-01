@@ -4,11 +4,11 @@ const ordersContainer = document.querySelector('.orders-container'),
 	modal = document.querySelector('.modal'),
 	modalBg = document.querySelector('.modal-background'),
 	modalbtn = document.querySelector('.modal-close'),
-	delcencelBtn = document.querySelector('#delcencelBtn');
+	delCencelBtn = document.querySelector('#delcencelBtn');
 
 modalBg.addEventListener('click', closeModal);
 modalbtn.addEventListener('click', closeModal);
-delcencelBtn.addEventListener('click', closeModal);
+delCencelBtn.addEventListener('click', closeModal);
 
 //테스트 데이터
 const userData = [
@@ -56,7 +56,7 @@ function showData() {
   <div class="column is-2">
 	<button class="button" id="delBtn_${data._id}">주문 취소</button>
 	</div>
- </div>`,
+ 	</div>`,
 		);
 		// 주문취소 버튼 클릭시 이벤트
 		const cancelBtn = document.querySelector('.button');
