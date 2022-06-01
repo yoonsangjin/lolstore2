@@ -12,7 +12,11 @@ productRouter.get('/list', async(req,res,next)=>{
         //product/list/?category=Man%20Clothes
         const {category} = req.query;
         // 상품 카테고리를 기준으로 전부 검색
-        const products = await productModel.find({category});
+        const products = await productModel.find({}).populate({
+            path : 'category',
+            match : {name : category}
+        });
+        
         // 상품들 정보를 프론트에 전달
         res.status(200).json(products);
         console.log('hi');
@@ -24,10 +28,10 @@ productRouter.get('/list', async(req,res,next)=>{
 // 상품 상세 보기
 productRouter.get('/detail', async(req,res,next)=>{
     try{
-        // product/detail/?name=브라운%20상의
-        const {name} = req.query;
-        // 이름으로 상품 하나 찾기
-        const product = await productModel.find({name});
+        // product/detail/?product_id=6
+        const {product_id} = req.query;
+        // product_id로 상품 하나 찾기
+        const product = await productModel.find({product_id});
 
         // 상품 데이터 프론트에 전달
         res.status(200).json(product);
@@ -74,13 +78,13 @@ productRouter.post('/add', async(req,res,next)=>{
         // 새로운 상품 모델 생성
 
         const newProduct = await productModel.create({name, inform, price, storage, date, company});
-        const newCategory = await categoryModel.create({name : category});
+        const pushCategory = await categoryModel.findOne({name : category});
         const newProductCategory = await productModel.findOneAndUpdate(
-            {shortId : newProduct.shortId},
-            {$push : {category : newCategory}},
+            {product_id : newProduct.product_id},
+            {$push : {category : pushCategory}},
             {new : true}
-        )
-
+        ).populate('category')
+     
         // 상품 모델이 생성되었음을 알리고 데이터를 프론트에 전달
         res.status(201).json(newProductCategory);
         console.log('상품 추가 완료');
@@ -93,11 +97,11 @@ productRouter.post('/add', async(req,res,next)=>{
 productRouter.delete('/detail', async(req,res,next)=>{
     try{
         // /detail/?name=브라운%20상의
-        const {name} = req.query;
-        // const {shortId} = req.query;
+        const {product_id} = req.query;
+        
 
         // 해당 상품 name을 가진 상품 데이터를 삭제
-        const deleteProduct = await productModel.deleteOne({name});
+        const deleteProduct = await productModel.deleteOne({product_id});
         
         res.status(200).json(deleteProduct); 
         console.log('상품이 삭제되었습니다');
@@ -111,8 +115,7 @@ productRouter.delete('/detail', async(req,res,next)=>{
 productRouter.post('/update_product', async(req,res,next)=>{
     try{
         // /update_product/?name=브라운%20상의
-        const {name} = req.query;
-        // const {shortId} = req.query;
+        const {product_id} = req.query;
 
         // 제품명과 출시날짜, 제조사는 고정, category, inform, price, storage, date 수정하기 위해 값을 받아오기
         const {category, inform, price, storage} = req.body;
@@ -132,7 +135,20 @@ productRouter.post('/update_product', async(req,res,next)=>{
         }
 
         // 제품명으로 상품을 찾고 그 제품의 category, inform, price, storage, date을 수정
-        const updateProduct = await productModel.findOneAndUpdate({name}, {category, inform, price, storage}, {returnOriginal : false});
+        // const oldCategory = await productModel.findOne({product_id});
+        // console.log(oldCategory);
+        // await productModel.findOneAndUpdate(
+        //     {product_id},
+        //     {$pull : {category : oldCategory.category}},
+        //     {new : true}
+        // )
+        const newCategory = await categoryModel.findOne({name : category});
+        await productModel.findOneAndUpdate(
+            {product_id},
+            {$push : {category : newCategory}},
+            {new : true}
+        )
+        const updateProduct = await productModel.findOneAndUpdate({product_id}, {inform, price, storage}, {returnOriginal : false});
         
         res.status(200).json(updateProduct);
         console.log('상품 정보 수정이 완료되었습니다');
