@@ -13,11 +13,7 @@ const ProductSchema = new Schema(
       type: String,
       required: true,
     },
-    // category: [{ // 카테고리
-    //   type: Schema.Types.ObjectId,
-    //   ref : "Category",
-    //   required: true,
-    // }],
+
     category : [CategorySchema],
 
     //  picture: { // 상품이미지
@@ -47,6 +43,10 @@ const ProductSchema = new Schema(
     views: { // 조회수
       type: Number,
       default: 0,
+    },
+    company : {
+        type : String,
+        required : true,
     }
   },
   {

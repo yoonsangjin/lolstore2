@@ -4,6 +4,7 @@ const productRouter = express.Router();
 import {loginRequired} from '../middlewares';
 
 import {productModel} from '../db/models/product-model.js';
+import {categoryModel} from '../db/models/category-model.js'
 
 // 상품 전체 보기 (카테고리별)
 productRouter.get('/list', async(req,res,next)=>{
@@ -39,7 +40,7 @@ productRouter.get('/detail', async(req,res,next)=>{
 // 상품 추가
 productRouter.post('/add', async(req,res,next)=>{
     try{
-        const {name, category, inform, price, storage, date} = req.body;
+        const {name, category, inform, price, storage, date, company} = req.body;
 
         //////////////////// 입력값 빠졌는지 검사 //////////////////////////
         if(name == ""){
@@ -60,6 +61,9 @@ productRouter.post('/add', async(req,res,next)=>{
         if(date == ""){
             throw new Error('상품 출시 날짜를 입력해주세요!');
         }
+        if(company == ""){
+            throw new Error('상품 제조사를 입력해주세요!');
+        }
         ////////////////////////////////////////////////////////////////////
 
         // 데이터베이스에서 같은 이름의 상품이 있는지 검사
@@ -68,10 +72,17 @@ productRouter.post('/add', async(req,res,next)=>{
         }
 
         // 새로운 상품 모델 생성
-        const newProduct = await productModel.create({name, category, inform, price, storage, date});
-        
+
+        const newProduct = await productModel.create({name, inform, price, storage, date, company});
+        const newCategory = await categoryModel.create({name : category});
+        const newProductCategory = await productModel.findOneAndUpdate(
+            {shortId : newProduct.shortId},
+            {$push : {category : newCategory}},
+            {new : true}
+        )
+
         // 상품 모델이 생성되었음을 알리고 데이터를 프론트에 전달
-        res.status(201).json(newProduct);
+        res.status(201).json(newProductCategory);
         console.log('상품 추가 완료');
     }catch(err){
         next(err);
@@ -99,7 +110,7 @@ productRouter.post('/update_product', async(req,res,next)=>{
     try{
         // /update_product/?name=브라운%20상의
         const {name} = req.query;
-        // 제품명과 출시날짜는 고정, category, inform, price, storage, date 수정하기 위해 값을 받아오기
+        // 제품명과 출시날짜, 제조사는 고정, category, inform, price, storage, date 수정하기 위해 값을 받아오기
         const {category, inform, price, storage} = req.body;
 
         // 입력값 빠졌는지 검사
