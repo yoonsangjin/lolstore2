@@ -1,9 +1,9 @@
 //products list
 const input_data = document.querySelector('#input_data');
-const order_cancer = document.getElementsByClassName('order_c;ancer');
+const order_cancer = document.getElementsByClassName('order_cancer');
 // top_cotainer 
 const element = document.getElementsByTagName('p');
-console.log(element[0].textContent)
+
 
 //테스트용 데이터
 const test_list = [
@@ -49,8 +49,7 @@ const test_list = [
   },
 ]
 
-InputItem();
-DeleteItem(); 
+InputItem(); 
 // json 데이터 주문 리스트에 추가
 function InputItem() {
   const tbody = document.createElement('tbody');
@@ -61,7 +60,7 @@ function InputItem() {
       <td> ${test_list[i].order_info}</td>
       <td> ${test_list[i].order_price.toLocaleString('ko-KR')} 원</td>
       <td>
-        <select class="select_product_state" onchange="products_cnt_change()">
+        <select class="select_product_state" onchange="ProductCntChange()">
           <option value="0" ${test_list[i].order_status == 0 ? `selected` :``}> 상품 준비중 </option>
           <option value="1" ${test_list[i].order_status == 1 ? `selected` :``}> 상품 배송중 </option>
           <option value="2" ${test_list[i].order_status == 2 ? `selected` :``}> 배송 완료 </option>
@@ -70,40 +69,43 @@ function InputItem() {
       <td> <button class="order_cancer">주문 취소</button>
     </tr>
     `;
-  }
+  }//json 데이터 기반으로 selected 설정
     input_data.appendChild(tbody);
 }
 
 function DeleteItem(){
   // 삭제 버튼 클릭 시 이벤트 
   for (let i=0; i<order_cancer.length; i++) {
-    //이벤트 내에서의 this는 이벤트가 걸린 주체, 대상 -> 여기서는 클릭된 버튼 자신을 뜻함
     order_cancer[i].addEventListener('click', () => {
-      //parentElement는 td를 의미, 그 td의 parentElement는 tr을 의미
+      //parentElement는 td를 의미, 그 다음 td의 parentElement는 tr을 의미
       let parent = document.querySelector('#input_data tbody');
       parent.removeChild(order_cancer[i].parentElement.parentElement);
       i--
+      // delete 클릭 시 총 총주문 수 감소
+      element[0].innerText -= 1;
     })
   }
+  
 }
 
 
 // 총주문 수 
 element[0].innerText = test_list.length
+DeleteItem();
 // 상풍 준비중 / 상품 배송중 / 배송 완료
-products_cnt();
+ProductCnt();
 // 처음 화면 시 value 값 표시
-function products_cnt() {
+function ProductCnt() {
   let ready_cnt = 0
   let going_cnt = 0
   let success_cnt = 0
-  let test = document.getElementsByClassName('select_product_state')
+  let status = document.getElementsByClassName('select_product_state')
   for(let i =0; i<test_list.length; i++){
-    if(test[i].selectedIndex == 0) {
+    if(status[i].selectedIndex == 0) {
       ready_cnt++;
-    }else if(test[i].selectedIndex == 1) {
+    }else if(status[i].selectedIndex == 1) {
       going_cnt++;
-    }else if(test[i].selectedIndex == 2) {
+    }else if(status[i].selectedIndex == 2) {
       success_cnt++;
     }
   }
@@ -112,18 +114,18 @@ function products_cnt() {
   element[3].innerHTML = success_cnt;
 }
 
-//select - option 변경 시 카운트 값이 바뀌도록 설정
-function products_cnt_change () {
+//select - option 변경 시 카운트 값이 바뀌도록 함수 설정
+function ProductCntChange () {
   let ready_cnt = 0
   let going_cnt = 0
   let success_cnt = 0
-  let test = document.getElementsByClassName('select_product_state')
+  let status = document.getElementsByClassName('select_product_state')
   for(let i =0; i<test_list.length; i++){
-    if(test[i].selectedIndex == 0) {
+    if(status[i].selectedIndex == 0) {
       ready_cnt++;
-    }else if(test[i].selectedIndex == 1) {
+    }else if(status[i].selectedIndex == 1) {
       going_cnt++;
-    }else if(test[i].selectedIndex == 2) {
+    }else if(status[i].selectedIndex == 2) {
       success_cnt++;
     }
   }
