@@ -1,6 +1,8 @@
 import { model } from 'mongoose';
+import { CategorySchema } from '../schemas/category-schema';
 import { ProductSchema } from '../schemas/product-schema';
 
+const Category = model('Category', CategorySchema);
 const Product = model('Product', ProductSchema);
 
 export class ProductModel {
@@ -12,9 +14,15 @@ export class ProductModel {
     return product;
   }
 
-  // TODO: 해당 categories에 product._id 등록
   async create(productInfo) {
     const createdNewProduct = await Product.create(productInfo);
+
+    // 해당 카테고리 Products 필드에 생성한 Product 추가
+    const { category } = productInfo;
+    const targetCategory = await Category.findById(category);
+    targetCategory.products.push(createdNewProduct._id);
+    targetCategory.save();
+
     return createdNewProduct;
   }
 
