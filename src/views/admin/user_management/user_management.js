@@ -65,7 +65,12 @@ const test_list = [
 ]
 
 InputUser();
-
+//총회원수
+element[0].innerText = test_list.length;
+// 관리자수 / OAuth 가입자 수 
+AdminCnt();
+OauthCnt();
+DeleteUser();
 
 //json 데이터 주문 리스트에 추가
 function InputUser() {
@@ -92,25 +97,29 @@ function InputUser() {
 
 function DeleteUser(){
   //삭제 버튼 클릭 시 이벤트
-  for (let i =0; i<user_delete_btn.length; i++){
+  for (let i =0; i < user_delete_btn.length; i++){
     user_delete_btn[i].addEventListener('click', () => {
       //parentElement는 td를 의미, 그 다음 td의 parentElement는 tr
       let parent = document.querySelector('#input_data tbody');
       parent.removeChild(user_delete_btn[i].parentElement.parentElement);
+      if(test_list[i].user_type == 1 && test_list[i].signin_type==1){
+        element[1].innerText -= 1;
+        element[2].innerText -= 1;
+        console.log("관리자 소셜 둘 다 감소")
+      }else if(test_list[i].user_type == 1){
+        element[1].innerText -= 1;
+        console.log("관리자 삭제")
+      }else if(test_list[i].signin_type == 1){
+        element[2].innerText -= 1;
+        console.log("소셜 삭제")
+      }
       i--;
-      // delete 이벤트 발생 시 총회원수도 감소 
+      //user_type이 1일 경우 관리자와 총 회원 수 -1 
       element[0].innerText -= 1;
-    })
+    }) 
   }
-
 }
 
-//총회원수
-element[0].innerText = test_list.length;
-DeleteUser();
-// 관리자수 / OAuth 가입자 수 
-AdminCnt();
-OauthCnt();
 //처음 화면 시 Admin Cnt 값 표시
 function AdminCnt() {
   let admin_cnt = 0;
@@ -127,7 +136,7 @@ function AdminCnt() {
 function AdminCntChange() {
   let admin_cnt = 0
   let type = document.getElementsByClassName('select_user_type');
-  for (let i=0; i< test_list.length; i++){
+  for (let i=0; i<test_list.length; i++){
     if(type[i].selectedIndex == 1) {
       admin_cnt++;
     }

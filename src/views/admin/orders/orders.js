@@ -80,6 +80,13 @@ function DeleteItem(){
       //parentElement는 td를 의미, 그 다음 td의 parentElement는 tr을 의미
       let parent = document.querySelector('#input_data tbody');
       parent.removeChild(order_cancer[i].parentElement.parentElement);
+      if(test_list[i].order_status == 0) {
+        element[1].innerText -= 1;
+      }else if(test_list[i].order_status == 1){
+        element[2].innerText -= 1;
+      }else if(test_list[i].order_status == 2){
+        element[3].innerText -= 1;
+      }
       i--
       // delete 클릭 시 총 총주문 수 감소
       element[0].innerText -= 1;
