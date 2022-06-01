@@ -94,6 +94,8 @@ productRouter.delete('/detail', async(req,res,next)=>{
     try{
         // /detail/?name=브라운%20상의
         const {name} = req.query;
+        // const {shortId} = req.query;
+
         // 해당 상품 name을 가진 상품 데이터를 삭제
         const deleteProduct = await productModel.deleteOne({name});
         
@@ -110,6 +112,8 @@ productRouter.post('/update_product', async(req,res,next)=>{
     try{
         // /update_product/?name=브라운%20상의
         const {name} = req.query;
+        // const {shortId} = req.query;
+
         // 제품명과 출시날짜, 제조사는 고정, category, inform, price, storage, date 수정하기 위해 값을 받아오기
         const {category, inform, price, storage} = req.body;
 

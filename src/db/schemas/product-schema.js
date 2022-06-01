@@ -1,14 +1,13 @@
 import { Schema } from 'mongoose';
 import { CategorySchema } from './category-schema';
-import {shortId} from './types/short-id';
+
 const ProductSchema = new Schema(
   {
-    // product_id : {
-    //     type : Number,
-    //     required : true,
-    //     unique : true,
-    // },
-    shortId,
+    product_id : {
+        type : Number,
+        required : true,
+        unique : true,
+    },
     name: { // 상품명
       type: String,
       required: true,
@@ -55,14 +54,16 @@ const ProductSchema = new Schema(
   }
 );
 
-// // product_id 자동으로 1씩 카운트해서 증가
-// import {autoIncrement} from 'mongoose-auto-increment';
-// autoIncrement.initialize(mongoose.connection);
-// ProductSchema.plugin(autoIncrement.plugin, {
-//     model : 'products',
-//     field : 'product_id',
-//     startAt : 1,
-//     increment : 1,
-// });
+// product_id 자동으로 1씩 카운트해서 증가
+var mongoose = require('mongoose');
+var autoIncrement = require('mongoose-auto-increment');
+autoIncrement.initialize(mongoose.connection);
+
+ProductSchema.plugin(autoIncrement.plugin, {
+    model : 'products',
+    field : 'product_id',
+    startAt : 1,
+    increment : 1,
+});
 
 export { ProductSchema };
