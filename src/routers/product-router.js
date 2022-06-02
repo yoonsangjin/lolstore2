@@ -1,4 +1,5 @@
 import express from 'express';
+import path from 'path';
 const productRouter = express.Router();
 
 import {loginRequired, admin_confirm} from '../middlewares';
@@ -25,11 +26,12 @@ import {categoryModel} from '../db/models/category-model.js'
 // });
 
 // 상품 전체 보기 (카테고리별)
-productRouter.get('/list', async(req,res,next)=>{
+
+productRouter.get('/list/:category', async(req,res,next)=>{
     try{
-        
+        const category = req.params.category;
         // 상품 전체 검색
-        const products = await productModel.find({})
+        const products = await productModel.find({category}).populate('category');
         
         // 상품들 정보를 프론트에 전달
         res.status(200).json(products);
@@ -40,12 +42,12 @@ productRouter.get('/list', async(req,res,next)=>{
 });
 
 // 상품 상세 보기
-productRouter.get('/detail', async(req,res,next)=>{
+productRouter.get('/detail/:product_id', async(req,res,next)=>{
     try{
-        // product/detail/?product_id=6
-        const {product_id} = req.query;
+        // product/detail/6
+        const product_id = req.params.product_id;
         // product_id로 상품 하나 찾기
-        const product = await productModel.find({product_id});
+        const product = await productModel.find({product_id}).populate('category');
 
         // 상품 데이터 프론트에 전달
         res.status(200).json(product);
@@ -56,7 +58,7 @@ productRouter.get('/detail', async(req,res,next)=>{
 });
 
 // 상품 추가
-productRouter.post('/add', loginRequired ,async(req,res,next)=>{
+productRouter.post('/add', loginRequired, async(req,res,next)=>{
     try{
         const {name, category, inform, price, storage, date, company} = req.body;
 
@@ -82,22 +84,7 @@ productRouter.post('/add', loginRequired ,async(req,res,next)=>{
         if(company == ""){
             throw new Error('상품 제조사를 입력해주세요!');
         }
-        ////////////////////////////////////////////////////////////////////
 
-        // // 데이터베이스에서 같은 이름의 상품이 있는지 검사
-        // if(await productModel.findOne({name})){
-        //     throw new Error('이미 있는 상품입니다.')
-        // }
-
-        // 새로운 상품 모델 생성
-
-        // const newProduct = await productModel.create({name, inform, price, storage, date, company});
-        // const pushCategory = await categoryModel.findOne({name : category});
-        // const newProductCategory = await productModel.findOneAndUpdate(
-        //     {product_id : newProduct.product_id},
-        //     {$push : {category : pushCategory}},
-        //     {new : true}
-        // ).populate('category')
         
         const newProductCategory = await productModel.create({name, category, inform, price, storage, date, company});
         
@@ -118,13 +105,13 @@ productRouter.post('/add', loginRequired ,async(req,res,next)=>{
 })
 
 // 상품 삭제
-productRouter.delete('/detail', async(req,res,next)=>{
+productRouter.delete('/detail/:product_id', async(req,res,next)=>{
     try{
-        // /detail/?prodict_id=26
-        const {product_id} = req.query;
+        // product/detail/26
+        const product_id = req.params.product_id;
         
         // 해당 상품 name을 가진 상품 데이터를 삭제
-        const deleteProduct = await productModel.deleteOne({product_id});
+        const deleteProduct = await productModel.deleteOne({product_id}).populate('category');
         
         res.status(200).json(deleteProduct); 
         console.log('상품이 삭제되었습니다');
@@ -135,15 +122,19 @@ productRouter.delete('/detail', async(req,res,next)=>{
 })
 
 // 상품 정보 수정
-productRouter.post('/update_product', async(req,res,next)=>{
+// req.body 데이터 전부 보내기
+productRouter.post('/update_product/:product_id', async(req,res,next)=>{
     try{
-        // /update_product/?product_id=26
-        const {product_id} = req.query;
+        // product/update_product/6
+        const product_id = req.params.product_id;
 
-        // 제품명과 출시날짜, 제조사는 고정, category, inform, price, storage 수정하기 위해 값을 받아오기
-        const {category, inform, price, storage} = req.body;
+        //  category, inform, price, storage 수정하기 위해 값을 받아오기
+        const {name, category, inform, price, storage, date, company} = req.body;
 
         // 입력값 빠졌는지 검사
+        if(name == ""){
+            throw new Error('상품 이름을 입력해주세요!');
+        }
         if(category == ""){
             throw new Error('상품 카테고리를 입력해주세요!');
         }
@@ -155,6 +146,12 @@ productRouter.post('/update_product', async(req,res,next)=>{
         }
         if(storage == ""){
             throw new Error('상품 재고를 입력해주세요!');
+        }
+        if(date == ""){
+            throw new Error('상품 출시 날짜를 입력해주세요!');
+        }
+        if(company == ""){
+            throw new Error('상품 제조사를 입력해주세요!');
         }
 
         // product_id 로 상품을 찾고 그 제품의 category, inform, price, storage을 수정
@@ -176,7 +173,7 @@ productRouter.post('/update_product', async(req,res,next)=>{
         // body 값들을 받아와 상품 정보 수정
         const updateProduct = await productModel.findOneAndUpdate(
             {product_id},
-            {category, inform, price, storage}
+            {name, category, inform, price, storage, date, company}
         ).populate('category');
 
         // // 상품 정보를 수정하였으니 카테고리 내에 포함되었던 상품도 카테고리 이동
@@ -191,5 +188,15 @@ productRouter.post('/update_product', async(req,res,next)=>{
         next(err);
     }
 })
+
+productRouter.use('/add', serveStatic('product_sell'));
+
+function serveStatic(resource) {
+    const resourcePath = path.join(__dirname, `../views/admin/${resource}`);
+    const option = { index: `${resource}.html` };
+  
+    // express.static 은 express 가 기본으로 제공하는 함수임
+    return express.static(resourcePath, option);
+  }
 
 export {productRouter};

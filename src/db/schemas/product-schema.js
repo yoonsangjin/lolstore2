@@ -35,7 +35,7 @@ const ProductSchema = new Schema(
       type: Number,
       required: true,
     },
-    date: { // 올린날짜
+    date: { // 출시날짜
       type: Date,
       required: true,
     },
