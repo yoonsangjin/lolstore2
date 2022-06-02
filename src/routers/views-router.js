@@ -9,8 +9,9 @@ const viewsRouter = express.Router();
 viewsRouter.use('/', serveStatic('home'));
 viewsRouter.use('/register', serveStatic('/register'));
 viewsRouter.use('/login', serveStatic('login'));
-// 계정관리에 들어가는걸 보기 위해 임시로 경로 설정
 viewsRouter.use('/account', serveStatic('account'));
+viewsRouter.use('/category/:id', serveStatic('category'));
+viewsRouter.use('/product/:id', serveStatic('product'));
 
 // views 폴더의 최상단 파일인 rabbit.png, api.js 등을 쓸 수 있게 함
 viewsRouter.use('/', serveStatic(''));

@@ -4,7 +4,7 @@ const ordersContainer = document.querySelector('.orders-container'),
 	modal = document.querySelector('.modal'),
 	modalBg = document.querySelector('.modal-background'),
 	modalbtn = document.querySelector('.modal-close'),
-	delCencelBtn = document.querySelector('#delcencelBtn');
+	delCencelBtn = document.querySelector('#delCencelBtn');
 
 modalBg.addEventListener('click', closeModal);
 modalbtn.addEventListener('click', closeModal);
@@ -74,8 +74,8 @@ function showData() {
 	});
 }
 // 결정 확인 버튼
-const delCompletBtn = document.querySelector('#delCompletBtn');
-delCompletBtn.addEventListener('click', delOrder);
+const delCompleteBtn = document.querySelector('#delCompleteBtn');
+delCompleteBtn.addEventListener('click', delOrder);
 // 주문 취소 (del api요청)
 function delOrder() {
 	//여기 del api 비동기로 들어가야함
