@@ -3,7 +3,9 @@ const categoryRouter = express.Router();
 import {loginRequired} from '../middlewares';
 import {categoryModel} from '../db/models/category-model.js'
 
-categoryRouter.post('/', async(req,res,next)=>{
+
+// 카테고리 추가
+categoryRouter.post('/create',  async(req,res,next)=>{
     try{
         const {name} = req.body;
         if(await categoryModel.findOne({name})){
@@ -16,7 +18,8 @@ categoryRouter.post('/', async(req,res,next)=>{
     }
 })
 
-categoryRouter.delete('/', async(req,res,next)=>{
+// 카테고리 삭제
+categoryRouter.delete('/delete',  async(req,res,next)=>{
     try{
         const {name} = req.body;
         if(!await categoryModel.findOne({name})){
@@ -28,5 +31,17 @@ categoryRouter.delete('/', async(req,res,next)=>{
         next(err);
     }
 })
+
+// 카테고리 전체받기
+categoryRouter.get('/list', async(req,res,next)=>{
+    try{
+        const list = await categoryModel.find({});
+        res.status(200).json(list);
+    }catch(err){
+        next(err);
+    }
+});
+
+
 
 export {categoryRouter};

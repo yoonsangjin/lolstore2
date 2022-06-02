@@ -13,11 +13,11 @@ const ProductSchema = new Schema(
       required: true,
     },
 
-    category : [{
+    category : {
       type : Schema.Types.ObjectId,
       ref : 'category',
       required : true,
-    }],
+    },
 
     //  picture: { // 상품이미지
     //    type: String,
