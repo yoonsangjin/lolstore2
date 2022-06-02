@@ -13,7 +13,7 @@ export class UserModel {
     const user = await User.findOne({ _id: userId });
     return user;
   }
-
+  
   async create(userInfo) {
     const createdNewUser = await User.create(userInfo);
     return createdNewUser;

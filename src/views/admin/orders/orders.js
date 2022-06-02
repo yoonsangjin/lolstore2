@@ -60,7 +60,7 @@ function inputItem() {
       <td> ${testList[i].order_info}</td>
       <td> ${testList[i].order_price.toLocaleString('ko-KR')} 원</td>
       <td>
-        <select class="select-product-state" onchange="ProductCntChange()">
+        <select class="select-product-state" onchange="productCntChange()">
           <option value="0" ${testList[i].order_status == 0 ? `selected` :``}> 상품 준비중 </option>
           <option value="1" ${testList[i].order_status == 1 ? `selected` :``}> 상품 배송중 </option>
           <option value="2" ${testList[i].order_status == 2 ? `selected` :``}> 배송 완료 </option>
@@ -85,6 +85,14 @@ function deleteItem(){
         element[2].innerText -= 1;
       }else if(testList[i].order_status == 2){
         element[3].innerText -= 1;
+      }
+      //element가 음수인경우 0으로 반환
+      if(element[1].innerText < 0 ){
+        elemenet[1].innerText = 0;
+      }else if(element[2].innerText < 0){
+        element[2].innerText = 0;
+      }else if(element[3].innerText < 0){
+        element[3].innerText = 0;
       }
       // delete 클릭 시 총 총주문 수 감소
       element[0].innerText -= 1;

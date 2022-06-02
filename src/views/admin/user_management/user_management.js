@@ -1,3 +1,5 @@
+// import * as Api from "../../api"
+
 //user list
 const inputData = document.querySelector('#inputData');
 const userDeleteBtn = document.getElementsByClassName('user-delete-btn');
@@ -64,11 +66,7 @@ const testList = [
   },
 ]
 
-
-//총회원수
-element[0].innerText = testList.length;
 InputUser();
-// 관리자수 / OAuth 가입자 수 
 adminCnt();
 oauthCnt();
 deleteUser();
@@ -78,26 +76,26 @@ function InputUser() {
   inputData.appendChild(tbody);
   for(let i =0; i<testList.length; i++) {
     tbody.innerHTML += `
-    <tr id = "user${testList[i].id}">
+    <tr id = "user${testList[i].id} ">
       <td>${testList[i].date}</td>
       <td>${testList[i].email}</td>
       <td>${testList[i].signin_type == 0? `일반`:`소셜`}</td>
       <td>${testList[i].name}</td>
       <td>
-        <select class="select-user-type" onchange="AdminCntChange()">
+        <select class="select-user-type" onchange="adminCntChange()">
           <option value="0" ${testList[i].user_type == 0 ? `selected`:``}> 일반사용자</option>
           <option value="1" ${testList[i].user_type == 1 ? `selected`:``}> 관리자 </option>
         </select>
       </td>
-      <td> <button class="user-delete-btn">회원정보 삭제</td>
+      <td> <button class="user-delete-btn" id="${testList.id}" onclick="">회원정보 삭제</td>
     </tr>
     `;
   } //json 데이터 기반 selected 설정
 }
 
-
 function deleteUser(){
 //삭제 버튼 클릭 시 이벤트
+
   for (let i =0; i < userDeleteBtn.length; i++){
     userDeleteBtn[i].addEventListener('click', () => {
       document.getElementById(`user${i+1}`).remove();
@@ -112,6 +110,11 @@ function deleteUser(){
       }else if(testList[i].signin_type == 1){
         element[2].innerText -= 1;
         console.log("소셜 삭제")
+      }
+      if(element[1].innerText < 0) {
+        element[1].innerText = 0;
+      }else if(element[1].innerText < 0) {
+        element[2].innerText = 0;
       }
       //user_type이 1일 경우 관리자와 총 회원 수 -1 
       element[0].innerText -= 1;
@@ -154,3 +157,5 @@ function oauthCnt() {
   element[2].innerText = oauthCnt;
 }
 
+//총회원수
+element[0].innerText = testList.length;
