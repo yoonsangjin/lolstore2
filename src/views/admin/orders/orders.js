@@ -1,10 +1,3 @@
-//products list
-const inputData = document.querySelector('#inputData');
-const orderCancerBtn = document.getElementsByClassName('order-cancer');
-// top_cotainer 
-const element = document.getElementsByTagName('p');
-
-
 //테스트용 데이터
 const testList = [
   {
@@ -48,6 +41,12 @@ const testList = [
     "order_status":0,
   },
 ]
+
+//products list
+const inputData = document.querySelector('#inputData');
+const orderCancerBtn = document.getElementsByClassName('order-cancer');
+// top_cotainer 
+const element = document.getElementsByTagName('p');
 
 inputItem(); 
 // json 데이터 주문 리스트에 추가
