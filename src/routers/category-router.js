@@ -4,29 +4,20 @@ const categoryRouter = express.Router();
 import { loginRequired, adminConfirm } from '../middlewares';
 import { categoryModel } from '../db/models/category-model.js';
 
-import multer from 'multer';
-const upload = multer({ dest: 'uploads/' });
-
 // 카테고리 추가
-categoryRouter.post(
-  '/add',
-  adminConfirm,
-  upload.single('image'),
-  async (req, res, next) => {
-    try {
-      const { name } = req.body;
-      const image = req.file.path;
+categoryRouter.post('/add', adminConfirm, async (req, res, next) => {
+  try {
+    const { name } = req.body;
 
-      if (await categoryModel.findOne({ name })) {
-        throw new Error('이미 존재하는 카테고리입니다.');
-      }
-      const addCategory = await categoryModel.create({ name, image });
-      res.status(200).json(addCategory);
-    } catch (err) {
-      next(err);
+    if (await categoryModel.findOne({ name })) {
+      throw new Error('이미 존재하는 카테고리입니다.');
     }
+    const addCategory = await categoryModel.create({ name });
+    res.status(200).json(addCategory);
+  } catch (err) {
+    next(err);
   }
-);
+});
 
 // 카테고리 삭제
 categoryRouter.delete('/delete', adminConfirm, async (req, res, next) => {

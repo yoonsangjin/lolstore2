@@ -8,7 +8,21 @@ import { productModel } from '../db/models/product-model.js';
 import { categoryModel } from '../db/models/category-model.js';
 
 import multer from 'multer';
-const upload = multer({ dest: 'uploads/' });
+//multer 의 diskStorage를 정의
+var storage = multer.diskStorage({
+  //경로 설정
+  destination: function (req, file, cb) {
+    cb(null, 'uploads/');
+  },
+
+  //실제 저장되는 파일명 설정
+  filename: function (req, file, cb) {
+    // 파일 이름을 그대로 저장 (확장자 까지 포함)
+    cb(null, Date.now() + '_' + file.originalname);
+  },
+});
+
+var upload = multer({ storage: storage });
 
 // // 상품 전체 보기 (카테고리별)
 // productRouter.get('/list', async(req,res,next)=>{
@@ -65,7 +79,7 @@ productRouter.get('/detail/:product_id', async (req, res, next) => {
 // 상품 추가
 productRouter.post(
   '/add',
-  adminConfirm,
+  // adminConfirm,
   upload.single('image'),
   async (req, res, next) => {
     try {
