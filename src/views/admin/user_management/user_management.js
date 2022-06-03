@@ -59,7 +59,8 @@ const testList = [
   },
 ]
 
-import * as Api from "../../api"
+import * as Api from "../../api.js"
+
 //user list
 const inputData = document.querySelector('#inputData');
 const userDeleteBtn = document.getElementsByClassName('user-delete-btn');
@@ -69,15 +70,18 @@ const element = document.getElementsByTagName('p');
 
 //총회원수
 element[0].innerText = testList.length;
-InputUser(); //회원 목록 출력
+getUser(); //회원 목록 출력
 adminCnt(); //관리자수 카운트
 oauthCnt();//ouath가입자수 카운트
 
+const orders = await Api.get('api/userlist');
+
 //json 데이터 주문 리스트에 추가
-async function InputUser() {
+async function getUser() {
   const tbody = document.createElement('tbody');
   inputData.appendChild(tbody);
   
+  //forEach로 변경 
   for(let i =0; i<testList.length; i++) {
     tbody.insertAdjacentHTML('beforeend', `
     <tr id="user${testList[i].id}">
@@ -148,17 +152,17 @@ async function oauthCnt() {
 }
 
 // user 정보 목록 받아오기 api요청
-try { 
-  const userInfo = {email, fullName, admin, loginTypeCode};
+// try { 
+//   const userInfo = {email, fullName, admin, loginTypeCode};
 
-  await Api.get('/admin/users', userInfo);
+//   await Api.get('/admin/users', userInfo);
 
-  alert('정상적으로 회원정보를 불러왔습니다.');
+//   alert('정상적으로 회원정보를 불러왔습니다.');
 
-}catch(err) {
+// }catch(err) {
 
-  console.log(err);
-  
-}
+//   console.log(err);
+
+// }
 
 
