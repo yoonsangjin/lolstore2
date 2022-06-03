@@ -5,8 +5,6 @@ import {
   viewsRouter,
   userRouter,
   productRouter,
-  accountRouter,
-  adminRouter,
 } from './routers';
 
 import { errorHandler } from './middlewares';
