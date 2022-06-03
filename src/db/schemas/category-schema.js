@@ -9,6 +9,9 @@ const CategorySchema = new Schema(
         ref: 'products',
       },
     ],
+    image: {
+      type: String,
+    },
   },
   {
     collection: 'categories',
