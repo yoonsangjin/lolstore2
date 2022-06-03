@@ -5,7 +5,8 @@ const modal = document.querySelector('.modal'),
 	modalbtn = document.querySelector('.modal-close'),
 	delCencelBtn = document.querySelector('#delcencelBtn'),
 	submitBtn = document.querySelector('#submitBtn'),
-	delCompletBtn = document.querySelector('#delCompletBtn');
+	delCompletBtn = document.querySelector('#delCompletBtn'),
+	passwordInput = document.querySelector('#passwordInput');
 
 modalBg.addEventListener('click', closeModal);
 modalbtn.addEventListener('click', closeModal);
@@ -15,8 +16,10 @@ delCompletBtn.addEventListener('click', delUser);
 
 //유저 정보 삭제
 function delUser(e) {
+	e.preventDefault();
 	//del api
-	closeModal();
+	handleSubmit();
+	// closeModal();
 }
 //모달 닫기 기능
 function closeModal(e) {
@@ -29,29 +32,25 @@ function openModal(e) {
 	modal.classList.add('is-active');
 }
 
-async function handleSubmit(e) {
-	e.preventDefault();
+async function handleSubmit() {
+	const password = passwordInput.value;
+	const isPasswordValid = password.length >= 4;
 
+	// 비밀번호 잘 입력했는지 확인
 	if (!isPasswordValid) {
 		return alert('비밀번호가 4글자 이상인지 확인해 주세요.');
 	}
 
-	// 로그인 api 요청
+	// 회원 삭제 API 요청
 	try {
-		const data = { password };
-
-		const result = await Api.delete('/api/signout', data);
+		const result = await Api.delete('/api/user/:userId', password);
 		const token = result.token;
 
-		// 로그인 성공, 토큰을 세션 스토리지에 저장
-		// 물론 다른 스토리지여도 됨
+		// 토큰을 세션 스토리지에 삭제
 		sessionStorage.deleteItem('token', token);
-
 		alert(`회원정보가 안전하게 삭제되었습니다.`);
 
-		// 탈퇴 성공
-
-		// 기본 페이지로 이동
+		// 탈퇴 성공시 기본 페이지로 이동
 		window.location.href = '/';
 	} catch (err) {
 		console.error(err.stack);

@@ -36,3 +36,12 @@
 	grid-template-columns: 3fr 1fr;
 	gap: 0.5rem;
 }
+
+.security-header {
+	display: flex;
+	gap: 1rem;
+	align-items: center;
+}
+#email {
+	margin-bottom: 1rem;
+}

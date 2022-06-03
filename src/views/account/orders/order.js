@@ -11,6 +11,7 @@ modalbtn.addEventListener('click', closeModal);
 delCencelBtn.addEventListener('click', closeModal);
 
 //테스트 데이터
+
 const userData = [
 	{
 		_id: 1,
@@ -41,6 +42,18 @@ const userData = [
 		state: '배송 완료',
 	},
 ];
+
+// const data = userInfo();
+async function userInfo() {
+	try {
+		data = await Api.get('/api/order');
+		return data;
+	} catch (err) {
+		console.error(err.stack);
+		alert(`문제가 발생하였습니다. ${err.message}`);
+	}
+}
+
 showData();
 // 전역 변수로 id를 쓰기 위해 선언
 let id = '';
@@ -51,7 +64,7 @@ function showData() {
 			'afterend',
 			`<div class="colums order-item" id="order_${data._id}"> 
   <div class="column is-2">${data.createAt}</div>
-  <div class="column is-6" id="order-summary">${data.summary} / ${data.amount}개</div>
+  <div class="column is-6" id="order-summary">${data.summary} / ${dat1a.amount}개</div>
   <div class="column is-2">${data.state}</div>
   <div class="column is-2">
 	<button class="button" id="delBtn_${data._id}">주문 취소</button>
