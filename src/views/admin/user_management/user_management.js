@@ -1,4 +1,3 @@
-// import * as Api from "../../api"
 
 //테스트용 데이터
 const testList = [
@@ -60,10 +59,11 @@ const testList = [
   },
 ]
 
-
+import * as Api from "../../api"
 //user list
 const inputData = document.querySelector('#inputData');
 const userDeleteBtn = document.getElementsByClassName('user-delete-btn');
+
 //top cotainer
 const element = document.getElementsByTagName('p');
 
@@ -95,12 +95,22 @@ async function InputUser() {
     </tr>
     `);
   } //json 데이터 기반 selected 설정
-  console.log("Data Input OK!")
+  console.log("Data Input OK!");
 }
 
 async function deleteUser(btnId){
-  const delBtn = document.querySelector(`#${btnId}`);
-  delBtn.parentElement.parentElement.remove();
+  const parent = document.querySelector(`#${btnId}`).parentElement.parentElement;
+  parent.remove();
+  const sel = Number(parent.childNodes[9].childNodes[1].value);
+  const oat = parent.childNodes[5].childNodes[0].nodeValue;
+  
+  if(sel == 1) {
+    element[1].innerText--;
+  }
+  if(oat == "소셜"){
+    element[2].innerText--;
+    console.log("소셜 삭제");
+  }
   element[0].innerText--;
 }
 
@@ -117,9 +127,9 @@ async function adminCnt() {
 }
 
 //select - option 변경시 카운트 값이 바뀌도록 함수 설정
-async function adminCntChange(select) {
-  let selectOption = Number(select.value);
-  if (select.value == 1 ){
+async function adminCntChange(sel) {
+  const selectOption = Number(sel.value);
+  if (selectOption == 1 ){
     element[1].innerText++;
   }else if(selectOption == 0){
     element[1].innerText--;
@@ -136,3 +146,19 @@ async function oauthCnt() {
   }
   element[2].innerText = oauthCnt;
 }
+
+// user 정보 목록 받아오기 api요청
+try { 
+  const userInfo = {email, fullName, admin, loginTypeCode};
+
+  await Api.get('/admin/users', userInfo);
+
+  alert('정상적으로 회원정보를 불러왔습니다.');
+
+}catch(err) {
+
+  console.log(err);
+  
+}
+
+
