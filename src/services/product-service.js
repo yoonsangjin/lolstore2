@@ -1,14 +1,68 @@
-import { userModel } from '../db';
+import { productmodel } from '../db';
+import { categoryModel } from '../db';
+// import bcrypt from 'bcrypt';
+// import jwt from 'jsonwebtoken';
+import { model } from 'mongoose';
 
-import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
-
-class UserService {
+class ProductService {
   // 본 파일의 맨 아래에서, new UserService(userModel) 하면, 이 함수의 인자로 전달됨
-  constructor(userModel) {
-    this.userModel = userModel;
+  constructor(productModel, categoryModel) {
+    this.productModel = productModel;
+    this.categoryModel = categoryModel;
+  }
+  // 상품 추가
+  async addProduct(productInfo) {
+    const { name, category, inform, price, storage, date, company } =
+      productInfo;
+    const newProduct = await this.productModel.create({
+      name,
+      inform,
+      price,
+      storage,
+      date,
+      company,
+    });
+    const newCategory = await this.categoryModel.create({ name: category });
+    const newProductCategory = await this.productModel.findOneAndUpdate(
+      { shortId: newProduct.shortId },
+      { $push: { category: newCategory } },
+      { new: true }
+    );
+    return newProductCategory;
   }
 
+  // 상품 삭제
+  async deleteProduct(productInfo) {
+    const { shortId } = productInfo;
+    const deleteProduct = await this.productModel.deleteOne({ shortId });
+    return deleteProduct;
+  }
+
+  // 상품 정보 수정
+  async updateProduct(productInfo) {
+    const { shortId, category, inform, price, storage } = productInfo;
+    // 입력값 빠졌는지 검사
+    if (category == '') {
+      throw new Error('상품 카테고리를 입력해주세요!');
+    }
+    if (inform == '') {
+      throw new Error('상품 설명을 입력해주세요!');
+    }
+    if (price == '') {
+      throw new Error('상품 가격을 입력해주세요!');
+    }
+    if (storage == '') {
+      throw new Error('상품 재고를 입력해주세요!');
+    }
+    const updateProduct = await this.productModel.findOneAndUpdate(
+      { shortId },
+      { category, inform, price, storage },
+      { returnOriginal: false }
+    );
+    return updateProduct;
+  }
+
+  /////////////////////////////////////////////////////////////////
   // 회원가입
   async addUser(userInfo) {
     // 객체 destructuring
@@ -69,7 +123,7 @@ class UserService {
     const secretKey = process.env.JWT_SECRET_KEY || 'secret-key';
 
     // 2개 프로퍼티를 jwt 토큰에 담음
-    const token = jwt.sign({ userId: user._id, isAdmin: user.admin }, secretKey);
+    const token = jwt.sign({ userId: user._id, role: user.role }, secretKey);
 
     return { token };
   }
@@ -126,41 +180,8 @@ class UserService {
 
     return user;
   }
-  // 유저 삭제 기능 최소화, 추후 front API 형태에 맞춰 기능 추가할 예정임.
-  async deleteUser(userId) {
-    await this.userModel.delete(userId);
-  }
 }
 
-//   async deleteUser(userId) {
-
-//     // 우선 해당 id의 유저가 db에 있는지 확인
-//     const user = await this.userModel.findById(userId);
-
-//     // db에서 찾지 못한 경우, 에러 메시지 반환
-//     if (!user) {
-//       throw new Error('가입 내역이 없습니다. 다시 한 번 확인해 주세요.');
-//     }
-
-//     // 비밀번호 일치 여부 확인
-//     const correctPasswordHash = user.password;
-//     const isPasswordCorrect = await bcrypt.compare(
-//       currentPassword,
-//       correctPasswordHash
-//     );
-
-//     if (!isPasswordCorrect) {
-//       throw new Error(
-//         '현재 비밀번호가 일치하지 않습니다. 다시 한 번 확인해 주세요.'
-//       );
-//     }
-
-//     // 회원탈퇴
-//     user = await this.userModel.delete(userId);
-//   }
-// }
-
-
-const userService = new UserService(userModel);
+const userService = new UserService(productModel);
 
 export { userService };

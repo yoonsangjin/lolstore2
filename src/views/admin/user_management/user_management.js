@@ -1,3 +1,8 @@
+//user list
+const inputData = document.querySelector('#inputData');
+const userDeleteBtn = document.getElementsByClassName('user-delete-btn');
+//top cotainer
+const element = document.getElementsByTagName('p');
 
 //테스트용 데이터
 const testList = [
@@ -59,64 +64,64 @@ const testList = [
   },
 ]
 
-import * as Api from "../../api"
-//user list
-const inputData = document.querySelector('#inputData');
-const userDeleteBtn = document.getElementsByClassName('user-delete-btn');
-
-//top cotainer
-const element = document.getElementsByTagName('p');
 
 //총회원수
 element[0].innerText = testList.length;
-InputUser(); //회원 목록 출력
-adminCnt(); //관리자수 카운트
-oauthCnt();//ouath가입자수 카운트
-
+InputUser();
+// 관리자수 / OAuth 가입자 수 
+adminCnt();
+oauthCnt();
+deleteUser();
 //json 데이터 주문 리스트에 추가
-async function InputUser() {
+function InputUser() {
   const tbody = document.createElement('tbody');
   inputData.appendChild(tbody);
-  
   for(let i =0; i<testList.length; i++) {
-    tbody.insertAdjacentHTML('beforeend', `
-    <tr id="user${testList[i].id}">
+    tbody.innerHTML += `
+    <tr id = "user${testList[i].id}">
       <td>${testList[i].date}</td>
       <td>${testList[i].email}</td>
       <td>${testList[i].signin_type == 0? `일반`:`소셜`}</td>
       <td>${testList[i].name}</td>
       <td>
-        <select class="select-user-type" onchange="adminCntChange(this)">
+        <select class="select-user-type" onchange="AdminCntChange()">
           <option value="0" ${testList[i].user_type == 0 ? `selected`:``}> 일반사용자</option>
           <option value="1" ${testList[i].user_type == 1 ? `selected`:``}> 관리자 </option>
         </select>
       </td>
-      <td> <button class="user-delete-btn" id="btn${testList[i].id}" onclick="deleteUser(this.id)">회원정보 삭제</td>
+      <td> <button class="user-delete-btn">회원정보 삭제</td>
     </tr>
-    `);
+    `;
   } //json 데이터 기반 selected 설정
-  console.log("Data Input OK!");
 }
 
-async function deleteUser(btnId){
-  const parent = document.querySelector(`#${btnId}`).parentElement.parentElement;
-  parent.remove();
-  const sel = Number(parent.childNodes[9].childNodes[1].value);
-  const oat = parent.childNodes[5].childNodes[0].nodeValue;
-  
-  if(sel == 1) {
-    element[1].innerText--;
+
+function deleteUser(){
+//삭제 버튼 클릭 시 이벤트
+  for (let i =0; i < userDeleteBtn.length; i++){
+    userDeleteBtn[i].addEventListener('click', () => {
+      document.getElementById(`user${i+1}`).remove();
+
+      if(testList[i].user_type == 1 && testList[i].signin_type==1){
+        element[1].innerText -= 1;
+        element[2].innerText -= 1;
+        console.log("관리자 소셜 둘 다 감소")
+      }else if(testList[i].user_type == 1){
+        element[1].innerText -= 1;
+        console.log("관리자 삭제")
+      }else if(testList[i].signin_type == 1){
+        element[2].innerText -= 1;
+        console.log("소셜 삭제")
+      }
+      //user_type이 1일 경우 관리자와 총 회원 수 -1 
+      element[0].innerText -= 1;
+    }) 
   }
-  if(oat == "소셜"){
-    element[2].innerText--;
-    console.log("소셜 삭제");
-  }
-  element[0].innerText--;
 }
 
 //처음 화면 시 Admin Cnt 값 표시
-async function adminCnt() {
-  let adminCnt = 0
+function adminCnt() {
+  let adminCnt = 0;
   let type = document.getElementsByClassName('select-user-type');
   for (let i=0; i< testList.length; i++){
     if(type[i].selectedIndex == 1) {
@@ -127,17 +132,19 @@ async function adminCnt() {
 }
 
 //select - option 변경시 카운트 값이 바뀌도록 함수 설정
-async function adminCntChange(sel) {
-  const selectOption = Number(sel.value);
-  if (selectOption == 1 ){
-    element[1].innerText++;
-  }else if(selectOption == 0){
-    element[1].innerText--;
+function adminCntChange() {
+  let adminCnt = 0
+  let type = document.getElementsByClassName('select-user-type');
+  for (let i=0; i<testList.length; i++){
+    if(type[i].selectedIndex == 1) {
+      adminCnt++;
+    }
   }
+  element[1].innerText = adminCnt;
 }
 
 //ouath 사용자 수
-async function oauthCnt() {
+function oauthCnt() {
   let oauthCnt = 0;
   for(let i =0; i < testList.length; i++) {
     if(testList[i].signin_type == 1) {
@@ -146,19 +153,3 @@ async function oauthCnt() {
   }
   element[2].innerText = oauthCnt;
 }
-
-// user 정보 목록 받아오기 api요청
-try { 
-  const userInfo = {email, fullName, admin, loginTypeCode};
-
-  await Api.get('/admin/users', userInfo);
-
-  alert('정상적으로 회원정보를 불러왔습니다.');
-
-}catch(err) {
-
-  console.log(err);
-  
-}
-
-
