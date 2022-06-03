@@ -11,45 +11,55 @@ class ProductService {
     this.categoryModel = categoryModel;
   }
   // 상품 추가
-  async addProduct(productInfo){
-      const {name, category, inform, price, storage, date, company} = productInfo;
-      const newProduct = await this.productModel.create({name, inform, price, storage, date, company});
-      const newCategory = await this.categoryModel.create({name : category});
-      const newProductCategory = await this.productModel.findOneAndUpdate(
-        {shortId : newProduct.shortId},
-        {$push : {category : newCategory}},
-        {new : true}
-    )
+  async addProduct(productInfo) {
+    const { name, category, inform, price, storage, date, company } =
+      productInfo;
+    const newProduct = await this.productModel.create({
+      name,
+      inform,
+      price,
+      storage,
+      date,
+      company,
+    });
+    const newCategory = await this.categoryModel.create({ name: category });
+    const newProductCategory = await this.productModel.findOneAndUpdate(
+      { shortId: newProduct.shortId },
+      { $push: { category: newCategory } },
+      { new: true }
+    );
     return newProductCategory;
   }
 
   // 상품 삭제
-  async deleteProduct(productInfo){
-      const {shortId} = productInfo;
-      const deleteProduct = await this.productModel.deleteOne({shortId});
-      return deleteProduct;
+  async deleteProduct(productInfo) {
+    const { shortId } = productInfo;
+    const deleteProduct = await this.productModel.deleteOne({ shortId });
+    return deleteProduct;
   }
 
   // 상품 정보 수정
-  async updateProduct(productInfo){
-      const {shortId, category, inform, price, storage} = productInfo;
-      // 입력값 빠졌는지 검사
-      if(category == ""){
-        throw new Error('상품 카테고리를 입력해주세요!');
-        }
-        if(inform == ""){
-            throw new Error('상품 설명을 입력해주세요!');
-        }
-        if(price == ""){
-            throw new Error('상품 가격을 입력해주세요!');
-        }
-        if(storage == ""){
-            throw new Error('상품 재고를 입력해주세요!');
-        }
-      const updateProduct = await this.productModel.findOneAndUpdate(
-          {shortId}, {category, inform, price, storage}, {returnOriginal : false}
-          );
-      return updateProduct;
+  async updateProduct(productInfo) {
+    const { shortId, category, inform, price, storage } = productInfo;
+    // 입력값 빠졌는지 검사
+    if (category == '') {
+      throw new Error('상품 카테고리를 입력해주세요!');
+    }
+    if (inform == '') {
+      throw new Error('상품 설명을 입력해주세요!');
+    }
+    if (price == '') {
+      throw new Error('상품 가격을 입력해주세요!');
+    }
+    if (storage == '') {
+      throw new Error('상품 재고를 입력해주세요!');
+    }
+    const updateProduct = await this.productModel.findOneAndUpdate(
+      { shortId },
+      { category, inform, price, storage },
+      { returnOriginal: false }
+    );
+    return updateProduct;
   }
 
   /////////////////////////////////////////////////////////////////
