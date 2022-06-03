@@ -148,7 +148,7 @@ userRouter.delete(
       const userId = req.params.userId;
 
       // 관리자 계정이 아니라면 유저 아이디 일치하는지 검증
-      if (req.admin !== true) {
+      if (!req.admin) {
         if (req.currentUserId !== userId) {
           throw new Error("삭제할 권한이 없습니다.");
         }
