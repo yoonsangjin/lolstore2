@@ -3,6 +3,7 @@ import is from '@sindresorhus/is';
 // 폴더에서 import하면, 자동으로 폴더의 index.js에서 가져옴
 import { loginRequired } from '../middlewares';
 import { userService } from '../services';
+import { adminConfirm } from '../middlewares';
 
 const userRouter = Router();
 
@@ -63,7 +64,7 @@ userRouter.post('/login', async function (req, res, next) {
 
 // 전체 유저 목록을 가져옴 (배열 형태임)
 // 미들웨어로 loginRequired 를 썼음 (이로써, jwt 토큰이 없으면 사용 불가한 라우팅이 됨)
-userRouter.get('/userlist', async function (req, res, next) {
+userRouter.get('/userlist', adminConfirm, async function (req, res, next) {
   try {
     // 전체 사용자 목록을 얻음
     const users = await userService.getUsers();
@@ -141,12 +142,12 @@ userRouter.delete(
     try {
       const userId = req.params.userId;
 
-      // // 관리자 계정이 아니라면 유저 아이디 일치하는지 검증
-      // if (req.admin !== true) {
-      //   if (req.currentUserId !== userId) {
-      //     throw new Error("삭제할 권한이 없습니다.");
-      //   }
-      // }
+      // 관리자 계정이 아니라면 유저 아이디 일치하는지 검증
+      if (req.admin !== true) {
+        if (req.currentUserId !== userId) {
+          throw new Error("삭제할 권한이 없습니다.");
+        }
+      }
       await userService.deleteUser(userId);
 
       res.status(200).json("정상적으로 회원탈퇴 처리 되었습니다.");

@@ -19,15 +19,17 @@ function adminConfirm(req, res, next) {
     const jwtDecoded = jwt.verify(userToken, secretKey);
 
     const userId = jwtDecoded.userId;
-    const isAdmin = jwtDecoded.admin;
+    const isAdmin = jwtDecoded.isAdmin;
+    
 
-    if (isAdmin !== true ) {
+    if (!isAdmin) {
       throw new Error("관리자 계정만 사용할 수 있는 페이지입니다.");
     }
 
-    req.admin = true;
+    req.isAdmin = isAdmin;
     req.currentUserId = userId;
     next();
+
   } catch (error) {
     // jwt.verify 함수가 에러를 발생시키는 경우는 토큰이 정상적으로 decode 안되었을 경우임.
     // 403 코드로 JSON 형태로 프론트에 전달함.
