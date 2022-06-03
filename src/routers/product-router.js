@@ -198,14 +198,4 @@ productRouter.post('/update_product/:product_id', async (req, res, next) => {
   }
 });
 
-productRouter.use('/add', serveStatic('product_sell'));
-
-function serveStatic(resource) {
-  const resourcePath = path.join(__dirname, `../views/admin/${resource}`);
-  const option = { index: `${resource}.html` };
-
-  // express.static 은 express 가 기본으로 제공하는 함수임
-  return express.static(resourcePath, option);
-}
-
 export { productRouter };
