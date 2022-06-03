@@ -1,24 +1,24 @@
 import { Schema } from 'mongoose';
 import { CategorySchema } from './category-schema';
+
 const ProductSchema = new Schema(
 	{
-		// product_id : {
-		//     type : Number,
-		//     required : true,
-		//     unique : true,
-		// },
+		product_id: {
+			type: Number,
+			required: true,
+			unique: true,
+		},
 		name: {
 			// 상품명
 			type: String,
 			required: true,
 		},
-		// category: [{ // 카테고리
-		//   type: Schema.Types.ObjectId,
-		//   ref : "Category",
-		//   required: true,
-		// }],
-		category: [CategorySchema],
 
+		category: {
+			type: Schema.Types.ObjectId,
+			ref: 'category',
+			required: true,
+		},
 		//  picture: { // 상품이미지
 		//    type: String,
 		//    required: true,
@@ -39,7 +39,7 @@ const ProductSchema = new Schema(
 			required: true,
 		},
 		date: {
-			// 올린날짜
+			// 출시날짜
 			type: Date,
 			required: true,
 		},
@@ -53,6 +53,10 @@ const ProductSchema = new Schema(
 			type: Number,
 			default: 0,
 		},
+		company: {
+			type: String,
+			required: true,
+		},
 	},
 	{
 		collection: 'products',
@@ -60,14 +64,16 @@ const ProductSchema = new Schema(
 	},
 );
 
-// // product_id 자동으로 1씩 카운트해서 증가
-// import {autoIncrement} from 'mongoose-auto-increment';
-// autoIncrement.initialize(mongoose.connection);
-// ProductSchema.plugin(autoIncrement.plugin, {
-//     model : 'products',
-//     field : 'product_id',
-//     startAt : 1,
-//     increment : 1,
-// });
+// product_id 자동으로 1씩 카운트해서 증가
+var mongoose = require('mongoose');
+var autoIncrement = require('mongoose-auto-increment');
+autoIncrement.initialize(mongoose.connection);
+
+ProductSchema.plugin(autoIncrement.plugin, {
+	model: 'products',
+	field: 'product_id',
+	startAt: 1,
+	increment: 1,
+});
 
 export { ProductSchema };

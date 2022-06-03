@@ -14,18 +14,20 @@ delCencelBtn.addEventListener('click', closeModal);
 submitBtn.addEventListener('click', openModal);
 delCompletBtn.addEventListener('click', delUser);
 
-//유저 정보 삭제
+// 유저 정보 삭제
 function delUser(e) {
 	e.preventDefault();
 	//del api
 	handleSubmit();
 	// closeModal();
 }
-//모달 닫기 기능
+
+// 모달 닫기 기능
 function closeModal(e) {
 	e.preventDefault();
 	modal.classList.remove('is-active');
 }
+
 //모달 열기 기능
 function openModal(e) {
 	e.preventDefault();
