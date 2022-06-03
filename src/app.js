@@ -7,6 +7,7 @@ import {
   productRouter,
   accountRouter,
   adminRouter,
+  categoryRouter,
 } from './routers';
 
 import { errorHandler } from './middlewares';
@@ -32,6 +33,7 @@ app.use('/api', userRouter);
 
 app.use('/account', accountRouter);
 app.use('/product', productRouter);
+app.use('/category', categoryRouter);
 app.use('/admin', adminRouter);
 
 // 순서 중요 (errorHandler은 다른 일반 라우팅보다 나중에 있어야 함)
