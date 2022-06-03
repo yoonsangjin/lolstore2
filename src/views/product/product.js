@@ -10,6 +10,8 @@ const product = {
 };
 
 // 요소(element), input 혹은 상수
+const btnBuy = document.querySelector('.btn-buy');
+
 addAllElements();
 addAllEvents();
 
@@ -19,7 +21,9 @@ async function addAllElements() {
 }
 
 // 여러 개의 addEventListener들을 묶어주어서 코드를 깔끔하게 하는 역할임.
-function addAllEvents() {}
+function addAllEvents() {
+  btnBuy.addEventListener('click', handleBtnBuy);
+}
 
 // 상품 HTML 요소 생성
 function insertProduct() {
@@ -43,4 +47,9 @@ function insertProduct() {
   // 상품 설명
   const productContent = document.querySelector('.product-content');
   productContent.innerHTML = `${data.description}`;
+}
+
+function handleBtnBuy() {
+  // TODO 스토리지 등록
+  window.location.href = '/buy';
 }
