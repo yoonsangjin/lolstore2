@@ -69,11 +69,11 @@ userRouter.get('/email/:email', loginRequired, async function (req, res, next) {
 	try {
 		// content-type 을 application/json 로 프론트에서
 		// 설정 안 하고 요청하면, body가 비어 있게 됨.
-		if (is.emptyObject(req.body)) {
-			throw new Error(
-				'headers의 Content-Type을 application/json으로 설정해주세요',
-			);
-		}
+		// if (is.emptyObject(req.body)) {
+		// 	throw new Error(
+		// 		'headers의 Content-Type을 application/json으로 설정해주세요',
+		// 	);
+		// }
 
 		// params로부터 id를 가져옴
 		const email = req.params.email;
@@ -86,7 +86,6 @@ userRouter.get('/email/:email', loginRequired, async function (req, res, next) {
 	} catch (error) {
 		next(error);
 	}
-
 });
 
 // 전체 유저 목록을 가져옴 (배열 형태임)

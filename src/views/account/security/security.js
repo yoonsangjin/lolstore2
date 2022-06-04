@@ -66,9 +66,9 @@ async function getInfo() {
 			currentphoneNumber = data.phoneNumber,
 			currentAddress = data.address;
 		nameDisplay.innerHTML = currentFullName;
-		addressDisplay.innerHTML = currentphoneNumber;
-		phoneDisplay.innerHTML = currentAddress;
-		id = data.id;
+		addressDisplay.innerHTML = currentphoneNumber ? currentphoneNumber : '-';
+		phoneDisplay.innerHTML = currentAddress ? currentAddress : '-';
+		id = data._id;
 	} catch (err) {
 		console.error(err.stack);
 		alert(`오류가 발생했습니다: ${err.message}`);
@@ -122,9 +122,9 @@ async function setAddress() {
 }
 //번호 수정
 async function setPhone() {
-	const phone = newPhoneInput.value;
+	const phoneNumber = newPhoneInput.value;
 	try {
-		const send = { phone };
+		const send = { phoneNumber };
 		await Api.patch('/api/users', id, send);
 		location.reload();
 	} catch (err) {
