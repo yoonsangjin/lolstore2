@@ -1,8 +1,8 @@
 import mongoose from 'mongoose';
 
 const DB_URL =
-	'mongodb+srv://yoonsj:lC8h5lcHLJPPnsqY@cluster0.hebzm.mongodb.net/projectDB?appName=mongosh+1.4.2';
-// 'MongoDB 서버 주소가 설정되지 않았습니다.\n./db/index.ts 파일을 확인해 주세요. \n.env 파일도 필요합니다.\n';
+	process.env.MONGODB_URL ||
+	'mongodb+srv://Hakseong:1q2w3e4r@cluster0.hebzm.mongodb.net/test';
 
 mongoose.connect(DB_URL);
 const db = mongoose.connection;
@@ -10,6 +10,7 @@ const db = mongoose.connection;
 db.on('connected', () =>
 	console.log('정상적으로 MongoDB 서버에 연결되었습니다.  ' + DB_URL),
 );
+
 db.on('error', (error) =>
 	console.error('\nMongoDB 연결에 실패하였습니다...\n' + DB_URL + '\n' + error),
 );

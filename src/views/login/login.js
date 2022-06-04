@@ -45,7 +45,6 @@ async function handleSubmit(e) {
 		sessionStorage.setItem('token', token);
 		sessionStorage.setItem('email', email);
 		alert(`정상적으로 로그인되었습니다.`);
-
 		// 로그인 성공
 		// 기본 페이지로 이동
 		window.location.href = '/';
