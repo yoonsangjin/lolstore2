@@ -69,18 +69,23 @@ class UserService {
     const secretKey = process.env.JWT_SECRET_KEY || 'secret-key';
 
     // 2개 프로퍼티를 jwt 토큰에 담음
-    const token = jwt.sign({ userId: user._id, isAdmin: user.admin }, secretKey);
+    const token = jwt.sign(
+      { userId: user._id, isAdmin: user.admin },
+      secretKey
+    );
 
     return { token };
   }
   // Email로 유저 찾기 기능
-  async getUserByEmail() {
-    const user = await this.userModel.findByEmail();
+  async getUserByEmail(email) {
+    const user = await this.userModel.findByEmail(email);
+    return user;
   }
-  
+
   // Id로 유저 찾기 기능
-  async getUserById() {
-    const user = await this.userModel.findById();
+  async getUserById(userId) {
+    const user = await this.userModel.findById(userId);
+    return user;
   }
 
   // 사용자 목록을 받음.
@@ -138,6 +143,7 @@ class UserService {
   // 유저 삭제 기능 최소화, 추후 front API 형태에 맞춰 기능 추가할 예정임.
   async deleteUser(userId) {
     await this.userModel.delete(userId);
+    return;
   }
 }
 
@@ -167,8 +173,7 @@ class UserService {
 //     // 회원탈퇴
 //     user = await this.userModel.delete(userId);
 //   }
-// }
-
+// 
 
 const userService = new UserService(userModel);
 

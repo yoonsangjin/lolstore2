@@ -1,9 +1,4 @@
-// 아래는 현재 home.html 페이지에서 쓰이는 코드는 아닙니다.
-// 다만, 앞으로 ~.js 파일을 작성할 때 아래의 코드 구조를 참조할 수 있도록,
-// 코드 예시를 남겨 두었습니다.
-
 import * as Api from '/api.js';
-import { randomId } from '/useful-functions.js';
 
 // 테스트용 데이터
 const categoryWithProducts = [
@@ -135,7 +130,6 @@ function insertCategoryContents() {
 
     // Product 추가
     data.products.map((product) => {
-      console.log(product.id);
       // Category의 Product가 4개 출력되었다면 리턴
       if (productCount >= 4) {
         return;
