@@ -64,7 +64,7 @@ function showData() {
 			'afterend',
 			`<div class="colums order-item" id="order_${data._id}"> 
   <div class="column is-2">${data.createAt}</div>
-  <div class="column is-6" id="order-summary">${data.summary} / ${dat1a.amount}개</div>
+  <div class="column is-6" id="order-summary">${data.summary} / ${data.amount}개</div>
   <div class="column is-2">${data.state}</div>
   <div class="column is-2">
 	<button class="button" id="delBtn_${data._id}">주문 취소</button>
