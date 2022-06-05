@@ -69,7 +69,7 @@ function showData() {
   <div class="column is-2">
 	<button class="button" id="delBtn_${data._id}">주문 취소</button>
 	</div>
- 	</div>`,
+	</div>`,
 		);
 		// 주문취소 버튼 클릭시 이벤트
 		const cancelBtn = document.querySelector('.button');
