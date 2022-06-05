@@ -23,7 +23,7 @@ async function getUserInfo() {
     console.error(err);
   }
 }
-//삭제 버튼 클릭 시 
+// //삭제 버튼 클릭 시 
 // async function setDelUser(id) {
 //   try {
 //     await Api.delete(`/users/${id}`);
