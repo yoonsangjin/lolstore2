@@ -47,7 +47,7 @@ userRouter.post('/login', async function (req, res, next) {
 				'headers의 Content-Type을 application/json으로 설정해주세요',
 			);
 		}
-
+		
 		// req (request) 에서 데이터 가져오기
 		const email = req.body.email;
 		const password = req.body.password;
@@ -62,12 +62,28 @@ userRouter.post('/login', async function (req, res, next) {
 	}
 });
 
+userRouter.post('/kakao', async function (req, res, next) {
+	try {
+		// console.log(req.body);
+		// req (request) 에서 데이터 가져오기
+		const userId = req.body.userId;
+		const loginTypeCode = req.body.loginTypeCode;
+
+		// 로그인 진행 (로그인 성공 시 jwt 토큰을 프론트에 보내 줌)
+		const userToken = await userService.addKaKaoUser({ userId, loginTypeCode });
+
+		// jwt 토큰을 프론트에 보냄 (jwt 토큰은, 문자열임)
+		res.status(200).json(userToken);
+	} catch (error) {
+		next(error);
+	}
+})
+
 // Email 주소를 사용해 유저 정보 가져옴
 // 미들웨어로 loginRequired 를 썼음 (이로써, jwt 토큰이 없으면 사용 불가한 라우팅이 됨)
 
 userRouter.get('/email/:email', loginRequired, async function (req, res, next) {
 	try {
-
 		// params로부터 id를 가져옴
 		const email = req.params.email;
 
@@ -79,9 +95,7 @@ userRouter.get('/email/:email', loginRequired, async function (req, res, next) {
 	} catch (error) {
 		next(error);
 	}
-
 });
-
 
 // userId를 사용해 유저 정보 가져옴
 // 미들웨어로 loginRequired 를 썼음 (이로써, jwt 토큰이 없으면 사용 불가한 라우팅이 됨)
@@ -102,10 +116,9 @@ userRouter.get('/users/:userId', loginRequired, async function (req, res, next) 
 
 });
 
-
 // 전체 유저 목록을 가져옴 (배열 형태임)
 // 미들웨어로 loginRequired 를 썼음 (이로써, jwt 토큰이 없으면 사용 불가한 라우팅이 됨)
-userRouter.get('/userlist', adminConfirm,  async function (req, res, next) {
+userRouter.get('/userlist', adminConfirm, async function (req, res, next) {
 	try {
 		// 전체 사용자 목록을 얻음
 		const users = await userService.getUsers();
@@ -183,7 +196,6 @@ userRouter.delete(
 			// 	}
 			// }
 			await userService.deleteUser(userId);
-ㅇ
 			res.status(200).json('정상적으로 회원탈퇴 처리 되었습니다.');
 		} catch (error) {
 			next(error);

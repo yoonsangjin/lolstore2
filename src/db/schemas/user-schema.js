@@ -38,7 +38,7 @@ const UserSchema = new Schema(
     },
     loginTypeCode: { // 0 : signup user , 1 : kakao user
       type: Number,
-      required: false,
+      required: true,
       default: 0,
     },
   },

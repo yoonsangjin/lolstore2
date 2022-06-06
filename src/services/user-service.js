@@ -35,6 +35,15 @@ class UserService {
     return createdNewUser;
   }
 
+  async addKakaoUser(userInfo) {
+    // 객체 destructuring
+    const { userId, loginTypeCode } = userInfo;
+
+    // db에 저장
+    const createdNewUser = await this.userModel.create(userInfo);
+    return createdNewUser;
+  }
+
   // 로그인
   async getUserToken(loginInfo) {
     // 객체 destructuring
