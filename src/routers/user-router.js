@@ -179,17 +179,17 @@ userRouter.patch(
 
 userRouter.delete(
 	'/users/:userId',
-	loginRequired,
+	// loginRequired,
 	async function (req, res, next) {
 		try {
 			const userId = req.params.userId;
-
 			// 관리자 계정이 아니라면 유저 아이디 일치하는지 검증
-			if (!req.admin) {
-				if (req.currentUserId !== userId) {
-					throw new Error('삭제할 권한이 없습니다.');
-				}
-			}
+			// if (!req.admin) {
+			// 	if (req.currentUserId !== userId) {
+			// 		throw new Error('삭제할 권한이 없습니다.');
+			// 	}
+			// }
+			console.log(userId)
 			await userService.deleteUser(userId);
 
 			res.status(200).json('정상적으로 회원탈퇴 처리 되었습니다.');
