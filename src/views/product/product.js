@@ -51,7 +51,7 @@ async function insertProductContent() {
 		productPrice.textContent = `${productData.price.toLocaleString()}원`;
 
 		// 상품 설명
-		productContent.textContent = `${productData.inform}`;
+		productContent.textContent = `${productData.information}`;
 	} else {
 		producImageWrap.classList.add('nodata');
 		productDiv.classList.add('nodata');
