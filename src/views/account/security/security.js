@@ -16,7 +16,9 @@ const idChangeBtn = document.querySelector('#idChangeBtn'),
 	searchAdressBtn = document.querySelector('#searchAdressBtn'),
 	newIdInput = document.querySelector('#newIdInput'),
 	newPwInput = document.querySelector('#newPwInput'),
-	newAdressInput = document.querySelector('#newAdressInput'),
+	address1Input = document.querySelector('#address1'),
+	address2Input = document.querySelector('#address2'),
+	postalInput = document.querySelector('#postal'),
 	newPhoneInput = document.querySelector('#newPhoneInput'),
 	email = document.querySelector('#email'),
 	nameDisplay = document.querySelector('#currentId'),
@@ -63,11 +65,12 @@ async function getInfo() {
 	try {
 		const data = await Api.get(`/api/email/${sessionStorage.getItem('email')}`);
 		const currentFullName = data.fullName,
-			currentphoneNumber = data.phoneNumber,
-			currentAddress = data.address;
+			currentPhoneNumber = data.phoneNumber,
+			currentAddress = `(${data.address.postalCode}) ${data.address.address1} (${data.address.address2})`;
 		nameDisplay.innerHTML = currentFullName;
-		addressDisplay.innerHTML = currentphoneNumber ? currentphoneNumber : '-';
-		phoneDisplay.innerHTML = currentAddress ? currentAddress : '-';
+		nameDisplay.innerHTML = currentFullName;
+		addressDisplay.innerHTML = currentAddress ? currentAddress : '-';
+		phoneDisplay.innerHTML = currentPhoneNumber ? currentPhoneNumber : '-';
 		id = data._id;
 	} catch (err) {
 		console.error(err.stack);
@@ -89,10 +92,10 @@ async function setName() {
 }
 //비밀번호 수정
 async function setPassword() {
-	const newPassword = newPwInput.value,
+	const password = newPwInput.value,
 		passwordConfirm = newPwConfirm.value,
-		isPasswordValid = newPassword.length === 0 || newPassword.length >= 4,
-		isPasswordConfirm = newPassword === passwordConfirm;
+		isPasswordValid = password.length === 0 || password.length >= 4,
+		isPasswordConfirm = password === passwordConfirm;
 	if (!isPasswordValid) {
 		return alert('새로 변경하시는 비밀번호가 4글자 이상인지 확인해 주세요.');
 	}
@@ -100,9 +103,10 @@ async function setPassword() {
 		return alert('변경하시는 비밀번호와 비밀번호 확인이 일치 하지 않습니다.');
 	}
 	try {
-		const send = { newPassword };
+		const send = { password };
 		await Api.patch('/api/users', id, send);
 		location.reload();
+		alert;
 	} catch (err) {
 		console.error(err.stack);
 		alert(`${err.message}`);
@@ -110,9 +114,12 @@ async function setPassword() {
 }
 //주소 수정
 async function setAddress() {
-	const adress = newAdressInput.value;
+	const postalCode = postalInput.value;
+	const address1 = address1Input.value;
+	const address2 = address2Input.value;
 	try {
-		const send = { adress };
+		const address = { postalCode, address1, address2 };
+		const send = { address };
 		await Api.patch('/api/users', id, send);
 		location.reload();
 	} catch (err) {
