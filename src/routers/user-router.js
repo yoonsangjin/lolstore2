@@ -38,6 +38,28 @@ userRouter.post('/register', async (req, res, next) => {
 	}
 });
 
+
+userRouter.post('/kakao', async function (req, res, next) {
+	try {
+		// console.log(req.body);
+		// req (request) 에서 데이터 가져오기
+		const userId = req.body.userId;
+		const loginTypeCode = req.body.loginTypeCode;
+
+		// 로그인 진행 (로그인 성공 시 jwt 토큰을 프론트에 보내 줌)
+		const userToken = await userService.addKakaoUser({ 
+			userId, 
+			loginTypeCode 
+		});
+
+		// jwt 토큰을 프론트에 보냄 (jwt 토큰은, 문자열임)
+		res.status(200).json(userToken);
+	} catch (error) {
+		next(error);
+	}
+})
+
+
 // 로그인 api (아래는 /login 이지만, 실제로는 /api/login로 요청해야 함.)
 userRouter.post('/login', async function (req, res, next) {
 	try {
@@ -62,22 +84,6 @@ userRouter.post('/login', async function (req, res, next) {
 	}
 });
 
-userRouter.post('/kakao', async function (req, res, next) {
-	try {
-		// console.log(req.body);
-		// req (request) 에서 데이터 가져오기
-		const userId = req.body.userId;
-		const loginTypeCode = req.body.loginTypeCode;
-
-		// 로그인 진행 (로그인 성공 시 jwt 토큰을 프론트에 보내 줌)
-		const userToken = await userService.addKaKaoUser({ userId, loginTypeCode });
-
-		// jwt 토큰을 프론트에 보냄 (jwt 토큰은, 문자열임)
-		res.status(200).json(userToken);
-	} catch (error) {
-		next(error);
-	}
-})
 
 // Email 주소를 사용해 유저 정보 가져옴
 // 미들웨어로 loginRequired 를 썼음 (이로써, jwt 토큰이 없으면 사용 불가한 라우팅이 됨)

@@ -114,6 +114,7 @@ async function kakaoLogout() {
         url: '/v1/user/unlink',
         success: function (res) {
           console.log(res)
+		  alert(`정상적으로 로그아웃되었습니다.`);
         },
         fail: function (err) {
           console.log(err)
