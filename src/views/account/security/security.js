@@ -13,7 +13,7 @@ const idChangeBtn = document.querySelector('#idChangeBtn'),
 	addressCencelBtn = document.querySelector('#addressCencelBtn'),
 	phoneCencelBtn = document.querySelector('#phoneCencelBtn'),
 	newPwConfirm = document.querySelector('#newPwConfirm'),
-	searchAdressBtn = document.querySelector('#searchAdressBtn'),
+	daumApiBtn = document.querySelector('#searchAdressBtn'),
 	newIdInput = document.querySelector('#newIdInput'),
 	newPwInput = document.querySelector('#newPwInput'),
 	address1Input = document.querySelector('#address1'),
@@ -40,6 +40,7 @@ phoneCencelBtn.addEventListener('click', cencleSwitch);
 idCompleteBtn.addEventListener('click', setName);
 pwCompleteBtn.addEventListener('click', setPassword);
 addressCompleteBtn.addEventListener('click', setAddress);
+daumApiBtn.addEventListener('click', handleDaumApi);
 phoneCompleteBtn.addEventListener('click', setPhone);
 
 // 변경 입력 폼이 보이게
@@ -63,15 +64,18 @@ getInfo();
 let id;
 async function getInfo() {
 	try {
-		const data = await Api.get(`/api/email/${sessionStorage.getItem('email')}`);
+		const data = await Api.get(
+			`/api/users/${sessionStorage.getItem('userId')}`,
+		);
+		id = data._id;
 		const currentFullName = data.fullName,
 			currentPhoneNumber = data.phoneNumber,
-			currentAddress = `(${data.address.postalCode}) ${data.address.address1} (${data.address.address2})`;
+			currentAddress = data.address
+				? `(${data.address.postalCode}) ${data.address.address1} (${data.address.address2})`
+				: '-';
 		nameDisplay.innerHTML = currentFullName;
-		nameDisplay.innerHTML = currentFullName;
-		addressDisplay.innerHTML = currentAddress ? currentAddress : '-';
+		addressDisplay.innerHTML = currentAddress;
 		phoneDisplay.innerHTML = currentPhoneNumber ? currentPhoneNumber : '-';
-		id = data._id;
 	} catch (err) {
 		console.error(err.stack);
 		alert(`오류가 발생했습니다: ${err.message}`);
@@ -106,7 +110,7 @@ async function setPassword() {
 		const send = { password };
 		await Api.patch('/api/users', id, send);
 		location.reload();
-		alert;
+		alert('성공');
 	} catch (err) {
 		console.error(err.stack);
 		alert(`${err.message}`);
@@ -126,6 +130,28 @@ async function setAddress() {
 		console.error(err.stack);
 		alert(`${err.message}`);
 	}
+}
+// 다음 주소 api
+function handleDaumApi() {
+	new daum.Postcode({
+		oncomplete: function (data) {
+			let addr = '';
+
+			if (data.userSelectedType === 'R') {
+				// 사용자가 도로명 주소를 선택했을 경우
+				addr = data.roadAddress;
+			} else {
+				// 사용자가 지번 주소를 선택했을 경우(J)
+				addr = data.jibunAddress;
+			}
+
+			postalInput.value = data.zonecode;
+			address1Input.value = addr;
+
+			address2Input.value = '';
+			address2Input.focus();
+		},
+	}).open();
 }
 //번호 수정
 async function setPhone() {
