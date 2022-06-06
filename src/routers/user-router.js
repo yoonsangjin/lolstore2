@@ -67,13 +67,6 @@ userRouter.post('/login', async function (req, res, next) {
 
 userRouter.get('/email/:email', loginRequired, async function (req, res, next) {
 	try {
-		// content-type 을 application/json 로 프론트에서
-		// 설정 안 하고 요청하면, body가 비어 있게 됨.
-		if (is.emptyObject(req.body)) {
-			throw new Error(
-				'headers의 Content-Type을 application/json으로 설정해주세요',
-			);
-		}
 
 		// params로부터 id를 가져옴
 		const email = req.params.email;
@@ -95,14 +88,6 @@ userRouter.get('/email/:email', loginRequired, async function (req, res, next) {
 
 userRouter.get('/users/:userId', loginRequired, async function (req, res, next) {
 	try {
-		// content-type 을 application/json 로 프론트에서
-		// 설정 안 하고 요청하면, body가 비어 있게 됨.
-		if (is.emptyObject(req.body)) {
-			throw new Error(
-				'headers의 Content-Type을 application/json으로 설정해주세요',
-			);
-		}
-
 		// params로부터 id를 가져옴
 		const userId = req.params.userId;
 
@@ -139,14 +124,6 @@ userRouter.patch(
 	loginRequired,
 	async function (req, res, next) {
 		try {
-			// content-type 을 application/json 로 프론트에서
-			// 설정 안 하고 요청하면, body가 비어 있게 됨.
-			// if (is.emptyObject(req.body)) {
-			// 	throw new Error(
-			// 		'headers의 Content-Type을 application/json으로 설정해주세요',
-			// 	);
-			// }
-
 			// params로부터 id를 가져옴
 			const userId = req.params.userId;
 
@@ -206,7 +183,7 @@ userRouter.delete(
 			// 	}
 			// }
 			await userService.deleteUser(userId);
-
+ㅇ
 			res.status(200).json('정상적으로 회원탈퇴 처리 되었습니다.');
 		} catch (error) {
 			next(error);
