@@ -10,7 +10,7 @@ const modal = document.querySelector('.modal'),
 	modalBg = document.querySelector('.modal-background'),
 	modalbtn = document.querySelector('.modal-close'),
 	delCancelBtn = document.querySelector('#delCancelBtn'),
-	delCompleteBtn = document.querySelector('#delCompleteBtn');
+	delCompleteBtn = document.getElementById('delCompleteBtn');
 
 getUserInfo();
 // user 정보 목록 받아오기 api요청
@@ -21,25 +21,6 @@ async function getUserInfo() {
 		userCnt(userInfo); //총회원수, 관리자수, ouath가입자수 카운트
 	} catch (err) {
 		console.error(err);
-	}
-}
-// //삭제 버튼 클릭 시
-// async function setDelUser(id) {
-//   try {
-//     await Api.delete(`/users/${id}`);
-//   } catch(err) {
-//     console.error(err);
-//   }
-// }
-
-//select - option 변경시 카운트 값이 바뀌도록 함수 설정
-async function adminCntChange(sel) {
-	console.log('chang event');
-	const selectOption = Number(sel.value);
-	if (selectOption == 1) {
-		showCnt[1].innerText++;
-	} else if (selectOption == 0) {
-		showCnt[1].innerText--;
 	}
 }
 
@@ -75,37 +56,57 @@ function InputUser(item) {
     `,
 		);
 		const deleteBtn = document.querySelector('.deleteBtn');
-		deleteBtn.addEventListener('click', () => deleteUser(data._id));
+		deleteBtn.addEventListener('click', () => openModal(data._id));
+		const changeOption = document.querySelector('.select-user-type');
+		changeOption.addEventListener('change', () =>
+			optionChange(
+				changeOption.options[changeOption.selectedIndex].value,
+				data._id,
+			),
+		);
 	});
 }
 
-//회원 삭제 클릭 시 이벤트
-async function deleteUser(btnId) {
+//select - option 변경시 카운트 값이 바뀌도록 함수 설정
+async function optionChange(admin, id) {
+	try {
+		const adminStatus = { admin };
+		await Api.patch(`/api/users`, id, adminStatus);
+		//화면내에 관리자수 카운트
+		const selectOption = Number(admin);
+		if (selectOption === 1) {
+			showCnt[1].innerText++;
+		} else if (selectOption === 0) {
+			showCnt[1].innerText--;
+		}
+	} catch (err) {
+		console.error(err);
+	}
+}
+
+// 회원 삭제 버튼 클릭 시
+async function openModal(id) {
 	modal.classList.add('is-active');
-	delCompleteBtn.addEventListener('click', setDelete(btnId));
+	delCompleteBtn.addEventListener('click', () => setDelete(id));
 }
 
 //modal창에서 확인 시 회원 삭제
 async function setDelete(id) {
 	try {
 		await Api.delete(`/api/users/${id}`);
+		// 화면상에서 삭제 부분을 구현
+		const parent = document.querySelector(`#user${id}`);
+		const selectOption = Number(parent.childNodes[9].childNodes[1].value);
+		const oauther = parent.childNodes[5].childNodes[0].nodeValue;
+		if (selectOption === 1) {
+			showCnt[1].innerText--;
+		}
+		if (oauther === '소셜') {
+			showCnt[2].innerText--;
+		}
+		showCnt[0].innerText--;
+		parent.remove();
 		closeModal();
-		// window.location.href = '/admin/users'
-		// 화면상에서 삭제 부분을 구현 (ㅇ)
-    const parent = document.querySelector(`#${btnId}`).parentElement.parentElement;
-    parent.remove();
-    const selectOption = Number(parent.childNodes[0].childNodes[9].childNodes[1].value);
-    const oauther = parent.chilidNodes[0].childNodes[5].childNodes[0].nodeValue;
-    console.log(select)
-    if(sel == 1) {
-      element[1].innerText--;
-    }
-    if(oat == "소셜"){
-      element[2].innerText--;
-      console.log("소셜 삭제");
-    }
-    element[0].innerText--;
-  
 	} catch (err) {
 		console.error(err);
 	}
