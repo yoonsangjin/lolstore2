@@ -35,7 +35,6 @@ productRouter.get('/list', async (req, res, next) => {
 
 		// 상품들 정보를 프론트에 전달
 		res.status(200).json(products);
-		console.log('hi');
 	} catch (err) {
 		next(err);
 	}
@@ -53,7 +52,6 @@ productRouter.get('/detail/:product_id', async (req, res, next) => {
 
 		// 상품 데이터 프론트에 전달
 		res.status(200).json(product);
-		console.log('asdf');
 	} catch (err) {
 		next(err);
 	}
@@ -62,11 +60,11 @@ productRouter.get('/detail/:product_id', async (req, res, next) => {
 // 상품 추가
 productRouter.post(
 	'/add',
-	// adminConfirm,
+	adminConfirm,
 	upload.single('image'),
 	async (req, res, next) => {
 		try {
-			const { name, category, inform, price, storage, date, company } =
+			const { name, category, information, price, storage, date, company } =
 				req.body;
 			const image = req.file.path;
 			//////////////////// 입력값 빠졌는지 검사 //////////////////////////
@@ -79,7 +77,7 @@ productRouter.post(
 			if (category == '') {
 				throw new Error('상품 카테고리를 입력해주세요!');
 			}
-			if (inform == '') {
+			if (information == '') {
 				throw new Error('상품 설명을 입력해주세요!');
 			}
 			if (price == '') {
@@ -99,7 +97,7 @@ productRouter.post(
 				name,
 				category,
 				image,
-				inform,
+				information,
 				price,
 				storage,
 				date,
@@ -117,7 +115,6 @@ productRouter.post(
 
 			// 상품 모델이 생성되었음을 알리고 데이터를 프론트에 전달
 			res.status(201).json(newProductCategory);
-			console.log('상품 추가 완료');
 		} catch (err) {
 			next(err);
 		}
@@ -146,7 +143,6 @@ productRouter.delete(
 				.populate('category');
 
 			res.status(200).json(deleteProduct);
-			console.log('상품이 삭제되었습니다');
 		} catch (err) {
 			next(err);
 		}
@@ -165,7 +161,7 @@ productRouter.post(
 			const product_id = req.params.product_id;
 
 			//  상품 정보 수정하기 위해 값을 받아오기
-			const { name, category, inform, price, storage, date, company } =
+			const { name, category, information, price, storage, date, company } =
 				req.body;
 			const image = req.file.path;
 			// 입력값 빠졌는지 검사
@@ -178,7 +174,7 @@ productRouter.post(
 			if (image == '') {
 				throw new Error('상품 이미지를 업로드해주세요!');
 			}
-			if (inform == '') {
+			if (information == '') {
 				throw new Error('상품 설명을 입력해주세요!');
 			}
 			if (price == '') {
@@ -206,7 +202,7 @@ productRouter.post(
 			const updateProduct = await productModel
 				.findOneAndUpdate(
 					{ product_id },
-					{ name, category, image, inform, price, storage, date, company },
+					{ name, category, image, information, price, storage, date, company },
 				)
 				.populate('category');
 
@@ -221,7 +217,6 @@ productRouter.post(
 				.populate('products');
 
 			res.status(200).json(updateProduct);
-			console.log('상품 정보 수정이 완료되었습니다');
 		} catch (err) {
 			next(err);
 		}
