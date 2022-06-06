@@ -59,12 +59,12 @@ function inputUser(item) {
           <option value="1" ${data.admin ? `selected` : ``}> 관리자 </option>
         </select>
       </td>
-      <td><button class="deleteBtn" id="btn${data._id}">회원정보 삭제 </td>
+      <td><button class="deleteUserBtn" id="btn${data._id}">회원정보 삭제 </td>
     </tr>
     `,
 		);
-		const deleteBtn = document.querySelector('.deleteBtn');
-		deleteBtn.addEventListener('click', () => openModal(data._id));
+		const deleteUserBtn = document.querySelector('.deleteUserBtn');
+		deleteUserBtn.addEventListener('click', () => openModal(data._id));
 		const changeOption = document.querySelector('.select-user-type');
 		changeOption.addEventListener('change', () =>
 			optionChange(

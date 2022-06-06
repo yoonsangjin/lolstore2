@@ -22,7 +22,7 @@ orderRouter.post('/', adminConfirm, async (req, res, next) => {
 		let orderLists = req.body.orderList;
 		let data = orderLists[i];
 		console.log(data);
-		let orderList = await orderedProductModel.create(data);
+		let orderList = await orderedProductModel.create(data).populate('productId');
 		newOrder = await orderModel
 			.findOneAndUpdate(
 				{ userId },
@@ -47,8 +47,16 @@ orderRouter.get('/ownList', adminConfirm, async (req, res, next) => {
 });
 
 // 관리자용 주문 내역 조회
-orderRouter.get('/list', adminConfirm, async (req, res, next) => {
-	const findAllOrder = await orderModel.find({ deleteFlag: 0 });
+// orderRouter.get('/list', adminConfirm, async (req, res, next) => {
+// 	const findAllOrder = await orderModel.find({ deleteFlag: 0 });
+// 	res.status(200).json(findAllOrder);
+// });
+
+orderRouter.get('/list', async (req, res, next) => {
+	const findAllOrder = await orderModel
+		.find({ deleteFlag: 0 })
+		.populate('orderList')
+		.populate('userId')
 	res.status(200).json(findAllOrder);
 });
 
