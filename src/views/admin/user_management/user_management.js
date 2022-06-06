@@ -13,11 +13,12 @@ const modal = document.querySelector('.modal'),
 	delCompleteBtn = document.getElementById('delCompleteBtn');
 
 getUserInfo();
-// user 정보 목록 받아오기 api요청
+
+// users 정보 목록 받아오기 api요청
 async function getUserInfo() {
 	try {
 		const userInfo = await Api.get('/api/userlist');
-		InputUser(userInfo); //유저 목록 데이터 생성
+		inputUser(userInfo); //유저 목록 데이터 생성
 		userCnt(userInfo); //총회원수, 관리자수, ouath가입자수 카운트
 	} catch (err) {
 		console.error(err);
@@ -27,15 +28,22 @@ async function getUserInfo() {
 //날짜 포맷 설정 함수 (YYYY-MM-DD)
 function dateFormat(dateValue) {
 	const date = new Date(dateValue);
-	let year = date.getFullYear();
-	let month = ('0' + (1 + date.getMonth())).slice(-2);
-	let day = ('0' + date.getDate()).slice(-2);
-	return year + '-' + month + '-' + day;
+	const year = date.getFullYear();
+	const month = ('0' + (1 + date.getMonth())).slice(-2);
+	const day = ('0' + date.getDate()).slice(-2);
+	return `${year}-${month}-${day}`;
 }
 
 //getUserInfo 유저 정보를 불러와 목록으로 출력
-function InputUser(item) {
+function inputUser(item) {
 	const tbody = document.querySelector('#tbody');
+	// 해보기
+	// const tr = document.createElement('tr');
+	// tr.setAttribute('id', `user${data._id}`);
+	// const td = document.createElement('td');
+	// td.textContent = ${dateFormat(data.createdAt)}; appendChild로 붙여 넣기
+
+	//insertAdjacentHTML < createDOM PARSHING 속도가 빠름 
 	item.forEach((data) => {
 		tbody.insertAdjacentHTML(
 			'afterend',
