@@ -75,9 +75,9 @@ orderRouter.patch('/delivery', adminConfirm, async (req, res, next) => {
 
 // 주문 삭제
 orderRouter.patch('/deleteFlag', adminConfirm, async (req, res, next) => {
-	const { id, deleteFlag } = req.body;
+	const { _id, deleteFlag } = req.body;
 	const changedeleteFlag = await orderModel
-		.findOneAndUpdate({ _id: id }, { deleteFlag }, { new: true })
+		.findOneAndUpdate({ _id: _id }, { deleteFlag }, { new: true })
 		.populate('orderList');
 	res.status(200).json(changedeleteFlag);
 });

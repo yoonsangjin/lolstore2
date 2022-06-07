@@ -92,11 +92,11 @@ async function openModal(id) {
 }
 
 async function setDelete(id) {
-	await Api.patch('api/order/deleteFlag', { id: id, deleteflag: 1 });
-	const parent = document.querySelector(`#order${id}`)
-	console.log(parent);
+	await Api.patch('/api/order/deleteFlag', `?_id=${id}`, {deleteFlag : 1});
+	
+	const parent = document.querySelector(`#order${id}`);
 	parent.remove();
-	const selectOption = parent.childNodes[9].childNodes[1].value
+	const selectOption = parent.childNodes[9].childNodes[1].value;
 	if (selectOption == 0) {
 		showCnt[1].innerText--;
 	} else if (selectOption == 1) {
@@ -105,6 +105,7 @@ async function setDelete(id) {
 		showCnt[3].innerText--;
 	}
 	showCnt[0].innerText--;
+	closeModal();
 }
 
 async function setOption(id, option) {
