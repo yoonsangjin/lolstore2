@@ -37,8 +37,11 @@ class UserService {
 
   async addKakaoUser(userInfo) {
     // 객체 destructuring
-    const { userId, loginTypeCode } = userInfo;
-
+    if (email) {
+    const { fullName ,email, userId, loginTypeCode } = userInfo;
+    } else {
+      const { fullName, userId, loginTypeCode } = userInfo;
+    }
     // db에 저장
     const createdNewUser = await this.userModel.create(userInfo);
     return createdNewUser;

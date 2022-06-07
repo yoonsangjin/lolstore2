@@ -68,13 +68,15 @@ console.log(Kakao.isInitialized()); // sdk초기화여부판단
 async function kakaoLogin() {
 	Kakao.Auth.login({
       success: function (res) {
+		//   console.log(res);
+		  sessionStorage.setItem('token', res.id_token) 
         Kakao.API.request({
           url: '/v2/user/me',
           success: function (res) {
-            // console.log(JSON.stringify(res));
+			sessionStorage.setItem('email', res.kakao_account.email)
             sessionStorage.setItem('userId', res.id);
-			sessionStorage.setItem('loginTypeCode', 1);
-			// console.log(sessionStorage);
+			sessionStorage.setItem('fullName', res.properties.nickname);
+			console.log(sessionStorage);
           },
          fail: function (err) {
             console.log(err);
@@ -86,18 +88,19 @@ async function kakaoLogin() {
       },
     });
 
-	const userId = sessionStorage.userId;
-	const loginTypeCode = sessionStorage.loginTypeCode;
-
 	try {	
-		const data = { userId , loginTypeCode };
-		const result = await Api.post('/api/kakao', data);
-		console.log(result);
+		const token = sessionStorage.token;
+		const userId = sessionStorage.userId;
+		const fullName = sessionStorage.fullName;
+		const email = sessionStorage.email;
 
-		alert(`정상적으로 로그인되었습니다.`);
-		// 로그인 성공
-		// 기본 페이지로 이동
-		window.location.href = '/';
+		const data = { token, userId, fullName, email };
+		await Api.post('/api/kakao', data);
+
+		// alert(`정상적으로 로그인되었습니다.`);
+		// // 로그인 성공
+		// // 기본 페이지로 이동
+		// window.location.href = '/';
 		
 		
 	} catch (err) {
@@ -105,6 +108,8 @@ async function kakaoLogin() {
 		alert(`문제가 발생하였습니다. 확인 후 다시 시도해 주세요: ${err.message}`);
 	}
 
+
+	
 }
 
 //카카오로그아웃  
@@ -113,7 +118,7 @@ async function kakaoLogout() {
       Kakao.API.request({
         url: '/v1/user/unlink',
         success: function (res) {
-          console.log(res)
+        //   console.log(res)
 		  alert(`정상적으로 로그아웃되었습니다.`);
         },
         fail: function (err) {

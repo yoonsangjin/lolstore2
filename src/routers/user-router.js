@@ -41,17 +41,17 @@ userRouter.post('/register', async (req, res, next) => {
 
 userRouter.post('/kakao', async function (req, res, next) {
 	try {
-		// console.log(req.body);
-		// req (request) 에서 데이터 가져오기
+		const email = req.body.email;
 		const userId = req.body.userId;
 		const loginTypeCode = req.body.loginTypeCode;
-
+		const token = req.body.token;
 		// 로그인 진행 (로그인 성공 시 jwt 토큰을 프론트에 보내 줌)
+		
 		const userToken = await userService.addKakaoUser({ 
 			userId, 
 			loginTypeCode 
 		});
-
+		
 		// jwt 토큰을 프론트에 보냄 (jwt 토큰은, 문자열임)
 		res.status(200).json(userToken);
 	} catch (error) {
