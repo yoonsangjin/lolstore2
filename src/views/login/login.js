@@ -89,12 +89,12 @@ async function kakaoLogin() {
     });
 
 	try {	
-		const token = sessionStorage.token;
+		// const token = sessionStorage.token;
 		const userId = sessionStorage.userId;
 		const fullName = sessionStorage.fullName;
 		const email = sessionStorage.email;
 
-		const data = { token, userId, fullName, email };
+		const data = { userId, fullName, email };
 		await Api.post('/api/kakao', data);
 
 		// alert(`정상적으로 로그인되었습니다.`);
