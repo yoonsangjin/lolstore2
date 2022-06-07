@@ -1,28 +1,22 @@
 import * as Api from '../../api.js';
 
-//products list
-// const inputData = document.querySelector('#inputData');
-// const orderCancerBtn = document.getElementsByClassName('order-cancer');
+// top_cotainer
+const showCnt = document.getElementsByTagName('p');
 
-// // top_cotainer
-// const showCnt = document.getElementsByTagName('p');
-
-// 총주문 수
-// showCnt[0].innerText = testList.length;
 //modal 변수 선언
 const modal = document.querySelector('.modal'),
 	modalBg = document.querySelector('.modal-background'),
 	modalbtn = document.querySelector('.modal-close'),
 	delCancelBtn = document.querySelector('#delCancelBtn'),
-	delCompleteBtn = document.getElementById('delCompleteBtn');
+	delCompleteBtn = document.querySelector('#delCompleteBtn');
 
 getOrderInfo();
 // orders 목록 받아오기 api 요청
 async function getOrderInfo() {
 	try {
 		const orderInfo = await Api.get('/api/order/list');
-		console.log(orderInfo);
 		inputOrders(orderInfo);
+		orderCnt(orderInfo);
 	} catch (err) {
 		console.error(err);
 	}
@@ -44,15 +38,13 @@ async function inputOrders(item) {
 		tbody.insertAdjacentHTML(
 			'afterend',
 			`
-    <tr id="item${data._id}">
+    <tr id="order${data._id}">
       <td> ${dateFormat(data.createdAt)}</td>
 			<td> ${data.receiver}</td>
-      <td> ${data.orderList.productId} / ${data.orderList.volume}</td>
-      <td> ${data.receiver} 원</td>
+      <td id ="productList"></td>
+      <td id ="productTotalPrice"></td>
       <td>
-        <select class="select-product-state" id ="sel${
-					data._id
-				}">
+        <select class="select-product-state" id ="select${data._id}">
           <option value="0" ${
 						data.status == 0 ? `selected` : ``
 					}> 상품 준비중 </option>
@@ -68,10 +60,29 @@ async function inputOrders(item) {
     </tr>
     `,
 		);
-		const deleteOrderBtn = document.quertSelect('.deleteOrederBtn');
-		deleteOrderBtn.addEvenListener('click', () => openModal(data_id));
+		//삭제 버튼
+		const deleteOrderBtn = document.querySelector('.deleteOrderBtn');
+		deleteOrderBtn.addEventListener('click', () => openModal(data._id));
+		// 주문 정보, 주문 총액
+		const inputOrderData = document.querySelector('#productList');
+		const productTotalPrice = document.querySelector('#productTotalPrice');
+		let totalPrice = 0;
+		for (let i = 0; i < data.orderList.length; i++) {
+			inputOrderData.innerHTML += `${data.orderList[i].productId.name} / ${data.orderList[i].volume}개 <br>`;
+			totalPrice += Number(
+				data.orderList[i].productId.price * data.orderList[i].volume,
+			);
+		}
+
+		productTotalPrice.innerText = `${totalPrice.toLocaleString('ko-KR')}원`;
+
 		const selectChangeOption = document.querySelector('.select-product-state');
-		selectChangeOption.addEventListener('change', )
+		selectChangeOption.addEventListener('change', () =>
+			setOption(
+				data._id,
+				selectChangeOption.options[selectChangeOption.selectedIndex].value,
+			),
+		);
 	});
 }
 
@@ -80,63 +91,51 @@ async function openModal(id) {
 	delCompleteBtn.addEventListener('click', () => setDelete(id));
 }
 
-//modal창에서 확인 시 회원 삭제
 async function setDelete(id) {
+	await Api.patch('api/order/deleteFlag', { id: id, deleteflag: 1 });
+	const parent = document.querySelector(`#order${id}`)
+	console.log(parent);
+	parent.remove();
+	const selectOption = parent.childNodes[9].childNodes[1].value
+	if (selectOption == 0) {
+		showCnt[1].innerText--;
+	} else if (selectOption == 1) {
+		showCnt[2].innerText--;
+	} else if (selectOption == 2) {
+		showCnt[3].innerText--;
+	}
+	showCnt[0].innerText--;
+}
+
+async function setOption(id, option) {
 	try {
-		await Api.delete('/api/order', id, 1);
-		// 화면상에서 삭제 부분을 구현
-		closeModal();
+		await Api.patch(`/api/order/delivery`, `?orderId=${id}`, {
+			status: option,
+		});
+		location.reload();
 	} catch (err) {
 		console.error(err);
 	}
 }
 
-// function deleteOrder(btnId) {
-// 	const parent = document.querySelector(`#btn${btnId}`).parentElement
-// 		.parentElement;
-// 	parent.remove();
-// 	const sel = Number(parent.childNodes[7].childNodes[1].value);
-// 	if (sel == 0) {
-// 		showCnt[1].innerText--;
-// 	} else if (sel == 1) {
-// 		showCnt[2].innerText--;
-// 	} else if (sel == 2) {
-// 		showCnt[3].innerText--;
-// 	}
-// 	showCnt[0].innerText--;
-// }
-
-// // 처음 화면 시 value 값 표시
-// function productCnt() {
-// 	let ready_cnt = 0;
-// 	let going_cnt = 0;
-// 	let success_cnt = 0;
-// 	let status = document.getElementsByClassName('select-product-state');
-// 	for (let i = 0; i < testList.length; i++) {
-// 		if (status[i].selectedIndex === 0) {
-// 			ready_cnt++;
-// 		} else if (status[i].selectedIndex === 1) {
-// 			going_cnt++;
-// 		} else if (status[i].selectedIndex === 2) {
-// 			success_cnt++;
-// 		}
-// 	}
-// 	showCnt[1].innerText = ready_cnt;
-// 	showCnt[2].innerText = going_cnt;
-// 	showCnt[3].innerText = success_cnt;
-// }
-
-// //select - option 변경 시 카운트 값이 바뀌도록 함수 설정
-// function productCntChange(sel) {
-// 	const selectOption = Number(sel.value);
-// 	if (selectOption == 0) {
-// 		showCnt[1].innerText++;
-// 	} else if (selectOption == 1) {
-// 		showCnt[2].innerText++;
-// 	} else if (selectOption == 2) {
-// 		showCnt[3].innerText++;
-// 	}
-// }
+async function orderCnt(item) {
+	let readyCnt = 0;
+	let goingCnt = 0;
+	let successCnt = 0;
+	item.forEach((data) => {
+		if (data.status == 0) {
+			readyCnt++;
+		} else if (data.status == 1) {
+			goingCnt++;
+		} else if (data.status == 2) {
+			successCnt++;
+		}
+	});
+	showCnt[0].innerText = item.length;
+	showCnt[1].innerText = readyCnt;
+	showCnt[2].innerText = goingCnt;
+	showCnt[3].innerText = successCnt;
+}
 
 //modal btn event
 modalBg.addEventListener('click', closeModal);
