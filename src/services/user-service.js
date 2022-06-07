@@ -37,24 +37,19 @@ class UserService {
 
   async addKakaoUser(userInfo) {
     // 객체 destructuring
-    if (!email) {
-    const { fullName, email, userId, loginTypeCode } = userInfo;
+
+    const { fullName, email, loginTypeCode } = userInfo;
     
     // db에 저장
     const createdNewUser = await this.userModel.create(userInfo);
-    return createdNewUser;
     
-    }
-
+    // 토큰 생성
     const secretKey = process.env.JWT_SECRET_KEY || 'secret-key';
-
-    // 2개 프로퍼티를 jwt 토큰에 담음
     const token = jwt.sign(
-      { userId, isAdmin: user.admin },
+      { fullName, email, loginTypeCode, userInfoRequired: createdNewUser._id, isAdmin: createdNewUser.admin },
       secretKey
     );
-
-    return { token };
+    return { token , createdNewUser };
 
   }
 

@@ -66,50 +66,35 @@ Kakao.init('e81149e34fc805f464419e5d213d69ee'); //발급받은 키 중 javascrip
 console.log(Kakao.isInitialized()); // sdk초기화여부판단
 //카카오로그인
 async function kakaoLogin() {
-	Kakao.Auth.login({
-      success: function (res) {
-		//   console.log(res);
-		  sessionStorage.setItem('token', res.id_token) 
-        Kakao.API.request({
-          url: '/v2/user/me',
-          success: function (res) {
-			sessionStorage.setItem('email', res.kakao_account.email)
-            sessionStorage.setItem('userId', res.id);
-			sessionStorage.setItem('fullName', res.properties.nickname);
-			console.log(sessionStorage);
-          },
-         fail: function (err) {
-            console.log(err);
-          },
-        })
-      },
-      fail: function (err) {
-                console.log(err);
-      },
-    });
+	try {
+		Kakao.Auth.login({
+      		success: function (res) {
+				// console.log(res);
+        		Kakao.API.request({
+         			url: '/v2/user/me',
+          			success: async function (res) {
+						const fullName = res.properties.nickname;
+						const email = res.kakao_account.email;
+						const data = { fullName, email };
 
-	try {	
-		// const token = sessionStorage.token;
-		const userId = sessionStorage.userId;
-		const fullName = sessionStorage.fullName;
-		const email = sessionStorage.email;
+						const result = await Api.post('/api/kakao', data);
+						const token = result.token;
 
-		const data = { userId, fullName, email };
-		await Api.post('/api/kakao', data);
-
-		// alert(`정상적으로 로그인되었습니다.`);
-		// // 로그인 성공
-		// // 기본 페이지로 이동
-		// window.location.href = '/';
-		
-		
-	} catch (err) {
-		console.error(err.stack);
-		alert(`문제가 발생하였습니다. 확인 후 다시 시도해 주세요: ${err.message}`);
-	}
-
-
-	
+						sessionStorage.setItem('token', token);
+						sessionStorage.setItem('email', email);
+						console.log(sessionStorage);
+						alert(`정상적으로 로그인되었습니다.`);
+						// 로그인 성공
+						// 기본 페이지로 이동
+						window.location.href = '/';
+					}
+				});
+			}
+		});	
+		} catch (err) {
+				console.error(err.stack);
+				alert(`문제가 발생하였습니다. 확인 후 다시 시도해 주세요: ${err.message}`);
+		}
 }
 
 //카카오로그아웃  

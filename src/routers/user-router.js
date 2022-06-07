@@ -38,20 +38,24 @@ userRouter.post('/register', async (req, res, next) => {
 	}
 });
 
-
+// 카카오 로그인 시 회원가입 & 로그인 구현
 userRouter.post('/kakao', async function (req, res, next) {
 	try {
+		// header type json check
+		if (is.emptyObject(req.body)) {
+			throw new Error(
+				'headers의 Content-Type을 application/json으로 설정해주세요',
+			);
+		}
+		const fullName = req.body.fullName;
 		const email = req.body.email;
-		const userId = req.body.userId;
 		const loginTypeCode = 1;
 		// 로그인 진행 (로그인 성공 시 jwt 토큰을 프론트에 보내 줌)
-		
 		const userToken = await userService.addKakaoUser({ 
+			fullName,
 			email,
-			userId, 
 			loginTypeCode,
 		});
-		
 		// jwt 토큰을 프론트에 보냄 (jwt 토큰은, 문자열임)
 		res.status(200).json(userToken);
 	} catch (error) {
