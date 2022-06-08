@@ -24,6 +24,7 @@ const idChangeBtn = document.querySelector('#idChangeBtn'),
 	nameDisplay = document.querySelector('#currentId'),
 	addressDisplay = document.querySelector('#currentAddress'),
 	phoneDisplay = document.querySelector('#currentPhone');
+
 let id;
 email.textContent = `(${sessionStorage.getItem('email')})`;
 //유저 정보 받아오기

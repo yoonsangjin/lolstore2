@@ -1,4 +1,5 @@
 import { get as Api } from '/api.js';
+import { nav } from '/nav.js';
 
 const ordersContainer = document.querySelector('.orders-container'),
 	modal = document.querySelector('.modal'),
@@ -10,8 +11,9 @@ modalBg.addEventListener('click', closeModal);
 modalBtn.addEventListener('click', closeModal);
 delCencelBtn.addEventListener('click', closeModal);
 
+//네비게이션 바 생성
+nav();
 //테스트 데이터
-
 const userData = [
 	{
 		_id: 1,
