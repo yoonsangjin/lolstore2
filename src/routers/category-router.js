@@ -5,7 +5,7 @@ import { loginRequired, adminConfirm } from '../middlewares';
 import { categoryModel } from '../db/models/category-model.js';
 
 // 카테고리 추가
-categoryRouter.post('/', adminConfirm, async (req, res, next) => {
+categoryRouter.post('/', async (req, res, next) => {
 	try {
 		const { name } = req.body;
 		if (await categoryModel.findOne({ name })) {
@@ -19,7 +19,7 @@ categoryRouter.post('/', adminConfirm, async (req, res, next) => {
 });
 
 // 카테고리 수정
-categoryRouter.patch('/:name', async (req, res, next) => {
+categoryRouter.patch('/:name', adminConfirm, async (req, res, next) => {
 	const name = req.params.name;
 	const { newName } = req.body;
 
