@@ -72,55 +72,47 @@
 		</nav>
 		<!-- category form -->
 		<div class="container">
-			<form id="form">
-				<div id="topFont">카테고리 추가하기</div>
-				<div class="field">
-					<label class="label" for="categoryName">카테고리 이름</label>
-					<div class="control">
-						<input
-							class="input"
-							id="categoryName"
-							type="text"
-							placeholder="Men Clothes"
-						/>
-					</div>
+			<div id="topFont">카테고리 추가하기</div>
+			<div class="field">
+				<label class="label" for="categoryName">카테고리 이름</label>
+				<div class="control">
+					<input
+						class="input"
+						id="categoryName"
+						type="text"
+						placeholder="Men Clothes"
+					/>
 				</div>
+			</div>
 
-				<div class="field">
-					<div class="control">
-						<input
-							type="button"
-							id="categoryUploadBtn"
-							class="btn btn-primary"
-							value="추가하기"
-						/>
-					</div>
+			<div class="field">
+				<div class="control">
+					<input
+						type="button"
+						id="categoryUploadBtn"
+						class="btn btn-primary"
+						value="추가하기"
+					/>
 				</div>
+			</div>
 
-				<div id="topFont">카테고리 삭제하기</div>
-				<div class="field">
-					<label class="label" for="categorySelect">카테고리</label>
-					<div class="control">
-						<div class="select">
-							<select id="categorySelectBox">
-								<option value="">카테고리를 선택해 주세요</option>
-							</select>
-						</div>
-					</div>
-				</div>
-
-				<div class="field">
-					<div class="control">
-						<input
-							type="button"
-							id="categoryDeleteBtn"
-							class="btn btn-primary"
-							value="삭제하기"
-						/>
-					</div>
-				</div>
-			</form>
+			<div id="topFont">카테고리 삭제하기</div>
+			<div class="field">
+				<table id="table" class="table">
+					<tr>
+						<thead>
+							<td>생성 일자</td>
+							<td>카테고리 명</td>
+							<td>삭제</td>
+							<td>수정</td>
+						</thead>
+						<tbody id="tbody"></tbody>
+					</tr>
+				</table>
+			</div>
 		</div>
+
+		
 	</body>
 	<!--category.js 연결-->
 	<script type="module" src="./category.js" defer></script>

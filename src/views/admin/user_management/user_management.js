@@ -1,6 +1,4 @@
 import * as Api from '../../api.js';
-//user status change
-const selectChange = document.querySelector('.select-user-type');
 
 //top cotainer
 const showCnt = document.getElementsByTagName('p');

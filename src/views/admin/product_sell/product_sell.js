@@ -22,8 +22,7 @@ async function handleSubmit(e) {
 		e.preventDefault();
 		const name = productName.value;
 		const category = categorySelectBox.value;
-		const img = productImg.value;
-		const maker = makerName.value;
+		const img = productImg.files[0];
 		const info = productInfo.value;
 		const storage = productCntInfo.value;
 		const price = productPrice.value;
@@ -79,4 +78,3 @@ function setSelectOption(item) {
 		categorySelectBox.appendChild(option);
 	});
 }
-

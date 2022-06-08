@@ -8,7 +8,6 @@ import { categoryModel } from '../db/models/category-model.js';
 categoryRouter.post('/', adminConfirm, async (req, res, next) => {
 	try {
 		const { name } = req.body;
-
 		if (await categoryModel.findOne({ name })) {
 			throw new Error('이미 존재하는 카테고리입니다.');
 		}
@@ -44,7 +43,6 @@ categoryRouter.delete('/', adminConfirm, async (req, res, next) => {
 		next(err);
 	}
 });
-
 
 // 카테고리 전체받기
 categoryRouter.get('/list', adminConfirm, async (req, res, next) => {
