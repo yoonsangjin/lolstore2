@@ -48,7 +48,7 @@ class UserService {
       // 토큰 생성
       const secretKey = process.env.JWT_SECRET_KEY || 'secret-key';
       const token = jwt.sign(
-      { fullName, email, loginTypeCode, userInfoRequired: createdNewUser._id, isAdmin: createdNewUser.admin },
+      { fullName, email, loginTypeCode, userId: createdNewUser._id, isAdmin: createdNewUser.admin },
       secretKey
     );
     return { token , createdNewUser };
@@ -56,7 +56,7 @@ class UserService {
     // email이 존재하면 db의 정보를 통해 토큰 생성
     const secretKey = process.env.JWT_SECRET_KEY || 'secret-key';
     const token = jwt.sign(
-      { fullName, email, loginTypeCode, userInfoRequired: user._id, isAdmin: user.admin },
+      { fullName, email, loginTypeCode, userId: user._id, isAdmin: user.admin },
       secretKey
     );
     return { token , user };

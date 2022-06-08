@@ -73,7 +73,6 @@ userRouter.post('/login', async function (req, res, next) {
 				'headers의 Content-Type을 application/json으로 설정해주세요',
 			);
 		}
-		
 		// req (request) 에서 데이터 가져오기
 		const email = req.body.email;
 		const password = req.body.password;
