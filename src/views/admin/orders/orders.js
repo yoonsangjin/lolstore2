@@ -91,10 +91,9 @@ async function openModal(id) {
 	delCompleteBtn.addEventListener('click', () => setDelete(id));
 }
 
-async function setDelete(id) {
-	await Api.patch('/api/order/deleteFlag', `?_id=${id}`, {deleteFlag : 1});
-	
-	const parent = document.querySelector(`#order${id}`);
+async function setDelete(_id) {
+	await Api.patch('/api/order/deleteFlag', _id);
+	const parent = document.querySelector(`#order${_id}`);
 	parent.remove();
 	const selectOption = parent.childNodes[9].childNodes[1].value;
 	if (selectOption == 0) {
