@@ -6,14 +6,19 @@ const category = document.querySelector('#categoryName'),
 	categoryDeleteBtn = document.querySelector('#categoryDeleteBtn'),
 	categorySelectBox = document.querySelector('#categorySelectBox');
 
-//common modal
-const modal = document.querySelector('.modal'),
-	modalBg = document.querySelector('.modal-background'),
-	modalbtn = document.querySelector('.modal-close');
-
-// deletee modal
-const delCancelBtn = document.querySelector('#delCancelBtn'),
+const modal = document.querySelectorAll('.modal'),
+	delModalBg = document.querySelector('#deleteModalBack'),
+	delModalbtn = document.querySelector('#deleteModalClose'),
+	delCancelBtn = document.querySelector('#delCancelBtn'),
 	delCompleteBtn = document.querySelector('#delCompleteBtn');
+
+function dateFormat(dateValue) {
+	const date = new Date(dateValue);
+	const year = date.getFullYear();
+	const month = ('0' + (1 + date.getMonth())).slice(-2);
+	const day = ('0' + date.getDate()).slice(-2);
+	return `${year}-${month}-${day}`;
+}
 
 getOption();
 categoryUploadBtn.addEventListener('click', setCategory);
@@ -30,16 +35,6 @@ async function setCategory(e) {
 	}
 }
 
-async function deleteCategory() {
-	try {
-		const name = categorySelectBox.value;
-		const selectValue = { name };
-		await Api.delete('/api', 'category', selectValue);
-	} catch (err) {
-		console.error(err);
-	}
-}
-
 async function getOption() {
 	try {
 		const allCategory = await Api.get('/api/category/list');
@@ -49,20 +44,11 @@ async function getOption() {
 	}
 }
 
-// function setSelectOption(item) {
-// 	item.forEach((data) => {
-// 		const option = document.createElement('option');
-// 		option.setAttribute('value', data.name);
-// 		option.textContent = data.name;
-// 		categorySelectBox.appendChild(option);
-// 	});
-// }
-
 function setCategoryList(item) {
 	const tbody = document.querySelector('#tbody');
 	item.forEach((data) => {
 		const tr = document.createElement('tr');
-		tr.setAttribute('id', `cartegory${data.id}`);
+		tr.setAttribute('id', `category${data._id}`);
 
 		const td1 = document.createElement('td');
 		td1.textContent = dateFormat(data.createdAt);
@@ -92,20 +78,51 @@ function setCategoryList(item) {
 		tr.appendChild(td4);
 		tbody.appendChild(tr);
 
-		const delBtn = document.querySelector('.del-button');
-		delBtn.addEventListener('click', () => openDelModal(this));
+		const delBtn = document.querySelector(`#delBtn${data._id}`);
+		delBtn.addEventListener('click', () => openDelModal(data.name, data._id));
 
+		const upBtn = document.querySelector(`#upBtn${data._id}`);
+		upBtn.addEventListener('click', () => openUpModal(data._id));
 	});
 }
 
-function openDelModal(id) {
-	console.log('hi')
+function openDelModal(name, id) {
+	modal[0].classList.add('is-active');
+	delCompleteBtn.addEventListener('click', () => setDelete(name, id));
 }
 
-function dateFormat(dateValue) {
-	const date = new Date(dateValue);
-	const year = date.getFullYear();
-	const month = ('0' + (1 + date.getMonth())).slice(-2);
-	const day = ('0' + date.getDate()).slice(-2);
-	return `${year}-${month}-${day}`;
+async function setDelete(name, id) {
+	try {
+		const sendName = { name };
+		await Api.delete('/api', 'category', sendName);
+		const parent = document.getElementById(`category${id}`);
+		parent.remove();
+		modal[0].classList.remove('is-active');
+	} catch (err) {
+		console.error(err);
+	}
+}
+
+function openUpModal(id) {
+	console.log(id);
+}
+
+//카테고리 삭제
+async function deleteCategory() {
+	try {
+		const name = categorySelectBox.value;
+		const selectValue = { name };
+		await Api.delete('/api', 'category', selectValue);
+	} catch (err) {
+		console.error(err);
+	}
+}
+
+//modal btn event
+delModalBg.addEventListener('click', closeDelModal);
+delModalbtn.addEventListener('click', closeDelModal);
+delCancelBtn.addEventListener('click', closeDelModal);
+
+function closeDelModal() {
+	modal[0].classList.remove('is-active');
 }
