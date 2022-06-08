@@ -33,7 +33,7 @@ productRouter.get('/list', async (req, res, next) => {
 		// 상품 전체 검색
 		const products = await productModel
 			// .find({ category, deleteFlag: 0 })
-			.find({ $or: [{ category }, { deleteFlag: 0 }] })
+			.find({ category })
 			.populate('category');
 
 		// 상품들 정보를 프론트에 전달
