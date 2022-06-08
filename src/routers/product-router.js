@@ -8,6 +8,14 @@ import { productModel } from '../db/models/product-model.js';
 import { categoryModel } from '../db/models/category-model.js';
 
 import multer from 'multer';
+const fs = require('fs');
+// uploads 폴더 생성
+try {
+    fs.accessSync('uploads');
+} catch (error) {
+    fs.mkdirSync('uploads');
+}
+
 //multer 의 diskStorage를 정의
 const storage = multer.diskStorage({
 	//경로 설정
@@ -32,8 +40,7 @@ productRouter.get('/list', async (req, res, next) => {
 		const { category } = req.query;
 		// 상품 전체 검색
 		const products = await productModel
-			// .find({ category, deleteFlag: 0 })
-			.find({ category })
+			.find({ category, deleteFlag: 0 })
 			.populate('category');
 
 		// 상품들 정보를 프론트에 전달
@@ -76,70 +83,64 @@ productRouter.get('/information', async (req, res, next) => {
 	}
 });
 
-
 // 상품 추가
-productRouter.post(
-	'/',
-	adminConfirm,
-	upload.single('image'),
-	async (req, res, next) => {
-		try {
-			const { name, category, information, price, storage, date, company } =
-				req.body;
-			const image = req.file.path;
-			////////////////// 입력값 빠졌는지 검사 //////////////////////////
-			if (name == '') {
-				throw new Error('상품 이름을 입력해주세요!');
-			}
-			if (image == '') {
-				throw new Error('상품 이미지를 업로드해주세요!');
-			}
-			if (category == '') {
-				throw new Error('상품 카테고리를 입력해주세요!');
-			}
-			if (information == '') {
-				throw new Error('상품 설명을 입력해주세요!');
-			}
-			if (price == '') {
-				throw new Error('상품 가격을 입력해주세요!');
-			}
-			if (storage == '') {
-				throw new Error('상품 재고를 입력해주세요!');
-			}
-			if (date == '') {
-				throw new Error('상품 출시 날짜를 입력해주세요!');
-			}
-			if (company == '') {
-				throw new Error('상품 제조사를 입력해주세요!');
-			}
-
-			const newProductCategory = await productModel.create({
-				name,
-				category,
-				image,
-				information,
-				price,
-				storage,
-				date,
-				company,
-			});
-
-			// 카테고리 모델에 상품 모델 추가
-			const thisCategory = await categoryModel
-				.findOneAndUpdate(
-					{ _id: category },
-					{ $push: { products: newProductCategory } },
-					{ new: true },
-				)
-				.populate('products');
-
-			// 상품 모델이 생성되었음을 알리고 데이터를 프론트에 전달
-			res.status(201).json(newProductCategory);
-		} catch (err) {
-			next(err);
+productRouter.post('/', upload.single('image'), async (req, res, next) => {
+	try {
+		const { name, category, information, price, storage, date, company } =
+			req.body;
+		const image = req.file.path;
+		//////////////////// 입력값 빠졌는지 검사 //////////////////////////
+		if (name == '') {
+			throw new Error('상품 이름을 입력해주세요!');
 		}
-	},
-);
+		if (image == '') {
+			throw new Error('상품 이미지를 업로드해주세요!');
+		}
+		if (category == '') {
+			throw new Error('상품 카테고리를 입력해주세요!');
+		}
+		if (information == '') {
+			throw new Error('상품 설명을 입력해주세요!');
+		}
+		if (price == '') {
+			throw new Error('상품 가격을 입력해주세요!');
+		}
+		if (storage == '') {
+			throw new Error('상품 재고를 입력해주세요!');
+		}
+		if (date == '') {
+			throw new Error('상품 출시 날짜를 입력해주세요!');
+		}
+		if (company == '') {
+			throw new Error('상품 제조사를 입력해주세요!');
+		}
+
+		const newProductCategory = await productModel.create({
+			name,
+			category,
+			image,
+			information,
+			price,
+			storage,
+			date,
+			company,
+		});
+
+		// 카테고리 모델에 상품 모델 추가
+		const thisCategory = await categoryModel
+			.findOneAndUpdate(
+				{ _id: category },
+				{ $push: { products: newProductCategory } },
+				{ new: true },
+			)
+			.populate('products');
+
+		// 상품 모델이 생성되었음을 알리고 데이터를 프론트에 전달
+		res.status(201).json(newProductCategory);
+	} catch (err) {
+		next(err);
+	}
+});
 
 // 상품 삭제
 productRouter.delete(
