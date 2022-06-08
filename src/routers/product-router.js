@@ -47,7 +47,7 @@ productRouter.get('/detail/:product_id', async (req, res, next) => {
 		const product_id = req.params.product_id;
 		// product_id로 상품 하나 찾기
 		const product = await productModel
-			.find({ product_id })
+			.findOne({ product_id })
 			.populate('category');
 
 		// 상품 데이터 프론트에 전달
@@ -57,6 +57,22 @@ productRouter.get('/detail/:product_id', async (req, res, next) => {
 	}
 });
 
+// 상품 여러개 보기
+productRouter.get('/information', async (req, res, next) => {
+	try {
+		// product/detail/6
+		const product_id = req.params.product_id;
+		// product_id로 상품 하나 찾기
+		const product = await productModel
+			.findOne({ product_id })
+			.populate('category');
+
+		// 상품 데이터 프론트에 전달
+		res.status(200).json(product);
+	} catch (err) {
+		next(err);
+	}
+});
 // 상품 추가
 productRouter.post(
 	'/add',

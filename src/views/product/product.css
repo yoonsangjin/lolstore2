@@ -59,18 +59,54 @@
 	margin-top: 2rem;
 }
 
-.btn-add-cart {
-	width: 45%;
+.product-count {
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+	margin-bottom: 2rem;
+}
+
+.product-count-label {
+	font-size: 1.2rem;
+	font-weight: bold;
+	margin-right: 1rem;
+}
+
+/* number input style 초기화 */
+input[type='number']::-webkit-outer-spin-button,
+input[type='number']::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+}
+/* 파이어폭스 */
+input[type='number'] {
+	-moz-appearance: textfield;
+}
+
+.input-product-count {
+	width: 3rem;
+	text-align: center;
+}
+
+.buttons {
+	width: 100%;
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+}
+
+.btn-cart {
 	height: 4rem;
 	background-color: lightyellow;
 	font-size: 1.2rem;
 	font-weight: bold;
+	margin: 0;
 }
 
 .btn-buy {
-	width: 45%;
 	height: 4rem;
 	background-color: lightblue;
 	font-size: 1.2rem;
 	font-weight: bold;
+	margin: 0;
 }
