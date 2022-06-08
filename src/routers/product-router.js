@@ -9,7 +9,7 @@ import { categoryModel } from '../db/models/category-model.js';
 
 import multer from 'multer';
 //multer 의 diskStorage를 정의
-var storage = multer.diskStorage({
+const storage = multer.diskStorage({
 	//경로 설정
 	destination: function (req, file, cb) {
 		cb(null, 'uploads/');
@@ -22,7 +22,7 @@ var storage = multer.diskStorage({
 	},
 });
 
-var upload = multer({ storage: storage });
+const upload = multer({ storage: storage });
 
 // 상품 전체 보기 (카테고리별)
 

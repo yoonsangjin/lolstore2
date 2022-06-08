@@ -77,9 +77,10 @@ userRouter.post('/login', async function (req, res, next) {
 		// req (request) 에서 데이터 가져오기
 		const email = req.body.email;
 		const password = req.body.password;
+		const isAdmin = req.body.admin;
 
 		// 로그인 진행 (로그인 성공 시 jwt 토큰을 프론트에 보내 줌)
-		const userToken = await userService.getUserToken({ email, password });
+		const userToken = await userService.getUserToken({ email, password, isAdmin });
 
 		// jwt 토큰을 프론트에 보냄 (jwt 토큰은, 문자열임)
 		res.status(200).json(userToken);
@@ -99,7 +100,6 @@ userRouter.get('/email/:email', loginRequired, async function (req, res, next) {
 
 		// email을 통해 사용자 정보를 얻음
 		const user = await userService.getUserByEmail(email);
-
 		// 사용자 목록(배열)을 JSON 형태로 프론트에 보냄
 		res.status(200).json(user);
 	} catch (error) {
@@ -114,10 +114,8 @@ userRouter.get('/users/:userId', loginRequired, async function (req, res, next) 
 	try {
 		// params로부터 id를 가져옴
 		const userId = req.params.userId;
-
 		// email을 통해 사용자 정보를 얻음
 		const user = await userService.getUserById(userId);
-
 		// 사용자 목록(배열)을 JSON 형태로 프론트에 보냄
 		res.status(200).json(user);
 	} catch (error) {
@@ -132,7 +130,6 @@ userRouter.get('/userlist', adminConfirm, async function (req, res, next) {
 	try {
 		// 전체 사용자 목록을 얻음
 		const users = await userService.getUsers();
-
 		// 사용자 목록(배열)을 JSON 형태로 프론트에 보냄
 		res.status(200).json(users);
 	} catch (error) {

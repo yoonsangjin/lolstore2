@@ -76,10 +76,8 @@ async function kakaoLogin() {
 						const fullName = res.properties.nickname;
 						const email = res.kakao_account.email;
 						const data = { fullName, email };
-
 						const result = await Api.post('/api/kakao', data);
 						const token = result.token;
-
 						sessionStorage.setItem('token', token);
 						sessionStorage.setItem('email', email);
 						console.log(sessionStorage);
@@ -113,3 +111,4 @@ async function kakaoLogout() {
       Kakao.Auth.setAccessToken(undefined)
     }
   }  
+
