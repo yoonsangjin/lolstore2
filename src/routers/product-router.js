@@ -76,25 +76,23 @@ productRouter.get('/information', async (req, res, next) => {
 });
 
 
-
-
 // 상품 추가
 productRouter.post(
 	'/',
-	// adminConfirm,
+	adminConfirm,
 	upload.single('image'),
 	async (req, res, next) => {
 		try {
 			const { name, category, information, price, storage, date, company } =
 				req.body;
-			// const image = req.file.path;
-			//////////////////// 입력값 빠졌는지 검사 //////////////////////////
+			const image = req.file.path;
+			////////////////// 입력값 빠졌는지 검사 //////////////////////////
 			if (name == '') {
 				throw new Error('상품 이름을 입력해주세요!');
 			}
-			// if (image == '') {
-			// 	throw new Error('상품 이미지를 업로드해주세요!');
-			// }
+			if (image == '') {
+				throw new Error('상품 이미지를 업로드해주세요!');
+			}
 			if (category == '') {
 				throw new Error('상품 카테고리를 입력해주세요!');
 			}
@@ -117,7 +115,7 @@ productRouter.post(
 			const newProductCategory = await productModel.create({
 				name,
 				category,
-				// image,
+				image,
 				information,
 				price,
 				storage,

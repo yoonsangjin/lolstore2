@@ -35,7 +35,8 @@ function setSelectOption(item) {
 
 
 async function handleSubmit(e) {  
-try {
+    e.preventDefault();
+
     const name = productName.value;
     const category = '62a0bc450778877936379c20';
     const image = productImg.files[0];
@@ -44,13 +45,28 @@ try {
     const price = productPrice.value;
     const date = new Date();
     const company = makerName.value;
+    
+
+    const formData = new FormData();
+    formData.append('name', name);
+    formData.append('category', category);
+    formData.append('information', information);
+    formData.append('storage', storage);
+    formData.append('price', price);
+    formData.append('date', date);
+    formData.append('company', company);
+    formData.append('image', image);
+     
+    fetch('/api/product/', {
+        method: 'POST',
+        body: formData
+    })
+    .then((response) => response.json())
+    .then((data) => {
+        console.log(data);
+    }).catch(err=>console.log(err));
+
+}
 
 
 
-const data = { name, category, information, storage, price, date, company };
-await Api.post('/api/product/', data );
-} catch (err) {
-    console.error(err.stack);
-		alert(`문제가 발생하였습니다. 확인 후 다시 시도해 주세요: ${err.message}`);
-};
-};
