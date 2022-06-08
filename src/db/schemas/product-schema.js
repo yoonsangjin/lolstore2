@@ -24,7 +24,7 @@ const ProductSchema = new Schema(
 			type: String,
 			required: true,
 		},
-		inform: {
+		information: {
 			// 상품정보
 			type: String,
 			required: true,
@@ -40,7 +40,7 @@ const ProductSchema = new Schema(
 			required: true,
 		},
 		date: {
-			// 출시날짜
+			// 제품 출시날짜
 			type: Date,
 			required: true,
 		},
@@ -58,6 +58,11 @@ const ProductSchema = new Schema(
 			type: String,
 			required: true,
 		},
+		// // 0 : 사용중인 데이터 , 1 : 사용하지 않는 데이터
+		// deleteFlag: {
+		// 	type: Number,
+		// 	default: 0,
+		// },
 	},
 	{
 		collection: 'products',
