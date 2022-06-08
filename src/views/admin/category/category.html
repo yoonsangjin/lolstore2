@@ -96,7 +96,7 @@
 				</div>
 			</div>
 
-			<div id="topFont">카테고리 삭제하기</div>
+			<div id="topFont">카테고리 삭제 & 수정</div>
 			<div class="field">
 				<table id="table" class="table">
 					<tr>
@@ -113,7 +113,7 @@
 		</div>
 
 		<!--delete 모달창-->
-		<div class ="modal" id="delModal">
+		<div class="modal" id="delModal">
 			<div class="modal-background" id="deleteModalBack"></div>
 			<div class="modal-content has-background-white py-5 px-5">
 				<div class="box">
@@ -122,44 +122,65 @@
 					</p>
 					<div class="buttons">
 						<button class="button mt-5" id="delCompleteBtn" aria-label="close">
-							네
+							확인
 						</button>
 						<button
 							class="button is-primary mt-5"
 							id="delCancelBtn"
 							aria-label="close"
 						>
-							아니요
+							취소
 						</button>
 					</div>
 				</div>
 			</div>
-			<button class="modal-close is-large" id="deleteModalClose" aria-label="close"></button>
+			<button
+				class="modal-close is-large"
+				id="deleteModalClose"
+				aria-label="close"
+			></button>
 		</div>
 
 		<!--update 모달창-->
-		<div class ="modal" id="updateModal">
-			<div class="modal-background"></div>
+		<div class="modal" id="updateModal">
+			<div class="modal-background" id="upModalBg"></div>
 			<div class="modal-content has-background-white py-5 px-5">
 				<div class="box">
-					<p class="mb-3">
-						카테고리 삭제 시 복구할 수 없습니다. 정말 취소하시겠습니까?
-					</p>
+					<div class="sub-box">
+						<label class="label" for="categoryName" id="nowCategory"
+							>현재 카테고리 명: 남자옷</label
+						>
+					</div>
+
+					<div class="sub-box">
+						<label class="label" for="categoryName">변경할 카테고리 명</label>
+						<input type="text" id="newDataInput" placeholder="남자옷" />
+					</div>
+
 					<div class="buttons">
-						<button class="button mt-5" id="delCompleteBtn" aria-label="close">
-							네
-						</button>
 						<button
-							class="button is-primary mt-5"
-							id="delCancelBtn"
+							class="button mt-3"
+							id="uploadCompleteBtn"
 							aria-label="close"
 						>
-							아니요
+							변경
+						</button>
+
+						<button
+							class="button is-primary mt-3"
+							id="uploadCancelBtn"
+							aria-label="close"
+						>
+							취소
 						</button>
 					</div>
 				</div>
 			</div>
-			<button class="modal-close is-large" aria-label="close"></button>
+			<button
+				class="modal-close is-large"
+				id="uploadModalClose"
+				aria-label="close"
+			></button>
 		</div>
 	</body>
 	<!--category.js 연결-->

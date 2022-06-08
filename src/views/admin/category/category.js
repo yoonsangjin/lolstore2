@@ -1,16 +1,17 @@
 import * as Api from '../../api.js';
 // import { dateFormat } from '../../useful-functions';
-
-const category = document.querySelector('#categoryName'),
-	categoryUploadBtn = document.querySelector('#categoryUploadBtn'),
-	categoryDeleteBtn = document.querySelector('#categoryDeleteBtn'),
-	categorySelectBox = document.querySelector('#categorySelectBox');
-
 const modal = document.querySelectorAll('.modal'),
 	delModalBg = document.querySelector('#deleteModalBack'),
-	delModalbtn = document.querySelector('#deleteModalClose'),
+	delModalBtn = document.querySelector('#deleteModalClose'),
 	delCancelBtn = document.querySelector('#delCancelBtn'),
 	delCompleteBtn = document.querySelector('#delCompleteBtn');
+
+const upModalBg = document.querySelector('#upModalBg'),
+	upModalBtn = document.querySelector('#uploadModalClose'),
+	upCancelBtn = document.querySelector('#uploadCancelBtn'),
+	upCompleteBtn = document.querySelector('#uploadCompleteBtn');
+
+const categoryName = document.querySelector('#categoryName');
 
 function dateFormat(dateValue) {
 	const date = new Date(dateValue);
@@ -27,9 +28,10 @@ categoryUploadBtn.addEventListener('click', setCategory);
 async function setCategory(e) {
 	e.preventDefault();
 	try {
-		const name = category.value;
+		const name = categoryName.value;
 		const data = { name };
 		await Api.post('/api/category', data);
+		location.reload();
 	} catch (err) {
 		console.error(err);
 	}
@@ -44,6 +46,15 @@ async function getOption() {
 	}
 }
 
+// function setSelectOption(item) {
+// 	item.forEach((data) => {
+// 		const option = document.createElement('option');
+// 		option.setAttribute('value', data.name);
+// 		option.textContent = data.name;
+// 		categorySelectBox.appendChild(option);
+// 	});
+// }
+
 function setCategoryList(item) {
 	const tbody = document.querySelector('#tbody');
 	item.forEach((data) => {
@@ -54,6 +65,7 @@ function setCategoryList(item) {
 		td1.textContent = dateFormat(data.createdAt);
 
 		const td2 = document.createElement('td');
+		td2.setAttribute('id', `text${data._id}`)
 		td2.textContent = data.name;
 
 		const td3 = document.createElement('td');
@@ -82,10 +94,34 @@ function setCategoryList(item) {
 		delBtn.addEventListener('click', () => openDelModal(data.name, data._id));
 
 		const upBtn = document.querySelector(`#upBtn${data._id}`);
-		upBtn.addEventListener('click', () => openUpModal(data._id));
+		upBtn.addEventListener('click', () => openUpModal(data.name, data._id));
 	});
 }
 
+function openUpModal(name, id) {
+	modal[1].classList.add('is-active');
+	const nowCategory = document.querySelector('#nowCategory');
+	nowCategory.textContent = `현재 카테고리 명 : ${name}`;
+	upCompleteBtn.addEventListener('click', () => setUploadCategory(name, id));
+}
+
+async function setUploadCategory(name, id) {
+	try {
+		const newName = document.querySelector('#newDataInput').value;
+		console.log(typeof newName)
+		if (!newDataInput) {
+			alert('변경하실 카테고리명을 입력해주세요!');
+		} else {
+			const newData = { newName };
+			await Api.patch('/api/category', name, newData);
+			const text = document.querySelector(`#text${id}`);
+			text.textContent = newDataInput.value;
+			modal[1].classList.remove('is-active');
+		}
+	} catch (err) {
+		console.error(err);
+	}
+}
 function openDelModal(name, id) {
 	modal[0].classList.add('is-active');
 	delCompleteBtn.addEventListener('click', () => setDelete(name, id));
@@ -103,26 +139,20 @@ async function setDelete(name, id) {
 	}
 }
 
-function openUpModal(id) {
-	console.log(id);
-}
-
-//카테고리 삭제
-async function deleteCategory() {
-	try {
-		const name = categorySelectBox.value;
-		const selectValue = { name };
-		await Api.delete('/api', 'category', selectValue);
-	} catch (err) {
-		console.error(err);
-	}
-}
-
-//modal btn event
+//modal delbtn event
 delModalBg.addEventListener('click', closeDelModal);
-delModalbtn.addEventListener('click', closeDelModal);
+delModalBtn.addEventListener('click', closeDelModal);
 delCancelBtn.addEventListener('click', closeDelModal);
+
+//modal upbtn event
+upModalBg.addEventListener('click', closeUpModal);
+upModalBtn.addEventListener('click', closeUpModal);
+upCancelBtn.addEventListener('click', closeUpModal);
 
 function closeDelModal() {
 	modal[0].classList.remove('is-active');
+}
+
+function closeUpModal() {
+	modal[1].classList.remove('is-active');
 }

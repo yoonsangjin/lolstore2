@@ -21,7 +21,8 @@ categoryRouter.post('/', adminConfirm, async (req, res, next) => {
 // 카테고리 수정
 categoryRouter.patch('/:name', async (req, res, next) => {
 	const name = req.params.name;
-	const newName = req.body;
+	const { newName } = req.body;
+
 	const changeCategory = await categoryModel
 		.findOneAndUpdate({ name: name }, { name: newName })
 		.populate('products');
