@@ -45,7 +45,7 @@ async function handleSubmit(e) {
 	const company = makerName.value;
 
 	const formData = new FormData();
-	console.log(image)
+	console.log(image);
 	formData.append('name', name);
 	formData.append('category', category);
 	formData.append('image', image);
@@ -57,6 +57,9 @@ async function handleSubmit(e) {
 
 	fetch('/api/product/', {
 		method: 'POST',
+		headers: {
+			Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+		}, 
 		body: formData,
 	})
 		.then((response) => response.json())
@@ -64,10 +67,6 @@ async function handleSubmit(e) {
 			console.log(data);
 		})
 		.catch((err) => console.log(err));
-
-	// Display the key/value pairs
-	for (var pair of formData.entries()) {
-		console.log(pair[0] + ', ' + pair[1]);
-		location.reload();
-	}
+	console.log(sessionStorage.getItem('token'));
 }
+
