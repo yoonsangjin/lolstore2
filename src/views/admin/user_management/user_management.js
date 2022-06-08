@@ -8,7 +8,7 @@ const modal = document.querySelector('.modal'),
 	modalBg = document.querySelector('.modal-background'),
 	modalbtn = document.querySelector('.modal-close'),
 	delCancelBtn = document.querySelector('#delCancelBtn'),
-	delCompleteBtn = document.getElementById('delCompleteBtn');
+	delCompleteBtn = document.querySelector('#delCompleteBtn');
 
 getUserInfo();
 

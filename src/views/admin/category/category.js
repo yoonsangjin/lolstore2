@@ -6,6 +6,15 @@ const category = document.querySelector('#categoryName'),
 	categoryDeleteBtn = document.querySelector('#categoryDeleteBtn'),
 	categorySelectBox = document.querySelector('#categorySelectBox');
 
+//common modal
+const modal = document.querySelector('.modal'),
+	modalBg = document.querySelector('.modal-background'),
+	modalbtn = document.querySelector('.modal-close');
+
+// deletee modal
+const delCancelBtn = document.querySelector('#delCancelBtn'),
+	delCompleteBtn = document.querySelector('#delCompleteBtn');
+
 getOption();
 categoryUploadBtn.addEventListener('click', setCategory);
 
@@ -63,15 +72,17 @@ function setCategoryList(item) {
 
 		const td3 = document.createElement('td');
 		const deleteBtn = document.createElement('input');
-		deleteBtn.setAttribute('id', `delBtn${data.id}`);
+		deleteBtn.setAttribute('id', `delBtn${data._id}`);
 		deleteBtn.setAttribute('type', 'button');
+		deleteBtn.setAttribute('class', 'del-button');
 		deleteBtn.setAttribute('value', '삭제');
 		td3.appendChild(deleteBtn);
 
 		const td4 = document.createElement('td');
 		const updateBtn = document.createElement('input');
-		updateBtn.setAttribute('id', `upBtn${data.id}`);
+		updateBtn.setAttribute('id', `upBtn${data._id}`);
 		updateBtn.setAttribute('type', 'button');
+		updateBtn.setAttribute('class', 'update-button');
 		updateBtn.setAttribute('value', '수정');
 		td4.appendChild(updateBtn);
 
@@ -80,10 +91,16 @@ function setCategoryList(item) {
 		tr.appendChild(td3);
 		tr.appendChild(td4);
 		tbody.appendChild(tr);
+
+		const delBtn = document.querySelector('.del-button');
+		delBtn.addEventListener('click', () => openDelModal(this));
+
 	});
-	deleteBtn.addEventListener('click', deleteBtnEvent(this.id));
 }
 
+function openDelModal(id) {
+	console.log('hi')
+}
 
 function dateFormat(dateValue) {
 	const date = new Date(dateValue);
@@ -92,4 +109,3 @@ function dateFormat(dateValue) {
 	const day = ('0' + date.getDate()).slice(-2);
 	return `${year}-${month}-${day}`;
 }
-
