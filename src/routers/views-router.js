@@ -38,6 +38,14 @@ viewsRouter.use('/account/orders', serveStatic(''));
 viewsRouter.use('/account/withdrawal', serveStatic(''));
 viewsRouter.use('/account/management', serveStatic(''));
 viewsRouter.use('/admin', serveStatic(''));
+viewsRouter.use('/category/add', serveStatic(''));
+viewsRouter.use('/product/add', serveStatic(''));
+viewsRouter.use('/admin/users', serveStatic(''));
+viewsRouter.use('/buy', serveStatic(''));
+viewsRouter.use('/cart', serveStatic(''));
+viewsRouter.use('/buy/complete', serveStatic(''));
+
+
 
 
 // views폴더 내의 ${resource} 폴더 내의 모든 파일을 웹에 띄우며,
