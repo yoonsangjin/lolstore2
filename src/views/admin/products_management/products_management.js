@@ -12,18 +12,99 @@ const delCancelBtn = document.querySelector('#delCancelBtn'),
 //전체 선택
 const allSelect = document.querySelector('#allSelect');
 
+//Modal 변수 선언
+const getModalNameText = document.querySelector('#getModalNameText'),
+	setModalNameText = document.querySelector('#setModalNameText');
+const getModalCategory = document.querySelector('#getModalCategory'),
+	setModalCategory = document.querySelector('#setModalCategory');
+const getModalImg = document.querySelector('#getModalImg'),
+	setModalImg = document.querySelector('#setModalImg');
+const getProductInfo = document.querySelector('#getProductInfo'),
+	setProductInfo = document.querySelector('#setProductInfo');
+const getModalStorage = document.querySelector('#getModalStorage'),
+	setModalStorage = document.querySelector('#setModalStorage');
+const getModalPrice = document.querySelector('#getModalPrice'),
+	setModalPrice = document.querySelector('#setModalPrice');
+const getModalCompany = document.querySelector('#getModalCompany'),
+	setModalCompany = document.querySelector('#setModalCompany');
+
+//modal 변경하기 버튼
+const modalUpdateBtn = document.querySelector('#modalUpdateBtn');
+//modal 변경 취소 버튼
+const modalCancelBtn = document.querySelector('#modalCancelBtn');
+
 //카테고리 목록 불러오기
 getSelectOption();
-
 async function getSelectOption() {
 	try {
 		const allCategory = await Api.get('/api/category/list');
 		setSelectOption(allCategory);
+		setModalSelectBox(allCategory);
 	} catch (err) {
 		console.error(err);
 	}
 }
 
+//modal 이름 입력
+setModalNameText.addEventListener('keyup', setModalNameValue);
+function setModalNameValue() {
+	getModalNameText.value = setModalNameText.value;
+}
+
+//modal 변경 카테고리 set
+function setModalSelectBox(item) {
+	item.forEach((data) => {
+		const option = document.createElement('option');
+		option.setAttribute('id', data._id);
+		option.setAttribute('value', data.name);
+		option.textContent = data.name;
+		setModalCategory.appendChild(option);
+		setModalCategory.addEventListener('change', setModalCategoryValue);
+	});
+}
+
+//modal 카테고리 입력
+function setModalCategoryValue() {
+	getModalCategory.value = setModalCategory.value;
+}
+//modal Img
+setModalImg.addEventListener('change', (e) => setModalImgSrc(e.target));
+function setModalImgSrc(input) {
+	if (input.files && input.files[0]) {
+		//FileReader인스턴스 생성
+		const reader = new FileReader();
+		//이미지 로드된 경우
+		reader.onload = (e) => {
+			getModalImg.src = e.target.result
+		}
+		reader.readAsDataURL(input.files[0]);
+	}
+}
+//modal 상세정보 입력
+setProductInfo.addEventListener('keyup', setModalProductInfoValue);
+function setModalProductInfoValue() {
+	getProductInfo.value = setProductInfo.value;
+}
+
+//modal 재고 수 입력
+setModalStorage.addEventListener('keyup', setModalStorageValue);
+function setModalStorageValue() {
+	getModalStorage.value = setModalStorage.value;
+}
+
+//modal 가격 입력
+setModalPrice.addEventListener('keyup', setModalPriceValue);
+function setModalPriceValue() {
+	getModalPrice.value = setModalPrice.value;
+}
+
+//modal 제조사 입력
+setModalCompany.addEventListener('keyup', setModalCompanyValue);
+function setModalCompanyValue() {
+	getModalCompany.value = setModalCompany.value;
+}
+
+//검색 카테고리 set
 function setSelectOption(item) {
 	item.forEach((data) => {
 		const option = document.createElement('option');
@@ -86,7 +167,7 @@ const checkboxes = document.getElementsByName('check');
 
 //전체 선택 event
 function selectAll() {
-    checkboxes.forEach((checkbox) => {
+	checkboxes.forEach((checkbox) => {
 		checkbox.checked = allSelect.checked;
 	});
 }
@@ -103,9 +184,9 @@ async function openDelModal() {
 async function setDelete() {
 	try {
 		for (let i = 0; i < classValue.length; i++) {
-			console.log(classValue[i].value)
+			console.log(classValue[i].value);
 			if (classValue[i].checked) {
-				await Api.delete('/api/product/detail',classValue[i].value);
+				await Api.delete('/api/product/detail', classValue[i].value);
 			}
 		}
 		// location.reload();
