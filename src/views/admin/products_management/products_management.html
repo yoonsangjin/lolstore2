@@ -116,7 +116,7 @@
 				</div>
 
 				<div class="button-box">
-					<button id="deleteBtn" class="btn btn-primary">삭제하기</button>
+					<button id="deleteBtn">삭제하기</button>
 				</div>
 			</div>
 		</div>
@@ -151,8 +151,8 @@
 		</div>
 
 		<!--수정 modal 창-->
-		<div class="modal">
-			<div class="modal-background"></div>
+		<div class="modal" id="updateModal">
+			<div class="modal-background" id="updateBack"></div>
 			<div class="modal-card">
 				<!-- modal창 header 부분 -->
 				<header class="modal-card-head">
@@ -160,77 +160,88 @@
 					<button class="delete" id="topCancelBtn" aria-label="close"></button>
 				</header>
 				<!-- modal창 body 부분 -->
-				<section class="modal-card-body">
-					<!--이름 변경-->
-					<div class="field">
-						<div class="control">
-							<input type="text" id="getModalNameText" disabled />
-							<input
-								type="text"
-								id="setModalNameText"
-								placeholder="이름 변경"
-							/>
+				<form id="updateForm">
+					<section class="modal-card-body">
+						<!--이름 변경-->
+						<div class="field">
+							<label class="label" for="productName">이름</label>
+							<div class="control">
+								<input
+									type="text"
+									id="setModalNameText"
+									placeholder="이름 변경"
+								/>
+							</div>
 						</div>
-					</div>
-					<!-- 카테고리 변경 -->
-					<div class="field">
-						<div class="control">
-							<input type="text" id="getModalCategory" disabled />
-							<select id="setModalCategory">
-								<option value="">카테고리를 선택해주요</option>
-							</select>
+						<!-- 카테고리 변경 -->
+						<div class="field">
+							<label class="label" for="productCategory">카테고리</label>
+							<div class="control">
+								<select id="setModalCategory">
+									<option value="">카테고리를 선택해주요</option>
+								</select>
+							</div>
 						</div>
-					</div>
-					<!-- 이미지 변경 -->
-					<div class="field">
-						<div class="control">
-							<input type="image" style="width: 100px;" id="getModalImg" />
-							<input type="file" id="setModalImg" src="" accept="image/*" />
+						<!-- 이미지 변경 -->
+						<div class="field">
+							<label class="label" for="productImg">이미지</label>
+							<div class="control">
+								<input type="image" style="width: 120px" id="getModalImg" />
+								<input type="file" id="setModalImg" src="" accept="image/*" />
+							</div>
 						</div>
-					</div>
-					<!-- 상세정보 변경 -->
-					<div class="field">
-						<div class="control">
-							<textarea
-								id="getProductInfo"
-								class="textarea is-small"
-								disabled
-							></textarea>
-							<textarea
-								id="setProductInfo"
-								class="textarea is-small"
-								placeholder="제품에 대한 5문장 이상 설명을 적어주세요"
-							></textarea>
+						<!-- 상세정보 변경 -->
+						<div class="field">
+							<div class="control">
+								<textarea
+									id="setProductInfo"
+									class="textarea is-small"
+									placeholder="제품에 대한 5문장 이상 설명을 적어주세요"
+								></textarea>
+							</div>
 						</div>
-					</div>
-					<!-- 재고 수 변경 -->
-					<div class="field">
-						<label class="label" for="productCnt">재고 수</label>
-						<div class="control">
-							<input type="text" id="getModalStorage" disabled />
-							<input type="text" id="setModalStorage" placeholder="재고 수 변경"/>
+						<!-- 재고 수 변경 -->
+						<div class="field">
+							<label class="label" for="productStorage">재고 수</label>
+							<div class="control">
+								<input
+									type="text"
+									id="setModalStorage"
+									placeholder="재고 수 변경"
+								/>
+							</div>
 						</div>
-					</div>
-					<!-- 가격 변경 -->
-					<div class="field">
-						<div class="control">
-							<input type="text" id="getModalPrice" disabled />
-							<input type="text" id="setModalPrice" placeholder="가격 변경"/>
+						<!-- 가격 변경 -->
+						<div class="field">
+							<label class="label" for="productPrice">가격</label>
+							<div class="control">
+								<input type="text" id="setModalPrice" placeholder="가격 변경" />
+							</div>
 						</div>
-					</div>
-					<!-- 제조사 변경 -->
-					<div class="field">
-						<div class="control">
-							<input type="text" id="getModalCompany" disabled />
-							<input type="text" id="setModalCompany" placeholder="제조사 변경"/>
+						<!-- 제조사 변경 -->
+						<div class="field">
+							<label class="label" for="productCompany">제조사</label>
+							<div class="control">
+								<input
+									type="text"
+									id="setModalCompany"
+									placeholder="제조사 변경"
+								/>
+							</div>
 						</div>
-					</div>
-				</section>
-				<!--modal footer 부분-->
-				<footer class="modal-card-foot">
-					<button class="button is-success" id="modalUpdateBtn">변경하기</button>
-					<button class="button" id="modalCancelBtn">취소</button>
-				</footer>
+					</section>
+
+					<!--modal footer 부분-->
+					<footer class="modal-card-foot">
+						<input
+							type="submit"
+							class="button is-success"
+							id="modalUpdateBtn"
+							value="변경하기"
+						/>
+						<input type="button" id="modalCancelBtn" value="취소" />
+					</footer>
+				</form>
 			</div>
 		</div>
 	</body>

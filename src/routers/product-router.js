@@ -316,6 +316,7 @@ productRouter.patch(
 	upload.single('image'),
 	async (req, res, next) => {
 		try {
+			console.log('patch ok!');
 			// product/update_product/6
 			const product_id = req.params.product_id;
 

@@ -45,7 +45,7 @@ async function handleSubmit(e) {
 	const company = makerName.value;
 
 	const formData = new FormData();
-	console.log(image);
+
 	formData.append('name', name);
 	formData.append('category', category);
 	formData.append('image', image);
@@ -67,7 +67,6 @@ async function handleSubmit(e) {
 			console.log(data);
 		})
 		.catch((err) => console.log(err));
-	console.log(sessionStorage.getItem('token'));
 
 	location.reload();
 }

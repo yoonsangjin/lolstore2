@@ -46,15 +46,6 @@ async function getOption() {
 	}
 }
 
-// function setSelectOption(item) {
-// 	item.forEach((data) => {
-// 		const option = document.createElement('option');
-// 		option.setAttribute('value', data.name);
-// 		option.textContent = data.name;
-// 		categorySelectBox.appendChild(option);
-// 	});
-// }
-
 function setCategoryList(item) {
 	const tbody = document.querySelector('#tbody');
 	item.forEach((data) => {
