@@ -76,6 +76,7 @@ async function insertCategoryContents() {
 					const productPrice = document.createElement('div');
 					productName.classList.add('category-product-name');
 					productPrice.classList.add('category-product-price');
+					// TODO: 루트폴더 상위의 uploads/ 이동
 					productImage.src = `${product.image}`;
 					productName.textContent = `${product.name}`;
 					productPrice.textContent = `${product.price.toLocaleString()}원`;

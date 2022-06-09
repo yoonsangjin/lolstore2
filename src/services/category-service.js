@@ -40,6 +40,11 @@ class CategoryService {
 		const getAllCategories = await this.categoryModel.findAll();
 		return getAllCategories;
 	}
+
+	async getCategoryName(categoryId) {
+		const categoryName = await this.categoryModel.findNameById(categoryId);
+		return categoryName;
+	}
 }
 
 const categoryService = new CategoryService(categoryModel);

@@ -119,4 +119,16 @@ categoryRouter.get('/list', async (req, res, next) => {
 	}
 });
 
+// 카테고리 이름받기
+categoryRouter.get('/name/:categoryId', async (req, res, next) => {
+	try {
+		const categoryId = req.params.categoryId;
+		const list = await categoryService.getCategoryName(categoryId);
+
+		res.status(200).json(list);
+	} catch (err) {
+		next(err);
+	}
+});
+
 export { categoryRouter };

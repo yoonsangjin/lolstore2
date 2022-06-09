@@ -344,10 +344,10 @@ productRouter.get('/list', async (req, res, next) => {
 		// api/product/list/?category=1238asdsad7612983
 		const { category } = req.query;
 		const page = Number(req.query.page || 1);
-		const perPage = Number(req.query.perPage || 10);
+		const perPage = Number(req.query.perPage || 12);
 
 		// 총 페이지 수 확인
-		const totalPage = await productService.totalPage(perPage);
+		const totalPage = await productService.totalPage(category, perPage);
 
 		// 상품 검색
 		const products = await productService.findPaginationProducts(

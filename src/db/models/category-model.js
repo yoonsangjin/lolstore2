@@ -65,6 +65,16 @@ export class CategoryModel {
 		const findAllCategory = await category.find({}).populate('products');
 		return findAllCategory;
 	}
+
+	// 카테고리 이름 찾기
+	async findNameById(categoryId) {
+		const categoryName = await category
+			.findOne({ categoryId })
+			.select('name')
+			.where('_id')
+			.equals(categoryId);
+		return categoryName;
+	}
 }
 
 const categoryModel = new CategoryModel();

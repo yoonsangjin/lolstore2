@@ -22,8 +22,8 @@ export class ProductModel {
 	}
 
 	// 상품 총 개수
-	async count() {
-		const countProduct = await Product.countDocuments({});
+	async count(category) {
+		const countProduct = await Product.countDocuments({ category });
 		return countProduct;
 	}
 
