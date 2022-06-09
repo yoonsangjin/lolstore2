@@ -68,13 +68,14 @@ async function inputOrders(item) {
 		const productTotalPrice = document.querySelector('#productTotalPrice');
 		let totalPrice = 0;
 		for (let i = 0; i < data.orderList.length; i++) {
+			console.log(data);
 			inputOrderData.innerHTML += `${data.orderList[i].productId.name} / ${data.orderList[i].volume}개 <br>`;
 			totalPrice += Number(
 				data.orderList[i].productId.price * data.orderList[i].volume,
 			);
 		}
 
-		productTotalPrice.innerText = `${totalPrice.toLocaleString('ko-KR')}원`;
+		productTotalPrice.innerText = `${totalPrice.toLocaleString()}원`;
 
 		const selectChangeOption = document.querySelector('.select-product-state');
 		selectChangeOption.addEventListener('change', () =>

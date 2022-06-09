@@ -151,23 +151,86 @@
 		</div>
 
 		<!--수정 modal 창-->
-		<div class="modal" >
+		<div class="modal is-active">
 			<div class="modal-background"></div>
 			<div class="modal-card">
+				<!-- modal창 header 부분 -->
 				<header class="modal-card-head">
-					<p class="modal-card-title">Modal title</p>
-					<button class="delete" aria-label="close"></button>
+					<p class="modal-card-title">상품 정보 변경</p>
+					<button class="delete" id="topCancelBtn" aria-label="close"></button>
 				</header>
+				<!-- modal창 body 부분 -->
 				<section class="modal-card-body">
-					<!-- Content ... -->
+					<div class="field">
+						<div class="control">
+							<input type="text" id="getNameText" disabled />
+							<input
+								type="text"
+								id="setNameText"
+								placeholder="이름 변경"
+							/>
+						</div>
+					</div>
+					<!-- 카테고리 변경 -->
+					<div class="field">
+						<div class="control">
+							<input type="text" id="getCategory" disabled />
+							<select id="newCategorySelect">
+								<option value="">카테고리를 선택해주요</option>
+							</select>
+						</div>
+					</div>
+					<!-- 이미지 변경 -->
+					<div class="field">
+						<div class="control">
+							<input type="image" id="getImg" />
+							<input type="file" id="setNewImg" accept="image/*" />
+						</div>
+					</div>
+					<!-- 상세정보 변경 -->
+					<div class="field">
+						<div class="control">
+							<textarea
+								id="setProductInfo"
+								class="textarea is-small"
+								disabled
+							></textarea>
+							<textarea
+								id="getNewProductInfo"
+								class="textarea is-small"
+								placeholder="제품에 대한 5문장 이상 설명을 적어주세요"
+							></textarea>
+						</div>
+					</div>
+					<!-- 재고 수 변경 -->
+					<div class="field">
+						<div class="control">
+							<input type="text" id="getStorage" disabled />
+							<input type="text" id="setStorage" placeholder="재고 수 변경"/>
+						</div>
+					</div>
+					<!-- 가격 변경 -->
+					<div class="field">
+						<div class="control">
+							<input type="text" id="getPrice" disabled />
+							<input type="text" id="setPrice" placeholder="가격 변경"/>
+						</div>
+					</div>
+					<!-- 제조사 변경 -->
+					<div class="field">
+						<div class="control">
+							<input type="text" id="getCompany" disabled />
+							<input type="text" id="setCompany" placeholder="제조사 변경"/>
+						</div>
+					</div>
 				</section>
+				<!--modal footer 부분-->
 				<footer class="modal-card-foot">
-					<button class="button is-success">Save changes</button>
-					<button class="button">Cancel</button>
+					<button class="button is-success">변경하기</button>
+					<button class="button">취소</button>
 				</footer>
 			</div>
 		</div>
-
 	</body>
 	<!--product_management.js 연결-->
 	<script type="module" src="./products_management.js" defer></script>
