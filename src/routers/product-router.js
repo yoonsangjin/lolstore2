@@ -316,7 +316,6 @@ productRouter.patch(
   upload.single('image'),
   async (req, res, next) => {
     try {
-      console.log('patch ok!');
       // product/update_product/6
       const product_id = req.params.product_id;
 
@@ -360,10 +359,10 @@ productRouter.get('/pageList', async (req, res, next) => {
     // api/product/pageList/?category=1238asdsad7612983&page=1&perPage=7
     const { category } = req.query;
     const page = Number(req.query.page || 1);
-    const perPage = Number(req.query.perPage || 10);
+    const perPage = Number(req.query.perPage || 12);
 
     // 총 페이지 수 확인
-    const totalPage = await productService.totalPage(perPage);
+    const totalPage = await productService.totalPage(category, perPage);
 
     // 상품 검색
     const products = await productService.findPaginationProducts(

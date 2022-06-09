@@ -157,8 +157,8 @@ class ProductService {
   }
 
   // pagination 총 페이지 수 확인
-  async totalPage(perPage) {
-    const totalProductCount = await this.productModel.count();
+  async totalPage(category, perPage) {
+    const totalProductCount = await this.productModel.count(category);
     const totalPageCount = Math.ceil(totalProductCount / perPage);
     return totalPageCount;
   }

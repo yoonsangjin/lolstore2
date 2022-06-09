@@ -30,14 +30,14 @@ export class ProductModel {
   }
 
   // 상품 총 개수
-  async count() {
-    const countProduct = await Product.countDocuments({});
+  async count(category) {
+    const countProduct = await Product.countDocuments({ category });
     return countProduct;
   }
 
   // 상품 하나 찾기 (product_id로 상세)
   async findDetailById(product_id) {
-    const product = await Product.findOne({ product_id: product_id }).populate(
+    const product = await Product.findOne({ _id: product_id }).populate(
       'category',
     );
     return product;
