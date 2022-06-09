@@ -59,7 +59,7 @@ async function handleSubmit(e) {
 		method: 'POST',
 		headers: {
 			Authorization: `Bearer ${sessionStorage.getItem('token')}`,
-		}, 
+		},
 		body: formData,
 	})
 		.then((response) => response.json())
@@ -71,4 +71,3 @@ async function handleSubmit(e) {
 
 	location.reload();
 }
-

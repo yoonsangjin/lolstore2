@@ -72,7 +72,7 @@ function setCategoryList(item) {
 		const deleteBtn = document.createElement('input');
 		deleteBtn.setAttribute('id', `delBtn${data._id}`);
 		deleteBtn.setAttribute('type', 'button');
-		deleteBtn.setAttribute('class', 'del-button');
+		deleteBtn.setAttribute('class', 'btn btn-primary');
 		deleteBtn.setAttribute('value', '삭제');
 		td3.appendChild(deleteBtn);
 
@@ -80,7 +80,7 @@ function setCategoryList(item) {
 		const updateBtn = document.createElement('input');
 		updateBtn.setAttribute('id', `upBtn${data._id}`);
 		updateBtn.setAttribute('type', 'button');
-		updateBtn.setAttribute('class', 'update-button');
+		updateBtn.setAttribute('class', 'btn btn-primary');
 		updateBtn.setAttribute('value', '수정');
 		td4.appendChild(updateBtn);
 
