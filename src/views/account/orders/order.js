@@ -1,8 +1,7 @@
 // import { get as Api } from '/api.js';
 import * as Api from '../../api.js';
-import { nav } from '/component.js';
-//네비게이션 바 생성
-nav();
+import { userTier } from '../account.js';
+userTier();
 const ordersContainer = document.querySelector('.orders-container'),
 	modal = document.querySelector('.modal'),
 	modalBg = document.querySelector('.modal-background'),
@@ -26,12 +25,12 @@ async function userInfo() {
 const UserData = await Promise.resolve(userInfo());
 // 전역 변수로 id를 쓰기 위해 선언
 let id = '';
-console.log(UserData);
 function showData() {
 	// Json 데이터를 주문조회 테이블에 추가
 	// 0 : 상품 준비중, 1 : 상품 배송중, 2: 배송 완료
 	UserData.forEach((data) => {
-		let date = data.orderDate;
+		let dateSplit = data.updatedAt;
+		let date = dateSplit.substr(0, 10);
 		let state = (data.status = 0)
 			? '상품 준비중'
 			: (data.status = 1)
@@ -41,7 +40,6 @@ function showData() {
 			id = data.orderList[i]._id;
 			let price = data.orderList[i].productId.price;
 			let amount = data.orderList[i].volume;
-			let Summary = '';
 			ordersContainer.insertAdjacentHTML(
 				'afterend',
 				`<div class="colums order-item" id="order${id}"> 
@@ -79,7 +77,7 @@ delCompleteBtn.addEventListener('click', delOrder);
 function delOrder() {
 	//여기 del api 비동기로 들어가야함
 	//테이블 삭제
-	console.log(id);
+
 	document.querySelector(`#order${id}`).remove();
 	closeModal();
 }

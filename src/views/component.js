@@ -5,7 +5,7 @@ function userModal() {
 		userImg = document.querySelector('#userImg'),
 		userEmail = document.querySelector('#userEmail');
 
-	// userImg.src = sessionStorage.getItem('img');
+	userImg.src = sessionStorage.getItem('userImg');
 	userName.textContent = sessionStorage.getItem('fullName');
 	userEmail.textContent = sessionStorage.getItem('email');
 
@@ -26,7 +26,7 @@ function adminModal() {
 		modalLink = document.querySelector('.modal-link'),
 		admin = '<a href="/admin" ">페이지 관리</a>';
 	modalLink.insertAdjacentHTML('afterbegin', admin);
-	// userImg.src = sessionStorage.getItem('img');
+	userImg.src = sessionStorage.getItem('profileImg');
 	userName.textContent = sessionStorage.getItem('fullName');
 	userEmail.textContent = sessionStorage.getItem('email');
 	// 모달 버튼 핸들링
@@ -45,7 +45,7 @@ function nav() {
 		login = '<li><a href="/login">로그인</a></li>',
 		account = `<li>
 				<butten class="profile-btn" id="profile-btn" style="">
-					<img src="/elice-rabbit.png" alt="proflie-img"></img>
+					<img id="userImg" src="/elice-rabbit.png" alt="proflie-img"></img>
 				</butten>
 			</li>`,
 		cart =
@@ -54,6 +54,8 @@ function nav() {
 	let nav;
 	// 유저 로그인 유무
 	if (sessionStorage.getItem('token')) {
+		const userImg = document.querySelector('#userImg');
+		userImg.src = sessionStorage.getItem('profileImg');
 		nav = `${cart} ${account}`;
 		navbar.insertAdjacentHTML('afterend', nav);
 		// 어드민인지 확인

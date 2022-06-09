@@ -45,11 +45,12 @@ async function handleSubmit(e) {
 		const token = result.token;
 		// 로그인 성공, 토큰을 세션 스토리지에 저장
 		// 물론 다른 스토리지여도 됨
+		sessionStorage.clear();
 		sessionStorage.setItem('token', token);
 		sessionStorage.setItem('email', email);
 		sessionStorage.setItem('isAdmin', result.isAdmin);
 		sessionStorage.setItem('userId', result.userId);
-		sessionStorage.setItem('fullName', result.fullName);
+		sessionStorage.setItem('profileImg', result.profileImg);
 		console.log(sessionStorage);
 		alert(`정상적으로 로그인되었습니다.`);
 		// 로그인 성공
@@ -79,10 +80,13 @@ async function kakaoLogin() {
 						const result = await Api.post('/api/kakao', data);
 						const token = result.token;
 						// console.log(result);
+						sessionStorage.clear();
 						sessionStorage.setItem('token', token);
 						sessionStorage.setItem('email', email);
 						sessionStorage.setItem('isAdmin', result.isAdmin);
 						sessionStorage.setItem('userId', result.userId);
+						sessionStorage.setItem('loginTypeCode', 1);
+						sessionStorage.setItem('profileImg', result.profileImg);
 						console.log(sessionStorage);
 						alert(`정상적으로 로그인되었습니다.`);
 						// 로그인 성공

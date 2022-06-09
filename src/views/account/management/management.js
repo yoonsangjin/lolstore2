@@ -1,7 +1,7 @@
 import * as Api from '../../api.js';
-import { nav } from '/component.js';
+import { userTier } from '../account.js';
 //네비게이션 바 생성
-nav();
+userTier();
 // elements, input 변수 선언
 const idChangeBtn = document.querySelector('#idChangeBtn'),
 	pwChangeBtn = document.querySelector('#pwChangeBtn'),
@@ -94,6 +94,7 @@ async function setName(e) {
 		await Api.patch('/api/users', id, data);
 		cencleSwitch(e);
 		nameDisplay.textContent = fullName;
+		location.reload();
 	} catch (err) {
 		console.error(err.stack);
 		alert(`${err.message}`);

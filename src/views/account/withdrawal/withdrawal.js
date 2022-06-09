@@ -1,7 +1,8 @@
 import * as Api from '../../api.js';
-import { nav } from '/component.js';
+import { userTier } from '../account.js';
+
 //네비게이션 바 생성
-nav();
+userTier();
 const modal = document.querySelector('.modal'),
 	modalBg = document.querySelector('.modal-background'),
 	modalbtn = document.querySelector('.modal-close'),
