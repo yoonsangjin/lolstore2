@@ -1,7 +1,8 @@
 // import jwt from 'jsonwebtoken';
 // const jwt = require('jsonwebtoken');
 function nav() {
-	//네비게이션
+	//네비게이션\
+	document.body.style.backgroundColor = '#00121c';
 	const navbar = document.querySelector('#navbar');
 	const register = '<li><a href="/register">회원가입</a></li>',
 		login = '<li><a href="/login">로그인</a></li>',
