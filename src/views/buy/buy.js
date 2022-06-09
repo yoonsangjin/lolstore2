@@ -228,5 +228,5 @@ async function handlePayment() {
 		localStorage.removeItem('cart');
 	}
 	localStorage.removeItem('buy');
-	// window.location.href = '/buy/complete';
+	window.location.href = '/buy/complete';
 }

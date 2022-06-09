@@ -22,6 +22,8 @@ function getCategoryId() {
 // 카테고리 HTML 요소 생성
 async function insertCategoryContents() {
 	const categoryId = getCategoryId();
+	// TODO: categoryRouter -> productRouter
+	// TODO: page, perPage
 	const categoryDatas = await Api.get('/api/category/list');
 	const productDatas = categoryDatas.filter(
 		(category) => String(category._id) === String(categoryId),
