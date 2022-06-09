@@ -68,5 +68,7 @@ async function handleSubmit(e) {
 		})
 		.catch((err) => console.log(err));
 	console.log(sessionStorage.getItem('token'));
+
+	location.reload();
 }
 
