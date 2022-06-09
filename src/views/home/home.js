@@ -1,4 +1,8 @@
 import * as Api from '/api.js';
+import { nav } from '/nav.js';
+
+//네비게이션 바 생성
+nav();
 
 // 요소(element), input 혹은 상수
 const contentContainer = document.querySelector('.content-container');
@@ -62,7 +66,7 @@ async function insertCategoryContents() {
 					const productDiv = document.createElement('div');
 					productDiv.classList.add('product');
 					productDiv.onclick = function () {
-						window.location.href = `/product/${product.product_id}`;
+						window.location.href = `/product/${product._id}`;
 					};
 					categoryDiv.append(productDiv);
 

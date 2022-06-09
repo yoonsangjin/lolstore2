@@ -12,7 +12,7 @@ class UserService {
   // 회원가입
   async addUser(userInfo) {
     // 객체 destructuring
-    const { email, fullName, password } = userInfo;
+    const { email, fullName, password, } = userInfo;
 
     // 이메일 중복 확인
     const user = await this.userModel.findByEmail(email);
@@ -35,13 +35,48 @@ class UserService {
     return createdNewUser;
   }
 
+  async addKakaoUser(userInfo) {
+    // 객체 destructuring
+    const { fullName, email, loginTypeCode } = userInfo;
+    
+    // email 중복 확인
+    const user = await this.userModel.findByEmail(email);
+    // email 이 없으면 회원 가입을 한다.
+    if (!user) {
+      // db에 저장
+      const createdNewUser = await this.userModel.create(userInfo);
+      // 토큰 생성
+      const secretKey = process.env.JWT_SECRET_KEY || 'secret-key';
+      const token = jwt.sign(
+      { fullName, email, loginTypeCode, userId: createdNewUser._id, isAdmin: createdNewUser.isAdmin },
+      secretKey
+    );
+      // Admin인지 아닌지 반환
+      const userId = createdNewUse._id;
+      const isAdmin = createdNewUser.isAdmin;
+      return { token, isAdmin, userId };
+      } 
+    // email이 존재하면 db의 정보를 통해 토큰 생성
+    const secretKey = process.env.JWT_SECRET_KEY || 'secret-key';
+    const token = jwt.sign(
+      { fullName, email, loginTypeCode, userId: user._id, isAdmin: user.isAdmin },
+      secretKey
+    );
+      // Admin인지 아닌지 반환
+    const userId = user._id
+    const isAdmin = user.isAdmin;
+    return { token , isAdmin, userId };
+
+  }
+
   // 로그인
   async getUserToken(loginInfo) {
     // 객체 destructuring
     const { email, password } = loginInfo;
-
+    
     // 우선 해당 이메일의 사용자 정보가  db에 존재하는지 확인
     const user = await this.userModel.findByEmail(email);
+    console.log(user);
     if (!user) {
       throw new Error(
         '해당 이메일은 가입 내역이 없습니다. 다시 한 번 확인해 주세요.'
@@ -69,12 +104,13 @@ class UserService {
     const secretKey = process.env.JWT_SECRET_KEY || 'secret-key';
 
     // 2개 프로퍼티를 jwt 토큰에 담음
+    const isAdmin = user.isAdmin;
     const token = jwt.sign(
-      { userId: user._id, isAdmin: user.admin },
+      { userId: user._id, isAdmin: user.isAdmin },
       secretKey
     );
 
-    return { token };
+    return { token, isAdmin };
   }
   // Email로 유저 찾기 기능
   async getUserByEmail(email) {

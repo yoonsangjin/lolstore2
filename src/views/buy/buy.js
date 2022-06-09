@@ -40,6 +40,7 @@ function addAllEvents() {
 function getUserInfo() {
 	// TODO: eamil -> userId
 	// const userId = sessionStorage.getItem('userId');
+	console.log(sessionStorage);
 	const userId = sessionStorage.getItem('email');
 	const userInfo = Api.get(`/api/email/${userId}`);
 	return userInfo;
