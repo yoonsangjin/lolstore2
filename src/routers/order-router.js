@@ -111,13 +111,13 @@ orderRouter.post('/', loginRequired, async (req, res, next) => {
 		totalPrice,
 		orderList,
 	});
+
 	res.status(201).json(newOrder);
 });
 
 // 주문 내역 조회
 orderRouter.get('/ownList', loginRequired, async (req, res, next) => {
 	const userId = req.currentUserId;
-
 	const findOrder = await orderService.getOwnList(userId);
 
 	res.status(200).json(findOrder);
@@ -132,7 +132,7 @@ orderRouter.get('/list', adminConfirm, async (req, res, next) => {
 
 // 주문 관리
 orderRouter.patch('/delivery', adminConfirm, async (req, res, next) => {
-	// api/order/delivery/?orderId=as2s2asd
+	// api/order/change/?orderId=as2s2asd
 	const { orderId } = req.query;
 	const { status } = req.body;
 

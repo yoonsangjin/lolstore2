@@ -251,7 +251,6 @@ try {
 } catch (error) {
 	fs.mkdirSync('uploads');
 }
-
 //multer 의 diskStorage를 정의
 const storage = multer.diskStorage({
 	//경로 설정
@@ -313,7 +312,7 @@ productRouter.delete(
 
 productRouter.patch(
 	'/update_product/:product_id',
-	// adminConfirm,
+	adminConfirm,
 	upload.single('image'),
 	async (req, res, next) => {
 		try {
@@ -349,6 +348,32 @@ productRouter.get('/list', async (req, res, next) => {
 
 		// 상품들 정보를 프론트에 전달
 		res.status(200).json(products);
+	} catch (err) {
+		next(err);
+	}
+});
+
+// 상품 pagination (카테고리별)
+productRouter.get('/pageList', async (req, res, next) => {
+	try {
+		// api/product/pageList/?category=1238asdsad7612983&page=1&perPage=7
+		const { category } = req.query;
+		const page = Number(req.query.page || 1);
+		const perPage = Number(req.query.perPage || 10);
+
+		// 총 페이지 수 확인
+		const totalPage = await productService.totalPage(perPage);
+
+		// 상품 검색
+		const products = await productService.findPaginationProducts(
+			category,
+			page,
+			perPage,
+		);
+
+		const data = [totalPage, products];
+		// 상품들 정보를 프론트에 전달
+		res.status(200).json(data);
 	} catch (err) {
 		next(err);
 	}
