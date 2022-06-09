@@ -11,6 +11,14 @@ import { ProductSchema } from '../schemas/product-schema';
 const Product = model('products', ProductSchema);
 
 export class ProductModel {
+	// 상품 전체 검색 (카테고리 기준)
+	async findAllByCategory(category) {
+		const products = await Product.find({ category: category }).populate(
+			'category',
+		);
+		return products;
+	}
+
 	// 상품 pagination (카테고리 기준)
 	async pagination(category, page, perPage) {
 		const products = await Product.find({ category: category })

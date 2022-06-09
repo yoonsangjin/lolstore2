@@ -138,8 +138,14 @@ class ProductService {
 	}
 
 	// 상품 전체 보기 (카테고리별)
+	async findAllByCategory(category) {
+		const products = await this.productModel.findAllByCategory(category);
+
+		return products;
+	}
+
+	// 상품 pagination하여 보기 (카테고리별)
 	async findPaginationProducts(category, page, perPage) {
-		// const category = category;
 		const products = await this.productModel.pagination(
 			category,
 			page,
