@@ -48,18 +48,26 @@ class UserService {
       // 토큰 생성
       const secretKey = process.env.JWT_SECRET_KEY || 'secret-key';
       const token = jwt.sign(
-      { fullName, email, loginTypeCode, userInfoRequired: createdNewUser._id, isAdmin: createdNewUser.admin },
+      {  userId: createdNewUser._id, isAdmin: createdNewUser.isAdmin },
       secretKey
     );
-    return { token , createdNewUser };
-    } 
+      // Admin인지 아닌지 반환
+      const userId = createdNewUser._id;
+      console.log(userId);
+      const isAdmin = createdNewUser.isAdmin;
+      return { token, isAdmin, userId };
+      } 
     // email이 존재하면 db의 정보를 통해 토큰 생성
     const secretKey = process.env.JWT_SECRET_KEY || 'secret-key';
     const token = jwt.sign(
-      { fullName, email, loginTypeCode, userInfoRequired: user._id, isAdmin: user.admin },
+      {  userId: user._id, isAdmin: user.isAdmin },
       secretKey
     );
-    return { token , user };
+      // Admin인지 아닌지 반환
+    const userId = user._id
+    console.log(userId);
+    const isAdmin = user.isAdmin;
+    return { token , isAdmin, userId };
 
   }
 
@@ -67,7 +75,7 @@ class UserService {
   async getUserToken(loginInfo) {
     // 객체 destructuring
     const { email, password } = loginInfo;
-
+    
     // 우선 해당 이메일의 사용자 정보가  db에 존재하는지 확인
     const user = await this.userModel.findByEmail(email);
     if (!user) {
@@ -97,12 +105,14 @@ class UserService {
     const secretKey = process.env.JWT_SECRET_KEY || 'secret-key';
 
     // 2개 프로퍼티를 jwt 토큰에 담음
+    const userId = user._id;
+    const isAdmin = user.isAdmin;
     const token = jwt.sign(
-      { userId: user._id, isAdmin: user.admin },
+      { userId: user._id, isAdmin: user.isAdmin },
       secretKey
     );
 
-    return { token };
+    return { token, isAdmin, userId };
   }
   // Email로 유저 찾기 기능
   async getUserByEmail(email) {
@@ -170,8 +180,13 @@ class UserService {
   }
   // 유저 삭제 기능 최소화, 추후 front API 형태에 맞춰 기능 추가할 예정임.
   async deleteUser(userId) {
+    const user = await this.userModel.findById(userId);
+    
+    if (!user) {
+      throw new Error('가입 내역이 없습니다. 다시 한 번 확인해 주세요.');
+    }
+
     await this.userModel.delete(userId);
-    return;
   }
 }
 
@@ -181,9 +196,7 @@ class UserService {
 //     const user = await this.userModel.findById(userId);
 
 //     // db에서 찾지 못한 경우, 에러 메시지 반환
-//     if (!user) {
-//       throw new Error('가입 내역이 없습니다. 다시 한 번 확인해 주세요.');
-//     }
+
 
 //     // 비밀번호 일치 여부 확인
 //     const correctPasswordHash = user.password;

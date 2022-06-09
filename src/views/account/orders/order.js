@@ -1,6 +1,7 @@
 // import { get as Api } from '/api.js';
 import * as Api from '../../api.js';
-import { nav } from '/nav.js';
+import { nav } from '/component.js';
+//네비게이션 바 생성
 nav();
 const ordersContainer = document.querySelector('.orders-container'),
 	modal = document.querySelector('.modal'),
@@ -11,9 +12,6 @@ const ordersContainer = document.querySelector('.orders-container'),
 modalBg.addEventListener('click', closeModal);
 modalBtn.addEventListener('click', closeModal);
 delCencelBtn.addEventListener('click', closeModal);
-
-//네비게이션 바 생성
-// nav();
 
 // const data = userInfo();
 async function userInfo() {

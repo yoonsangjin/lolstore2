@@ -1,6 +1,7 @@
 import * as Api from '/api.js';
-import { nav } from '/nav.js';
-
+import { nav } from '/component.js';
+//네비게이션 바 생성
+nav();
 // 테스트용 데이터
 const categoryWithProducts = [
 	{
@@ -64,8 +65,7 @@ const categoryWithProducts = [
 		],
 	},
 ];
-//네비게이션 바 생성
-nav();
+
 // 요소(element), input 혹은 상수
 addAllElements();
 addAllEvents();

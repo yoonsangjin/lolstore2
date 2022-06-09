@@ -1,4 +1,7 @@
 import * as Api from '../../api.js';
+import { nav } from '/component.js';
+//네비게이션 바 생성
+nav();
 // elements, input 변수 선언
 const idChangeBtn = document.querySelector('#idChangeBtn'),
 	pwChangeBtn = document.querySelector('#pwChangeBtn'),
@@ -26,7 +29,6 @@ const idChangeBtn = document.querySelector('#idChangeBtn'),
 	phoneDisplay = document.querySelector('#currentPhone');
 
 let id;
-email.textContent = `(${sessionStorage.getItem('email')})`;
 //유저 정보 받아오기
 async function getInfo() {
 	try {

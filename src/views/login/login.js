@@ -47,7 +47,10 @@ async function handleSubmit(e) {
 		// 물론 다른 스토리지여도 됨
 		sessionStorage.setItem('token', token);
 		sessionStorage.setItem('email', email);
-
+		sessionStorage.setItem('isAdmin', result.isAdmin);
+		sessionStorage.setItem('userId', result.userId);
+		sessionStorage.setItem('fullName', result.fullName);
+		console.log(sessionStorage);
 		alert(`정상적으로 로그인되었습니다.`);
 		// 로그인 성공
 		// 기본 페이지로 이동
@@ -73,12 +76,13 @@ async function kakaoLogin() {
 						const fullName = res.properties.nickname;
 						const email = res.kakao_account.email;
 						const data = { fullName, email };
-
 						const result = await Api.post('/api/kakao', data);
 						const token = result.token;
-
+						// console.log(result);
 						sessionStorage.setItem('token', token);
 						sessionStorage.setItem('email', email);
+						sessionStorage.setItem('isAdmin', result.isAdmin);
+						sessionStorage.setItem('userId', result.userId);
 						console.log(sessionStorage);
 						alert(`정상적으로 로그인되었습니다.`);
 						// 로그인 성공

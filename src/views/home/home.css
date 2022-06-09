@@ -1,39 +1,79 @@
 .content-wrap {
-  width: 70%;
-  margin: 0 auto;
+	width: 70%;
+	margin: 0 auto;
 }
 
 .category-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin: 2rem 0;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	margin: 2rem 0;
 }
 
 .category-label-container {
-  width: 100%;
-  padding: 0 20px;
+	width: 100%;
+	padding: 0 20px;
 }
 
 .category-label {
-  font-size: 2rem;
-  font-weight: bold;
-  padding: 0 15px;
+	font-size: 2rem;
+	font-weight: bold;
+	padding: 0 15px;
 }
 
 .category {
-  display: flex;
-  width: 100%;
-  padding: 0 20px;
+	display: flex;
+	width: 100%;
+	padding: 0 20px;
 }
 
 .product {
-  width: 25%;
-  cursor: pointer;
-  padding: 15px;
+	width: 25%;
+	cursor: pointer;
+	padding: 15px;
 }
-
 .btn-go-category {
-  margin: 1rem 0;
+	margin: 1rem 0;
+}
+/* 모달 */
+.modal-profile-info {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+.modal-profile {
+	width: 17rem;
+	border: 1px solid rgb(225, 226, 228);
+	border-radius: 2px;
+	box-shadow: rgb(0 0 0 / 12%) 0px 4px 8px 0px;
+	background-color: rgb(255, 255, 255);
+	padding: 3rem 1rem 3rem 1rem;
+	position: fixed;
+	top: 4.4rem;
+	right: 2rem;
+	display: none;
+	flex-direction: column;
+	gap: 2rem;
+}
+.active {
+	display: flex !important;
+}
+.modal-profile-img {
+	width: 6rem;
+	padding-bottom: 1rem;
+}
+.modal-link {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 0.5rem;
+}
+.profile-btn:hover {
+	background-color: rgb(223, 222, 222);
+	cursor: pointer;
+}
+.profile-btn {
+	width: 3rem;
 }
