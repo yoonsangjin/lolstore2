@@ -270,7 +270,7 @@ const upload = multer({ storage: storage });
 // 상품 추가
 productRouter.post(
 	'/',
-	// adminConfirm,
+	adminConfirm,
 	upload.single('image'),
 	async (req, res, next) => {
 		try {
@@ -312,7 +312,7 @@ productRouter.delete(
 
 productRouter.patch(
 	'/update_product/:product_id',
-	// adminConfirm,
+	adminConfirm,
 	upload.single('image'),
 	async (req, res, next) => {
 		try {
