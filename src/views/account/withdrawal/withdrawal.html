@@ -33,51 +33,70 @@
           <span aria-hidden="true"></span>
         </a>
       </div>
-
       <div class="navbar-end breadcrumb my-auto" aria-label="breadcrumbs">
         <ul id="navbar">
-          <li><a href="/account">계정관리</a></li>
-          <li><a href="#">로그아웃</a></li>
-          <li>
-            <a href="#cart" aria-current="page">
-              <span class="icon">
-                <i class="fas fa-cart-shopping"></i>
-              </span>
-              <span>카트</span>
-            </a>
-          </li>
         </ul>
       </div>
     </div>
     </div>
   </nav>
-  <!-- 회원 정보 삭제 -->
-  <div class="user-form-container">
-    <form class="box user-form-box" id="userForm">
-      <p class="title is-5 has-text-primary">회원 정보 삭제</p>
-      <div class="field mb-5">
-        <label class="label" for="passwordInput">현재 비밀번호</label>
-        <div class="control">
-          <input class="input" id="passwordInput" type="password" placeholder="현재 비밀번호를 입력하세요." autocomplete="off">
-        </div>
+  <!-- 계정관리 목록-->
+  <section class="section">
+    <div class="container">
+      <div class="account-header">
+        <h1 class="title">계정관리</h1>
       </div>
-      <button class="button is-primary is-fullwidth" id="submitBtn" type="button"> 회원정보 안전하게 삭제하기</button>
-      <!-- 모달 -->
-      <div class="modal">
-        <div class="modal-background"></div>
-        <div class="modal-content">
-          <div class="box">
-            <p class="mb-3">회원정보 삭제시 복구할 수 없습니다. 삭제 하시겠습니까?</p>
-            <div class="buttons">
-              <button class="button mt-5" id="delCompletBtn" aria-label="close">네</button>
-              <button class="button is-primary mt-5" id="delcencelBtn" aria-label="close">아니요</button>
-            </div>
+      <div class="menu-container">
+        <a class="account-menu" href="/account/orders">
+          <div class="menu-body">
+            <p class="menu-title">주문조회</p>
+            <p class="menu-subtitle">주문 내역을 확인, 취소할 수 있습니다.</p>
+          </div>
+        </a>
+        <a class="account-menu" href="/account/management">
+          <div class="menu-body">
+            <p class="menu-title">회원정보 관리</p>
+            <p class="menu-subtitle">회원 정보를 확인, 수정할 수 있습니다.</p>
+          </div>
+        </a>
+        <a class="account-menu" href="/account/withdrawal">
+          <div class="menu-body">
+            <p class="menu-title">회원 탈퇴</p>
+            <p class="menu-subtitle">회원 정보를 삭제하고 탈퇴할 수 있습니다.</p>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+  <!-- 회원 정보 삭제 -->
+  <section class="section">
+    <div class="user-form-container">
+      <form class="box user-form-box" id="userForm">
+        <p class="title is-5 has-text-primary">회원 정보 삭제</p>
+        <div class="field mb-5">
+          <label class="label" for="passwordInput">현재 비밀번호</label>
+          <div class="control">
+            <input class="input" id="passwordInput" type="password" placeholder="현재 비밀번호를 입력하세요." autocomplete="off">
           </div>
         </div>
-        <button class="modal-close is-large" aria-label="close"></button>
-      </div>
-    </form>
-  </div>
+        <button class="button is-primary is-fullwidth" id="submitBtn" type="button"> 회원정보 안전하게 삭제하기</button>
+        <!-- 모달 -->
+        <div class="modal">
+          <div class="modal-background"></div>
+          <div class="modal-content">
+            <div class="box">
+              <p class="mb-3">회원정보 삭제시 복구할 수 없습니다. 삭제 하시겠습니까?</p>
+              <div class="buttons">
+                <button class="button mt-5" id="delCompletBtn" aria-label="close">네</button>
+                <button class="button is-primary mt-5" id="delcencelBtn" aria-label="close">아니요</button>
+              </div>
+            </div>
+          </div>
+          <button class="modal-close is-large" aria-label="close"></button>
+        </div>
+      </form>
+    </div>
+  </section>
 </body>
 
 </html>

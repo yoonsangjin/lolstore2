@@ -1,5 +1,6 @@
 import * as Api from '../../api.js';
-
+import { nav } from '/nav.js';
+nav();
 const modal = document.querySelector('.modal'),
 	modalBg = document.querySelector('.modal-background'),
 	modalbtn = document.querySelector('.modal-close'),

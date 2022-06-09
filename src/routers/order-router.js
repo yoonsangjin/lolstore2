@@ -51,8 +51,11 @@ orderRouter.post('/', adminConfirm, async (req, res, next) => {
 orderRouter.get('/ownList', adminConfirm, async (req, res, next) => {
 	const userId = req.currentUserId;
 	const findOrder = await orderModel
-		.find({ userId, deleteFlag: 0 })
-		.populate('orderList');
+		.find({ $or: [{ userId }, { deleteFlag: 0 }] })
+		.populate({
+			path: 'orderList',
+			populate: 'productId',
+		});
 
 	res.status(200).json(findOrder);
 });

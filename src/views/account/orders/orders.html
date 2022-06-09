@@ -34,21 +34,39 @@
       </div>
       <div class="navbar-end breadcrumb my-auto" aria-label="breadcrumbs">
         <ul id="navbar">
-          <li><a href="/account">계정관리</a></li>
-          <li><a href="#">로그아웃</a></li>
-          <li>
-            <a href="#cart" aria-current="page">
-              <span class="icon">
-                <i class="fas fa-cart-shopping"></i>
-              </span>
-              <span>카트</span>
-            </a>
-          </li>
         </ul>
       </div>
     </div>
     </div>
   </nav>
+  <!-- 계정관리 목록-->
+  <section class="section">
+    <div class="container">
+      <div class="account-header">
+        <h1 class="title">계정관리</h1>
+      </div>
+      <div class="menu-container">
+        <a class="account-menu" href="/account/orders">
+          <div class="menu-body">
+            <p class="menu-title">주문조회</p>
+            <p class="menu-subtitle">주문 내역을 확인, 취소할 수 있습니다.</p>
+          </div>
+        </a>
+        <a class="account-menu" href="/account/management">
+          <div class="menu-body">
+            <p class="menu-title">회원정보 관리</p>
+            <p class="menu-subtitle">회원 정보를 확인, 수정할 수 있습니다.</p>
+          </div>
+        </a>
+        <a class="account-menu" href="/account/withdrawal">
+          <div class="menu-body">
+            <p class="menu-title">회원 탈퇴</p>
+            <p class="menu-subtitle">회원 정보를 삭제하고 탈퇴할 수 있습니다.</p>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
   <!-- 주문조회 -->
   <section class="section">
     <div class="container">
@@ -57,8 +75,9 @@
       </div>
       <div class="container orders-container">
         <div class="colums order-info">
+          <div class="column is-4"> 주문정보</div>
           <div class="column is-2"> 날짜</div>
-          <div class="column is-6"> 주문정보</div>
+          <div class="column is-2"> 가격(수량)</div>
           <div class="column is-2"> 상태</div>
           <div class="column is-2"> 신청</div>
         </div>

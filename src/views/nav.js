@@ -1,5 +1,3 @@
-// import jwt from 'jsonwebtoken';
-// const jwt = require('jsonwebtoken');
 function nav() {
 	//네비게이션
 	const navbar = document.querySelector('#navbar');
@@ -12,27 +10,26 @@ function nav() {
 			'<li><a href="#cart" aria-current="page"><span class="icon"><i class="fas fa-cart-shopping"></i></span><span>카트</span></a></li>';
 
 	// 어드민 인지 확인
-	// try {
-	// 	const secretKey = process.env.JWT_SECRET_KEY || 'secret-key';
-	// 	const userToken = sessionStorage.getItem('token');
-	// 	const jwtDecoded = jwt.verify(userToken, secretKey);
-	// 	const isAdmin = jwtDecoded.isAdmin;
-
-	// 	if (isAdmin) {
-	// 		console.log('hi');
-	// 	}
-	// } catch (error) {
-	// 	// jwt.verify 함수가 에러를 발생시키는 경우는 토큰이 정상적으로 decode 안되었을 경우임.
-	// 	res.status(403).json({
-	// 		result: 'forbidden-approach',
-	// 		reason: '정상적인 토큰이 아닙니다.',
-	// 	});
-	// 	return;
-	// }
 
 	// 유저 로그인 유무
 	if (sessionStorage.getItem('token')) {
-		navbar.insertAdjacentHTML('afterend', `${account} ${logout} ${cart}`);
+		//현재 경로 기준 navbar 다르게 설정
+		let nav;
+		switch (window.location.pathname) {
+			case '/':
+			case '/cart/':
+			case '/product/detail/':
+			case '/product/list/':
+			case '/account/orders/':
+			case '/account/management/':
+			case '/account/withdrawal/':
+				nav = `${account} ${logout} ${cart}`;
+				break;
+			case '/account/':
+				nav = `${logout} ${cart}`;
+				break;
+		}
+		navbar.insertAdjacentHTML('afterend', nav);
 	} else {
 		navbar.insertAdjacentHTML('afterend', `${login} ${register} ${cart}`);
 	}
