@@ -55,35 +55,34 @@ async function handleSubmit(e) {
   const category = categorySelectBox.value;
   const image = productImg.files[0];
   const information = productInfo.value;
-  const storage = productCntInfo.value;
-  const price = productPrice.value;
+  const storage = Number(productCntInfo.value);
+  const price = Number(productPrice.value);
   const date = new Date();
   const company = makerName.value;
 
-
   // TODO : 빈 값 에러 핸들링 typeof 으로 확인
-  // if (name.length <= 2) {
-  //   alert('이름을 2자 이상으로 입력해주세요!');
-  //   return;
-  // } else if (category == '') {
-  //   alert('카테고리를 선택해주세요!');
-  //   return;
-  // } else if (image == '') {
-  //   alert('이미지를 선택해주세요!');
-  //   return;
-  // } else if (information.length <= 5) {
-  //   alert('상세정보를  5자 이상으로 입력해주세요!');
-  //   return;
-  // } else if (Number(storage) || storage < 0) {
-  //   alert('"0"이상으로 숫자만 입력해주세요!');
-  //   return;
-  // } else if (Number(price) || price < 0) {
-  //   alert('"0"이상으로 숫자만 입력해주세요!');
-  //   return;
-  // } else if (company == '') {
-  //   alert('회사명을 입력해주세요!');
-  //   return;
-  // }
+  if (name.length <= 1) {
+    alert('이름을 2자 이상으로 입력해주세요!');
+    return;
+  } else if (category == '') {
+    alert('카테고리를 선택해주세요!');
+    return;
+  } else if (!image) {
+    alert('이미지를 선택해주세요!');
+    return;
+  } else if (information.length <= 4) {
+    alert('상세정보를  5자 이상으로 입력해주세요!');
+    return;
+  } else if (storage == '') {
+    alert('재고 수를 "0"이상의 숫자로만 입력해주세요!');
+    return;
+  } else if (price == '' ) {
+    alert('가격을 "0"이상의 숫자로만 입력해주세요!');
+    return;
+  } else if (company == '') {
+    alert('회사명을 입력해주세요!');
+    return;
+  }
 
   const formData = new FormData();
 
@@ -109,5 +108,6 @@ async function handleSubmit(e) {
     })
     .catch((err) => console.log(err));
 
-  location.reload();
+  window.location.href = '/admin';
+  alert('상품이 추가 되었습니다.');
 }

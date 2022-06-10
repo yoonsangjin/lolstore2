@@ -1,26 +1,14 @@
 import * as Api from '../../api.js';
-import { nav } from '/component.js';
-//네비게이션 바 생성
-nav();
 
 // top_cotainer
 const showCnt = document.getElementsByTagName('p');
 
-//delmodal 변수 선언
-const delModal = document.querySelector('#delModal'),
+//modal 변수 선언
+const modal = document.querySelector('.modal'),
   modalBg = document.querySelector('.modal-background'),
   modalbtn = document.querySelector('.modal-close'),
   delCancelBtn = document.querySelector('#delCancelBtn'),
   delCompleteBtn = document.querySelector('#delCompleteBtn');
-
-//successmodal 변수 선언
-const successModal = document.querySelector('#successModal');
-
-const successCompleteBtn = document.querySelector('#successCompleteBtn');
-
-const successBg = document.querySelector('#successBg'),
-  successCancelBtn = document.querySelector('#successCancelBtn'),
-  successModalCloseBtn = document.querySelector('#successModalCloseBtn');
 
 getOrderInfo();
 // orders 목록 받아오기 api 요청
@@ -47,44 +35,42 @@ function dateFormat(dateValue) {
 async function inputOrders(item) {
   const tbody = document.querySelector('#tbody');
   item.forEach((data) => {
-      tbody.insertAdjacentHTML(
-        'afterend',
-        `
-      <tr id="order${data._id}">
-        <td> ${dateFormat(data.createdAt)}</td>
-        <td> ${data.receiver}</td>
-        <td id ="productList"></td>
-        <td id ="productTotalPrice"></td>
-        
-        <td>
-          <select class="select-product-state" id ="select${data._id}" ${data.status === 2 ? `disabled` : ``}>
-            <option value="0" ${
-              data.status == 0 ? `selected` : ``
-            }> 상품 준비중 </option>
-            <option value="1" ${
-              data.status == 1 ? `selected` : ``
-            }> 상품 배송중 </option>
-            <option value="2" ${
-              data.status == 2 ? `selected` : ``
-            }> 배송 완료 </option>
-          </select>
-        </td>
-
-        <td> <button class="deleteOrderBtn" id="btn${
-          data._id
-        }" style="${data.status === 2 ? `visibility: hidden`:``}">주문 취소</button></td>
-      </tr>
-      `,
-      );
-
+    tbody.insertAdjacentHTML(
+      'afterend',
+      `
+    <tr id="order${data._id}">
+      <td> ${dateFormat(data.createdAt)}</td>
+			<td> ${data.receiver}</td>
+      <td id ="productList"></td>
+      <td id ="productTotalPrice"></td>
+      <td>
+        <select class="select-product-state" id ="select${data._id}">
+          <option value="0" ${
+            data.status == 0 ? `selected` : ``
+          }> 상품 준비중 </option>
+          <option value="1" ${
+            data.status == 1 ? `selected` : ``
+          }> 상품 배송중 </option>
+          <option value="2" ${
+            data.status == 2 ? `selected` : ``
+          }> 배송 완료 </option>
+        </select>
+      </td>
+      <td> <button class="deleteOrderBtn" id="btn${
+        data._id
+      }">주문 취소 & 환불</button>
+    </tr>
+    `,
+    );
     //삭제 버튼
     const deleteOrderBtn = document.querySelector('.deleteOrderBtn');
-    deleteOrderBtn.addEventListener('click', () => openDelModal(data._id));
+    deleteOrderBtn.addEventListener('click', () => openModal(data._id));
     // 주문 정보, 주문 총액
     const inputOrderData = document.querySelector('#productList');
     const productTotalPrice = document.querySelector('#productTotalPrice');
     let totalPrice = 0;
     for (let i = 0; i < data.orderList.length; i++) {
+      console.log(data);
       inputOrderData.innerHTML += `${data.orderList[i].productId.name} / ${data.orderList[i].volume}개 <br>`;
       totalPrice += Number(
         data.orderList[i].productId.price * data.orderList[i].volume,
@@ -103,8 +89,8 @@ async function inputOrders(item) {
   });
 }
 
-async function openDelModal(id) {
-  delModal.classList.add('is-active');
+async function openModal(id) {
+  modal.classList.add('is-active');
   delCompleteBtn.addEventListener('click', () => setDelete(id));
 }
 
@@ -121,37 +107,14 @@ async function setDelete(_id) {
     showCnt[3].innerText--;
   }
   showCnt[0].innerText--;
-  closeDelModal();
+  closeModal();
 }
 
 async function setOption(id, option) {
   try {
-    if (Number(option) === 2) {
-      successModal.classList.add('is-active');
-      successCompleteBtn.addEventListener('click', () =>
-        setSelectStatus(id, option),
-      );
-    } else {
-      await Api.patch(`/api/order/delivery`, `?orderId=${id}`, {
-        status: option,
-      });
-      location.reload();
-    }
-  } catch (err) {
-    console.error(err);
-  }
-}
-
-async function setSelectStatus(id, option) {
-  try {
-    const test = document.querySelector(`#select${id}`);
-    test.setAttribute('disabled', 'true');
-    const setDeleteBtn = document.querySelector(`#btn${id}`);
-    setDeleteBtn.remove();
     await Api.patch(`/api/order/delivery`, `?orderId=${id}`, {
       status: option,
     });
-    successModal.classList.remove('is-active');
     location.reload();
   } catch (err) {
     console.error(err);
@@ -177,20 +140,11 @@ async function orderCnt(item) {
   showCnt[3].innerText = successCnt;
 }
 
-//delmodal btn event
-modalBg.addEventListener('click', closeDelModal);
-modalbtn.addEventListener('click', closeDelModal);
-delCancelBtn.addEventListener('click', closeDelModal);
+//modal btn event
+modalBg.addEventListener('click', closeModal);
+modalbtn.addEventListener('click', closeModal);
+delCancelBtn.addEventListener('click', closeModal);
 
-function closeDelModal() {
-  delModal.classList.remove('is-active');
-}
-
-//successmodal btn event
-successBg.addEventListener('click', closeSuccessModal);
-successCancelBtn.addEventListener('click', closeSuccessModal);
-successModalCloseBtn.addEventListener('click', closeSuccessModal);
-
-function closeSuccessModal() {
-  successModal.classList.remove('is-active');
+function closeModal() {
+  modal.classList.remove('is-active');
 }
