@@ -1,41 +1,76 @@
 .content-wrap {
-	width: 70%;
-	max-width: 1344px;
-	margin: 0 auto;
+  width: 70%;
+  max-width: 1344px;
+  margin: 0 auto;
 }
 
 .buy-header {
-	margin: 2rem 0;
-	padding-bottom: 0.5rem;
-	border-bottom: 1px solid lightgray;
+  margin: 2rem 0;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid lightgray;
 }
 
 .buy-complete-container {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	height: 50vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50vh;
 }
 
 .buy-complete {
-	display: flex;
-	flex-direction: column;
-	padding: 3rem 5rem;
-	font-size: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  padding: 3rem 5rem;
+  font-size: 1.5rem;
 }
 
 .btn-order-list {
-	margin: 3rem 0 0.8rem;
-	font-size: 1.2rem;
+  margin: 3rem 0 0.8rem;
+  font-size: 1.2rem;
 }
 
 .btn-shopping-continue {
-	font-size: 1.2rem;
-	background-color: rgba(115, 86, 38, 1);
-	color: white;
+  font-size: 1.2rem;
+  background-color: rgba(115, 86, 38, 1);
+  color: white;
 }
 
 .btn-shopping-continue:hover {
-	background-color: rgba(115, 86, 38, 0.9);
-	color: white;
+  background-color: rgba(115, 86, 38, 0.9);
+  color: white;
+}
+.modal-profile {
+  z-index: 9999;
+  width: 17rem;
+  border: 1px solid rgb(139 119 85);
+  border-radius: 2px;
+  box-shadow: rgb(0 0 0 / 12%) 0px 4px 8px 0px;
+  background-color: rgb(1 37 50);
+  padding: 3rem 1rem 3rem 1rem;
+  position: fixed;
+  top: 4.4rem;
+  right: 2rem;
+  display: none;
+  flex-direction: column;
+  gap: 2rem;
+}
+.active {
+  display: flex !important;
+}
+.modal-profile-img {
+  width: 6rem;
+  padding-bottom: 1rem;
+}
+.modal-link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+.profile-btn:hover {
+  background-color: rgb(223, 222, 222);
+  cursor: pointer;
+}
+.profile-btn {
+  width: 3rem;
 }
