@@ -68,7 +68,7 @@ async function insertUserInfo() {
 async function insertPaymentInfo() {
   const buyLocalStorage = JSON.parse(localStorage.getItem('buy'));
 
-  // TODO: userId가 같은 구매목록만 출력
+  // 로그인 된 유저 id와 userId가 같은 구매목록만 출력
   buyLocalStorage.forEach(async (buyInfo) => {
     const { userId, productId, count } = buyInfo;
 
