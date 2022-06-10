@@ -232,10 +232,10 @@ async function setDelete() {
         await Api.delete('/api/product/detail', classValue[i].value);
         cnt++;
       }
-      if (cnt === 0) {
-        alert('체크박스를 확인해주세요!');
-        return;
-      }
+    }
+    if (cnt === 0) {
+      alert('체크박스를 확인해주세요!');
+      return;
     }
 
     location.reload();

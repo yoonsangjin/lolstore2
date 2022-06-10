@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -97,8 +97,12 @@
       </div>
       <!-- 상품 목록 출력 테이블-->
       <section class="section">
+
         <table id="inputData" class="table">
           <thead>
+            <div style="text-align:right">
+              <button id="successListDelete">완료 목록 삭제</button>
+            </div>
             <tr>
               <td>날짜</td>
               <td>받는이</td>
@@ -112,8 +116,8 @@
         </table>
       </section>
     </div>
-    <!-- 모달 창-->
-    <div class="modal">
+    <!-- delete 모달 창-->
+    <div id="delModal" class="modal">
       <div class="modal-background"></div>
       <div class="modal-content has-background-white py-5 px-5">
         <div class="box">
@@ -133,6 +137,29 @@
         </div>
       </div>
       <button class="modal-close is-large" aria-label="close"></button>
+    </div>
+
+    <!--배송완료 확인 모달창-->
+    <div id="successModal" class="modal">
+      <div id="successBg" class="modal-background"></div>
+      <div class="modal-content has-background-white py-5 px-5">
+        <div class="box">
+          <p class="mb-3">배송을 완료 하시겠습니까? 완료 이후에는 수정이 불가능 합니다.</p>
+          <div class="buttons">
+            <button class="button mt-5" id="successCompleteBtn" aria-label="close">
+              네
+            </button>
+            <button
+              class="button is-primary mt-5"
+              id="successCancelBtn"
+              aria-label="close"
+            >
+              아니요
+            </button>
+          </div>
+        </div>
+      </div>
+      <button id="successModalCloseBtn" class="modal-close is-large" aria-label="close"></button>
     </div>
   </body>
   <!-- orders.js 연결-->
