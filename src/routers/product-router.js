@@ -104,7 +104,7 @@ productRouter.patch(
 
 productRouter.get('/list', async (req, res, next) => {
   try {
-    // api/product/list/?category=1238asdsad761298
+    // api/product/list/?category=1238asdsad7612983
     const { category } = req.query;
     // 상품 전체 검색
     const products = await productService.findAllByCategory(category);

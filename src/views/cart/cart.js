@@ -1,4 +1,7 @@
 import * as Api from '/api.js';
+import { nav } from '/component.js';
+//네비게이션 바 생성
+nav();
 
 // 요소(element), input 혹은 상수
 const productsWrap = document.querySelector('.products-wrap');

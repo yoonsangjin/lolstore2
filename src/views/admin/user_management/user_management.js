@@ -1,4 +1,7 @@
 import * as Api from '../../api.js';
+import { nav } from '/component.js';
+//네비게이션 바 생성
+nav();
 
 //top cotainer
 const showCnt = document.getElementsByTagName('p');
@@ -98,8 +101,9 @@ async function openModal(id) {
 
 //modal창에서 확인 시 회원 삭제
 async function setDelete(id) {
+  console.log(id);
   try {
-    await Api.delete(`/api/users/${id}`);
+    await Api.delete('/api/admin', id);
     // 화면상에서 삭제 부분을 구현
     const parent = document.querySelector(`#user${id}`);
     const selectOption = Number(parent.childNodes[9].childNodes[1].value);
