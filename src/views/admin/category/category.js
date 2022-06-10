@@ -1,5 +1,6 @@
 import * as Api from '../../api.js';
 import { nav } from '/component.js';
+import { dateFormat } from '../../useful-functions.js';
 //네비게이션 바 생성
 nav();
 
@@ -16,14 +17,6 @@ const upModalBg = document.querySelector('#upModalBg'),
   upCompleteBtn = document.querySelector('#uploadCompleteBtn');
 
 const categoryName = document.querySelector('#categoryName');
-
-function dateFormat(dateValue) {
-  const date = new Date(dateValue);
-  const year = date.getFullYear();
-  const month = ('0' + (1 + date.getMonth())).slice(-2);
-  const day = ('0' + date.getDate()).slice(-2);
-  return `${year}-${month}-${day}`;
-}
 
 getOption();
 categoryUploadBtn.addEventListener('click', setCategory);

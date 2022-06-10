@@ -35,7 +35,8 @@ async function getSelectOption() {
     const allCategory = await Api.get('/api/category/list');
     setSelectOption(allCategory);
   } catch (err) {
-    console.error(err);
+    console.error(err.stack);
+    alert(`문제가 발생하였습니다 ${err.message}`);
   }
 }
 
@@ -60,7 +61,6 @@ async function handleSubmit(e) {
   const date = new Date();
   const company = makerName.value;
 
-  // TODO : 빈 값 에러 핸들링 typeof 으로 확인
   if (name.length <= 1) {
     alert('이름을 2자 이상으로 입력해주세요!');
     return;
@@ -70,13 +70,13 @@ async function handleSubmit(e) {
   } else if (!image) {
     alert('이미지를 선택해주세요!');
     return;
-  } else if (information.length <= 4) {
+  } else if (information.length <= 5) {
     alert('상세정보를  5자 이상으로 입력해주세요!');
     return;
   } else if (storage == '') {
     alert('재고 수를 "0"이상의 숫자로만 입력해주세요!');
     return;
-  } else if (price == '' ) {
+  } else if (price == '') {
     alert('가격을 "0"이상의 숫자로만 입력해주세요!');
     return;
   } else if (company == '') {

@@ -1,4 +1,5 @@
 import * as Api from '../../api.js';
+import { dateFormat } from '../../useful-functions.js';
 
 // top_cotainer
 const showCnt = document.getElementsByTagName('p');
@@ -18,17 +19,9 @@ async function getOrderInfo() {
     inputOrders(orderInfo);
     orderCnt(orderInfo);
   } catch (err) {
-    console.error(err);
+    console.error(err.stack);
+    alert(`문제가 발생하였습니다 ${err.message}`);
   }
-}
-
-//날짜 포맷 설정 함수 (YYYY-MM-DD)
-function dateFormat(dateValue) {
-  const date = new Date(dateValue);
-  const year = date.getFullYear();
-  const month = ('0' + (1 + date.getMonth())).slice(-2);
-  const day = ('0' + date.getDate()).slice(-2);
-  return `${year}-${month}-${day}`;
 }
 
 // 데이터 주문 리스트에 추가
@@ -117,7 +110,8 @@ async function setOption(id, option) {
     });
     location.reload();
   } catch (err) {
-    console.error(err);
+    console.error(err.stack);
+    alert(`문제가 발생하였습니다 ${err.message}`);
   }
 }
 
