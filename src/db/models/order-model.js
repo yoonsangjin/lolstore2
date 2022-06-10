@@ -11,7 +11,7 @@ export class OrderModel {
     return createOrder;
   }
 
-  // 생성된 주문의 주문항목에 하나를 추가
+  // 생성된 주문의 주문 항목에 하나를 추가
   async pushOrder(recentOrder, orderedProduct) {
     const pushOrder = await order
       .findByIdAndUpdate(

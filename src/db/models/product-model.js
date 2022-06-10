@@ -12,7 +12,7 @@ export class ProductModel {
     return products;
   }
 
-  // 상품 pagination (카테고리 기준)
+  // 상품 pagination 처리 (카테고리 기준)
   async pagination(category, page, perPage) {
     const products = await Product.find({ category: category })
       .sort({ createdAt: -1 })

@@ -17,6 +17,7 @@ class OrderService {
       totalPrice,
       orderList,
     } = data;
+
     if (receiver == '') {
       throw new Error('수령자 이름을 입력해주세요.');
     }
