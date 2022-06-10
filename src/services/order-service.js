@@ -23,6 +23,9 @@ class OrderService {
     if (phone == '') {
       throw new Error('연락처를 입력해주세요.');
     }
+    if (phone.length > 11) {
+      throw new Error('연락처에 숫자만 입력해주세요.');
+    }
     if (address == '') {
       throw new Error('주소를 입력해주세요.');
     }
