@@ -71,7 +71,6 @@ async function kakaoLogin() {
   try {
     Kakao.Auth.login({
       success: function (res) {
-        // console.log(res);
         Kakao.API.request({
           url: '/v2/user/me',
           success: async function (res) {
@@ -87,6 +86,7 @@ async function kakaoLogin() {
             sessionStorage.setItem('isAdmin', result.isAdmin);
             sessionStorage.setItem('userId', result.userId);
             sessionStorage.setItem('loginTypeCode', 1);
+            sessionStorage.setItem('fullName', fullName);
             sessionStorage.setItem('profileImg', result.profileImg);
             console.log(sessionStorage);
             alert(`정상적으로 로그인되었습니다.`);
@@ -109,7 +109,6 @@ async function kakaoLogout() {
     Kakao.API.request({
       url: '/v1/user/unlink',
       success: function (res) {
-        //   console.log(res)
         alert(`정상적으로 로그아웃되었습니다.`);
       },
       fail: function (err) {
