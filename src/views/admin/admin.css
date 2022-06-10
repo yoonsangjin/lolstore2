@@ -82,10 +82,27 @@ a {
 #userName {
   color: #fff;
 }
+
 .navbar {
-  background-color: #012532;
+  background-color: #010f19; 
   border-bottom: 1px solid #8b7755;
 }
+.breadcrumb a {
+  align-items: center;
+  color: #8b7755;
+  display: flex;
+  justify-content: center;
+  padding: 0 0.75em;
+}
+
+.navbar-item {
+  padding: 0;
+}
+
+.navbar-item img {
+  max-height: 60%;
+}
+
 
 
 body {

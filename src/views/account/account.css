@@ -147,13 +147,8 @@
   width: 12rem !important;
 }
 
+
 /* 모달 */
-
-.navbar {
-  background-color: #012532;
-  border-bottom: 1px solid #8b7755;
-}
-
 .modal-profile-info {
   display: flex;
   flex-direction: column;
@@ -161,6 +156,7 @@
   justify-content: center;
 }
 .modal-profile {
+  z-index: 9999;
   width: 17rem;
   border: 1px solid rgb(139 119 85);
   border-radius: 2px;
@@ -203,8 +199,8 @@
 }
 
 a {
-  color: black;
-  text-shadow: 0.7px 0 0px #444444;
+  color: #8b7755;
+  text-shadow: 0.7px 0 0px #b19d7f;
   cursor: pointer;
   text-decoration: none;
 }
@@ -213,6 +209,28 @@ a {
 #userName {
   color: #fff;
 }
+
+.navbar {
+  background-color: #010f19; 
+  border-bottom: 1px solid #8b7755;
+}
+.breadcrumb a {
+  align-items: center;
+  color: #8b7755;
+  display: flex;
+  justify-content: center;
+  padding: 0 0.75em;
+}
+
+.navbar-item {
+  padding: 0;
+}
+
+.navbar-item img {
+  max-height: 60%;
+}
+
+
 
 body {
   margin: 0 auto;

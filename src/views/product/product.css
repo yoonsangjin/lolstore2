@@ -160,6 +160,7 @@ input[type='number'] {
   justify-content: center;
 }
 .modal-profile {
+  z-index: 9999;
   width: 17rem;
   border: 1px solid rgb(139 119 85);
   border-radius: 2px;
@@ -186,10 +187,10 @@ input[type='number'] {
   align-items: center;
   gap: 0.5rem;
 }
-.profile-btn:hover {
+/* .profile-btn:hover {
   background-color: rgb(223, 222, 222);
   cursor: pointer;
-}
+} */
 .profile-btn {
   width: 3rem;
 }
@@ -212,3 +213,24 @@ a {
 #userName {
   color: #fff;
 }
+
+.navbar {
+  background-color: #010f19; 
+  border-bottom: 1px solid #8b7755;
+}
+.breadcrumb a {
+  align-items: center;
+  color: #8b7755;
+  display: flex;
+  justify-content: center;
+  padding: 0 0.75em;
+}
+
+.navbar-item {
+  padding: 0;
+}
+
+.navbar-item img {
+  max-height: 60%;
+}
+
