@@ -10,7 +10,6 @@ async function userInfo() {
     const data = await Api.get('/api/order/ownList');
     data.forEach((data) => {
       for (let i in data.orderList) {
-        console.log(data);
         let price = data.orderList[i].productId.price;
         let amount = data.orderList[i].volume;
         total += price * amount;

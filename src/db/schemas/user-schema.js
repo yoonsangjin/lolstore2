@@ -11,8 +11,8 @@ const UserSchema = new Schema(
       required: true,
     },
     password: {
+      // Oauth 유저는 비밀번호를 추후에 설정해야해서 required 주지 않았습니다.
       type: String,
-      // required: true,
     },
     phoneNumber: {
       type: String,
@@ -44,7 +44,7 @@ const UserSchema = new Schema(
       default: 0,
     },
     profileImg: {
-      // 프로필사진
+      // 랜덤 프로필사진 기능 추가
       type: String,
     },
   },
