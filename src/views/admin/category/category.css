@@ -22,7 +22,6 @@ body {
   background-repeat: no-repeat;
   background-color: black;
   background-size: 100vw 100vh;
-  scroll-behavior: auto;
   font-family: Rix Gothic, sans-serif;
   color: #fff;
   text-shadow: 0.7px 0 0px #b19d7f;
