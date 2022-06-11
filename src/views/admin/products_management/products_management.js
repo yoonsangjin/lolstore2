@@ -207,7 +207,7 @@ async function setUpdate(id) {
         console.log(data);
       });
     alert('상품이 정상 수정 되었습니다.');
-    // location.reload();
+    location.reload();
     updateModal.classList.remove('is-active');
   } catch (err) {
     console.error(err.stack);
@@ -273,3 +273,4 @@ updateBack.addEventListener('click', closeUpdateModal);
 function closeUpdateModal() {
   updateModal.classList.remove('is-active');
 }
+
