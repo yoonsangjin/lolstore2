@@ -125,10 +125,13 @@
   align-items: center;
   gap: 0.5rem;
 }
-/* .profile-btn:hover {
-  background-color: rgb(223, 222, 222);
+#userImg:hover {
+  background-color: #fff;
   cursor: pointer;
-} */
+  transition: 0.1s linear;
+  filter: brightness(120%);
+  
+}
 .profile-btn {
   width: 3rem;
 }

@@ -87,8 +87,10 @@ body {
 }
 
 .product-name {
+  color: #bfab75;
   font-size: 2rem;
   font-weight: bold;
+  margin-bottom: 1rem;
 }
 
 .product-price {
@@ -187,10 +189,13 @@ input[type='number'] {
   align-items: center;
   gap: 0.5rem;
 }
-/* .profile-btn:hover {
-  background-color: rgb(223, 222, 222);
+#userImg:hover {
+  background-color: #fff;
   cursor: pointer;
-} */
+  transition: 0.1s linear;
+  filter: brightness(120%);
+  
+}
 .profile-btn {
   width: 3rem;
 }
@@ -234,3 +239,7 @@ a {
   max-height: 60%;
 }
 
+
+.breadcrumb {
+  background-color: #010f19;
+}

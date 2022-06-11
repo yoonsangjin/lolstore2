@@ -1,10 +1,14 @@
+* {
+  background-color: none !important;
+}
+
 body {
   background-image: linear-gradient(rgba(27, 18, 0, 0.3),rgba(15, 10, 0, 0.6)), url('https://images.contentstack.io/v3/assets/blt187521ff0727be24/bltd959af33bf7a905a/60ee141260216d1db87a1283/zaun-depths.jpg');
   background-attachment: fixed;
   background-repeat: no-repeat;
   background-color: black;
-  background-size: 100vw;
-    scroll-behavior: auto;
+  background-size: 100vw 130vh;
+  scroll-behavior: auto;
   font-family: Rix Gothic, sans-serif;
   color:#fff;
   text-shadow:0.7px 0 0px #b19d7f;  
