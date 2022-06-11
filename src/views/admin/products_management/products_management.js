@@ -45,7 +45,7 @@ async function getSelectOption() {
 function setModalSelectBox(item) {
   item.forEach((data) => {
     const option = document.createElement('option');
-    option.setAttribute('value', data.name);
+    option.setAttribute('value', data._id);
     option.textContent = data.name;
     setModalCategory.appendChild(option);
   });
