@@ -49,12 +49,10 @@ userRouter.post('/kakao', async function (req, res, next) {
     }
     const fullName = req.body.fullName;
     const email = req.body.email;
-    const loginTypeCode = 1;
     // 로그인 진행 (로그인 성공 시 jwt 토큰을 프론트에 보내 줌)
     const userToken = await userService.addKakaoUser({
       fullName,
-      email,
-      loginTypeCode,
+      email
     });
     // jwt 토큰을 프론트에 보냄
     res.status(200).json(userToken);
@@ -148,7 +146,7 @@ userRouter.patch(
       const password = req.body.password;
       const address = req.body.address;
       const phoneNumber = req.body.phoneNumber;
-      const admin = req.body.admin;
+      const isAdmin = req.body.isAdmin;
 
       const userInfoRequired = { userId };
 
@@ -159,7 +157,7 @@ userRouter.patch(
         ...(password && { password }),
         ...(address && { address }),
         ...(phoneNumber && { phoneNumber }),
-        ...(admin && { admin }),
+        ...(isAdmin && { isAdmin }),
       };
 
       // 사용자 정보를 업데이트함.
