@@ -135,10 +135,9 @@ async function setItemList(e) {
   }
 }
 
-
 function setOldDataInput(data) {
   setModalNameText.value = data.name;
-  getModalImg.src = data.image
+  getModalImg.src = data.image;
   setProductInfo.value = data.information;
   setModalStorage.value = data.storage;
   setModalPrice.value = data.price;
@@ -153,7 +152,6 @@ function setOldDataInput(data) {
   }
 
   // getModalImg.files[0] = data.files[0]
-
 }
 
 const updateForm = document.querySelector('#updateForm');
@@ -189,11 +187,6 @@ async function setUpdate(id) {
     formData.append('date', date);
     formData.append('company', company);
 
-    for (var pair of formData.entries()) {
-    console.log(pair[0] + ', ' + pair[1]);
-    }
-
-
     await fetch(`/api/product/update_product/${id}`, {
       method: 'PATCH',
       headers: {
@@ -206,8 +199,8 @@ async function setUpdate(id) {
         console.log(data);
       });
     alert('상품이 정상 수정 되었습니다.');
-    location.reload();
     updateModal.classList.remove('is-active');
+    location.reload();
   } catch (err) {
     console.error(err.stack);
     alert(`문제가 발생하였습니다 ${err.message}`);
@@ -272,4 +265,3 @@ updateBack.addEventListener('click', closeUpdateModal);
 function closeUpdateModal() {
   updateModal.classList.remove('is-active');
 }
-
