@@ -235,7 +235,7 @@ async function handlePayment() {
   };
 
   const message = checkInputValidation(orderInfo);
-  if (message !== '') {
+  if (message === '') {
     const res = await Api.post('/api/order/', orderInfo);
     cart.forEach((cartEl, index) => {
       // 해당 유저의 장바구니에 상품이 존재할 경우
