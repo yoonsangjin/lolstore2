@@ -63,7 +63,7 @@ class ProductService {
   async deleteProduct(product_id) {
     // const product_id = product_id;
     // 기존 category에서 product 항목 하나 삭제
-    const oldModel = await this.productModel.findDetailById(product_id);
+    const oldModel = await this.productModel.findDetailByProductId(product_id);
     const oldModelCategoryId = oldModel.category;
     const deleteProductFromCategory = await this.categoryModel.deleteProduct(
       oldModelCategoryId,
@@ -163,7 +163,7 @@ class ProductService {
     return totalPageCount;
   }
 
-  // 상품 상세 보기
+  // 상품 상세 보기(_id)
   async getProductDetail(product_id) {
     // const product_id = product_id;
     const product = await this.productModel.findDetailById(product_id);
